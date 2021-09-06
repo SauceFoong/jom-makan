@@ -1,11 +1,11 @@
 import Head from "next/head";
-import { useUser } from "../firebase/auth/useUser";
+import { useUser } from "../lib/auth/useUser";
+import { updateUser } from "../lib/db";
 
 const order = () => {
   const { user, logout } = useUser();
-  console.log(user);
   if (user) {
-    console.log(user);
+    const { token, ...userWithoutToken } = user;
     return (
       <div>
         <h1>{user.name}</h1>

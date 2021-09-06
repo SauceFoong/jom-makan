@@ -5,7 +5,8 @@ import firebase from "firebase/app";
 import "firebase/auth";
 import { setUserCookie } from "../../lib/auth/userCookies";
 import { mapUserData } from "../../lib/auth/mapUserData";
-
+import { updateUser } from "../../lib/db";
+import router from "next/router";
 initFirebase();
 
 const firebaseAuthConfig = {
@@ -15,9 +16,23 @@ const firebaseAuthConfig = {
   signInSuccessUrl: "/order",
   credentialHelper: "none",
   callbacks: {
-    signInSuccessWithAuthResult: async ({ user }, redirectUrl) => {
+    signInSuccessWithAuthResult: ({ user }, redirectUrl) => {
+      updateUser(user.uid, {
+        id: user.uid,
+        name: user.displayName,
+        email: user.email,
+        profilePic: user.photoURL,
+        lastLogin: new Date(),
+      });
       const userData = mapUserData(user);
       setUserCookie(userData);
+      router.push("/order");
+      return false;
+    },
+    signInFailure: function (error) {
+      // For merge conflicts, the error.code will be
+      // 'firebaseui/anonymous-upgrade-merge-conflict'.
+      console.log("failed");
     },
   },
 };
