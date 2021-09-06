@@ -1,6 +1,6 @@
 import navStyles from "../styles/Nav.module.css";
 import Link from "next/link";
-import { useUser } from "../firebase/auth/useUser";
+import { useUser } from "../lib/auth/useUser";
 
 const Nav = () => {
   const { user, logout } = useUser();

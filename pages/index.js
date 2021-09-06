@@ -1,10 +1,10 @@
 import Head from "next/head";
 import Image from "next/image";
 import { Button } from "@material-ui/core";
-import firebase from "../firebase/initFirebase";
+import firebase from "../lib/initFirebase";
 import FirebaseAuth from "../service/auth/FirebaseAuth";
 import { useRouter } from "next/router";
-import { getUserFromCookie } from "../firebase/auth/userCookies";
+import { getUserFromCookie } from "../lib/auth/userCookies";
 
 firebase();
 
