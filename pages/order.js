@@ -9,8 +9,10 @@ const order = () => {
         <Head>
           <title>Order</title>
         </Head>
-        <h1>{user.name}</h1>
-        <h3>{user.email}</h3>
+        <div>
+          <h1>{user.name}</h1>
+          <h3>{user.email}</h3>
+        </div>
       </div>
     );
   } else {

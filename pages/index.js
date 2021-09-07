@@ -12,7 +12,7 @@ import {
   Stack,
   Text,
 } from "@chakra-ui/react";
-firebase();
+// firebase();
 
 export default function Home() {
   const userFromCookie = getUserFromCookie();
