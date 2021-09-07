@@ -1,11 +1,11 @@
-import initFirebase from "../../lib/initFirebase";
+import initFirebase from "../lib/initFirebase";
 import { useEffect, useState } from "react";
 import StyledFirebaseAuth from "react-firebaseui/StyledFirebaseAuth";
 import firebase from "firebase/app";
 import "firebase/auth";
-import { setUserCookie } from "../../lib/auth/userCookies";
-import { mapUserData } from "../../lib/auth/mapUserData";
-import { updateUser } from "../../lib/db";
+import { setUserCookie } from "../lib/auth/userCookies";
+import { mapUserData } from "../lib/auth/mapUserData";
+import { updateUser } from "../lib/db";
 import router from "next/router";
 initFirebase();
 
