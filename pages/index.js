@@ -1,10 +1,17 @@
 import Head from "next/head";
-import Image from "next/image";
 import firebase from "../lib/initFirebase";
 import FirebaseAuth from "../components/FirebaseAuth";
 import { getUserFromCookie } from "../lib/auth/userCookies";
 import router from "next/router";
-
+import {
+  Box,
+  Button,
+  Flex,
+  Image,
+  Heading,
+  Stack,
+  Text,
+} from "@chakra-ui/react";
 firebase();
 
 export default function Home() {
@@ -18,7 +25,6 @@ export default function Home() {
         <title>Jom Makan</title>
         <meta name="keywords" content="a place for you to order food" />
       </Head>
-      <h1>Welcome to Jom Makan</h1>
       <FirebaseAuth />
     </div>
   );
