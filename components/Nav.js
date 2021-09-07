@@ -82,10 +82,10 @@ export default function withAction() {
                   <Avatar size={"sm"} src={user.profilePic} />
                 </MenuButton>
                 <MenuList>
-                  <MenuItem>My Orders</MenuItem>
+                  <MenuItem>Your orders</MenuItem>
                   <MenuItem>Settings</MenuItem>
                   <MenuDivider />
-                  <MenuItem onClick={() => logout()}>Log Out</MenuItem>
+                  <MenuItem onClick={() => logout()}>Sign Out</MenuItem>
                 </MenuList>
               </Menu>
             </Flex>
