@@ -1,5 +1,6 @@
 import Head from "next/head";
 import { useUser } from "../lib/auth/useUser";
+import OrderCard from "../components/OrderCard";
 
 const order = () => {
   const { user, logout } = useUser();
@@ -10,6 +11,7 @@ const order = () => {
           <title>Order</title>
         </Head>
         <div>
+          <OrderCard creator={user} />
           <h1>{user.name}</h1>
           <h3>{user.email}</h3>
         </div>
