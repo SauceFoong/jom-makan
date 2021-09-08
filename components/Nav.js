@@ -17,6 +17,7 @@ import {
   Stack,
 } from "@chakra-ui/react";
 import { HamburgerIcon, CloseIcon, AddIcon } from "@chakra-ui/icons";
+import AddOrderButton from "./AddOrderButton";
 
 const NavLink = ({ children }) => (
   <Link
@@ -62,15 +63,7 @@ export default function withAction() {
           </HStack>
           {user ? (
             <Flex alignItems={"center"}>
-              <Button
-                variant={"solid"}
-                colorScheme={"teal"}
-                size={"sm"}
-                mr={4}
-                leftIcon={<AddIcon />}
-              >
-                Action
-              </Button>
+              <AddOrderButton />
               <Menu>
                 <MenuButton
                   as={Button}

@@ -16,7 +16,7 @@ import {
 import { TimeIcon, LinkIcon } from "@chakra-ui/icons";
 import { MdAttachMoney } from "react-icons/md";
 
-export default function OrderCard({ creator }) {
+const OrderCard = ({ creator }) => {
   return (
     <Center py={6}>
       <Box
@@ -110,4 +110,5 @@ export default function OrderCard({ creator }) {
       </Box>
     </Center>
   );
-}
+};
+export default OrderCard;
