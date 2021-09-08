@@ -13,15 +13,23 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import { AddIcon } from "@chakra-ui/icons";
+import React, { useState } from "react";
+import TipInputField from "./TipInputField";
+import DateTimePicker from "react-datetime-picker/dist/entry.nostyle";
+import "react-calendar/dist/Calendar.css";
+import "react-clock/dist/Clock.css";
+import "react-datetime-picker/dist/DateTimePicker.css";
 
 const AddOrderButton = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const [dateTime, onChangeDateTime] = useState(new Date());
+
   return (
     <>
       <Button
         onClick={onOpen}
         variant={"solid"}
-        colorScheme={"teal"}
+        colorScheme={"blue"}
         size={"sm"}
         mr={4}
         leftIcon={<AddIcon />}
@@ -38,15 +46,26 @@ const AddOrderButton = () => {
               <FormLabel>Restaurant Name</FormLabel>
               <Input placeholder="Restaurant Name" />
             </FormControl>
-
+            <FormControl mt={4}>
+              <FormLabel>Description</FormLabel>
+              <Input placeholder="Write your description here" />
+            </FormControl>
             <FormControl mt={4}>
               <FormLabel>Menu / Reference Url</FormLabel>
               <Input placeholder="http://example.com/" />
             </FormControl>
 
             <FormControl mt={4}>
-              <FormLabel>Tips Request</FormLabel>
-              <Input placeholder="How much tips you request" />
+              <FormLabel>Tips Request (RM)</FormLabel>
+              <TipInputField />
+            </FormControl>
+
+            <FormControl mt={4}>
+              <FormLabel>Order Date</FormLabel>
+              <DateTimePicker
+                onChange={onChangeDateTime}
+                value={dateTime}
+              />{" "}
             </FormControl>
           </ModalBody>
 

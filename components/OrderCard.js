@@ -3,17 +3,16 @@ import {
   Avatar,
   Box,
   Center,
+  Flex,
   Text,
-  Stack,
   Button,
   Link,
   List,
   ListItem,
   ListIcon,
-  Badge,
   useColorModeValue,
 } from "@chakra-ui/react";
-import { TimeIcon, LinkIcon } from "@chakra-ui/icons";
+import { TimeIcon, LinkIcon, InfoOutlineIcon } from "@chakra-ui/icons";
 import { MdAttachMoney } from "react-icons/md";
 
 const OrderCard = ({ creator }) => {
@@ -52,48 +51,28 @@ const OrderCard = ({ creator }) => {
         <Text fontWeight={600} fontSize={15} color={"gray.500"} mb={4}>
           by : {creator.name}
         </Text>
-        <List spacing={3}>
+        <List spacing={3} textAlign={"left"}>
           <ListItem>
-            <ListIcon as={LinkIcon} color="green.400" />
+            <ListIcon as={LinkIcon} color="gray.800" />
             <Link href={"#"} color={"blue.400"}>
               View Menu
             </Link>
           </ListItem>
           <ListItem>
-            <ListIcon as={MdAttachMoney} color="green.400" />
+            <ListIcon as={MdAttachMoney} color="gray.800" />
             RM 0.50
           </ListItem>
           <ListItem>
-            <ListIcon as={TimeIcon} color="green.400" />
+            <ListIcon as={TimeIcon} color="gray.800" />
             8/9/2021 12:00pm
           </ListItem>
+          <ListItem>
+            <Flex>
+              <ListIcon as={InfoOutlineIcon} color="gray.800" />
+              wgkoggkogkreogkr
+            </Flex>
+          </ListItem>
         </List>{" "}
-        <Stack align={"center"} justify={"center"} direction={"row"} mt={6}>
-          <Badge
-            px={2}
-            py={1}
-            bg={useColorModeValue("gray.50", "gray.800")}
-            fontWeight={"400"}
-          >
-            #Cheap
-          </Badge>
-          <Badge
-            px={2}
-            py={1}
-            bg={useColorModeValue("gray.50", "gray.800")}
-            fontWeight={"400"}
-          >
-            #Laksa
-          </Badge>
-          <Badge
-            px={2}
-            py={1}
-            bg={useColorModeValue("gray.50", "gray.800")}
-            fontWeight={"400"}
-          >
-            #Nice
-          </Badge>
-        </Stack>
         <Button
           w={"full"}
           mt={8}
