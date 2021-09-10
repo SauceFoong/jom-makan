@@ -1,30 +1,50 @@
 import Head from "next/head";
+import React, { useState, useEffect } from "react";
+import { db } from "../lib/db";
 import { useUser } from "../lib/auth/useUser";
 import OrderCard from "../components/OrderCard";
 
+function useOrder() {
+  const [orders, setOrders] = useState([]);
+
+  useEffect(() => {
+    db.collection("orders").onSnapshot((snapshot) => {
+      const newOrder = snapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+      setOrders(newOrder);
+    });
+  }, []);
+  return orders;
+}
+
 const order = () => {
   const { user, logout } = useUser();
-  if (user) {
-    return (
-      <div>
-        <Head>
-          <title>Order</title>
-        </Head>
+  const orders = useOrder();
+
+  return (
+    <div>
+      <Head>
+        <title>Order</title>
+      </Head>
+      {user ? (
         <div>
-          <OrderCard creator={user} />
-          {/* 
-          <h1>{user.name}</h1>
-          <h3>{user.email}</h3> */}
+          {orders.map((order, index) => {
+            return (
+              <OrderCard
+                key={index}
+                creator={order.created_by}
+                res_name={order.res_name}
+              />
+            );
+          })}
         </div>
-      </div>
-    );
-  } else {
-    return (
-      <div>
-        <h1>Please Sign in first</h1>
-      </div>
-    );
-  }
+      ) : (
+        ""
+      )}
+    </div>
+  );
 };
 
 export default order;

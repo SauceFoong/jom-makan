@@ -15,7 +15,7 @@ import {
 import { TimeIcon, LinkIcon, InfoOutlineIcon } from "@chakra-ui/icons";
 import { MdAttachMoney } from "react-icons/md";
 
-const OrderCard = ({ creator }) => {
+const OrderCard = ({ creator, res_name }) => {
   return (
     <Center py={6}>
       <Box
@@ -46,7 +46,7 @@ const OrderCard = ({ creator }) => {
           }}
         />
         <Heading fontSize={"2xl"} fontFamily={"body"}>
-          Happy Kopitiam
+          {res_name}
         </Heading>
         <Text fontWeight={600} fontSize={15} color={"gray.500"} mb={4}>
           by : {creator.name}
@@ -69,7 +69,7 @@ const OrderCard = ({ creator }) => {
           <ListItem>
             <Flex>
               <ListIcon as={InfoOutlineIcon} color="gray.800" />
-              wgkoggkogkreogkr
+              This is description
             </Flex>
           </ListItem>
         </List>{" "}
