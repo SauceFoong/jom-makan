@@ -3,6 +3,8 @@ import React, { useState, useEffect } from "react";
 import { db, getUserDetails } from "../lib/db";
 import { useUser } from "../lib/auth/useUser";
 import OrderCard from "../components/OrderCard";
+import { formatRelative } from "date-fns";
+import enGB from "date-fns/locale/en-GB";
 
 function useOrder(loading) {
   const [orders, setOrders] = useState([]);
@@ -20,9 +22,10 @@ function useOrder(loading) {
         //Wait for the forEach loop finish update the user data first
         if (index === newOrder.length - 1) {
           setOrders(newOrder);
-          loading(false);
         }
       });
+      loading(false);
+
       // console.log(newOrder);
     });
     return () => unsubscribe();
@@ -34,6 +37,21 @@ const order = () => {
   const [isLoading, setLoading] = useState(true);
   const { user, logout } = useUser();
   const { orders } = useOrder(setLoading);
+
+  //To overwrite the formatRelativeLocale method
+  const formatRelativeLocale = {
+    lastWeek: "'Last' eeee",
+    yesterday: "'Yesterday at 'hh:mm aa",
+    today: "'Today at 'hh:mm aa",
+    tomorrow: "'Tomorrow at 'hh:mm aa",
+    nextWeek: "'Next ' eeee",
+    other: "dd.MM.yyyy",
+  };
+
+  const locale = {
+    ...enGB,
+    formatRelative: (token) => formatRelativeLocale[token],
+  };
 
   return (
     <div>
@@ -52,7 +70,12 @@ const order = () => {
                   creator_name={order.created_by.name}
                   creator_pic={order.created_by.profilePic}
                   res_name={order.res_name}
-                  order_date={order.order_date.toString()}
+                  ref_url={order.ref_url}
+                  order_date={formatRelative(
+                    new Date(order.order_date),
+                    new Date(),
+                    { locale }
+                  )}
                   tips={order.tips}
                   description={order.description}
                 />

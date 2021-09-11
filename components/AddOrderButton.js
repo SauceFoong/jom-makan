@@ -43,8 +43,9 @@ const AddOrderButton = () => {
   const onSubmit = async (data) => {
     const order = {
       ...data,
-      created_at: new Date(),
+      created_at: new Date().toISOString(),
       created_by: user.id,
+      order_date: data.order_date.toISOString(),
     };
     console.log(order);
     createOrder(order);
@@ -128,6 +129,7 @@ const AddOrderButton = () => {
                     required: true,
                   })}
                   onChange={(valueString) => setTip(valueString)}
+                  value={parseInt(tipValue) > 1 ? 1 : tipValue}
                 >
                   <NumberInputField name="tips" />
                   <NumberInputStepper>

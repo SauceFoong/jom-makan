@@ -12,7 +12,12 @@ import {
   ListIcon,
   useColorModeValue,
 } from "@chakra-ui/react";
-import { TimeIcon, LinkIcon, InfoOutlineIcon } from "@chakra-ui/icons";
+import {
+  TimeIcon,
+  LinkIcon,
+  InfoOutlineIcon,
+  ExternalLinkIcon,
+} from "@chakra-ui/icons";
 import { MdAttachMoney } from "react-icons/md";
 
 const OrderCard = ({
@@ -62,8 +67,8 @@ const OrderCard = ({
         <List spacing={3} textAlign={"left"}>
           <ListItem>
             <ListIcon as={LinkIcon} color="gray.800" />
-            <Link href={"#"} color={"blue.400"}>
-              View Menu
+            <Link href={ref_url} color={"blue.400"} isExternal>
+              View Menu <ExternalLinkIcon mx="2px" />
             </Link>
           </ListItem>
           <ListItem>
