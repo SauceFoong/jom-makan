@@ -54,7 +54,7 @@ const order = () => {
     today: "'Today at 'hh:mm aa",
     tomorrow: "'Tomorrow at 'hh:mm aa",
     nextWeek: "'Next ' eeee ' at ' hh:mm aa",
-    other: "dd.MM.yyyy ' at ' hh:mm aa",
+    other: "dd/MM/yyyy ' at ' hh:mm aa",
   };
 
   const locale = {
@@ -68,17 +68,17 @@ const order = () => {
         <title>Order</title>
       </Head>
       {user ? (
-        isLoading ? (
-          <h2>Loading...</h2>
-        ) : (
-          <>
-            <Tabs isLazy>
-              <TabList>
-                <Tab>Orders Today</Tab>
-                <Tab>Your orders</Tab>
-              </TabList>
-              <TabPanels>
-                <TabPanel>
+        <Tabs isLazy>
+          <TabList>
+            <Tab>Orders Today</Tab>
+            <Tab>Your orders</Tab>
+          </TabList>
+          <TabPanels>
+            <TabPanel>
+              {isLoading ? (
+                <h2>Loading...</h2>
+              ) : (
+                <>
                   <Flex flexWrap={"wrap"}>
                     {orders &&
                       orders.map((order, index) => {
@@ -100,8 +100,14 @@ const order = () => {
                         );
                       })}
                   </Flex>
-                </TabPanel>
-                <TabPanel>
+                </>
+              )}
+            </TabPanel>
+            <TabPanel>
+              {isLoading ? (
+                <h2>Loading...</h2>
+              ) : (
+                <>
                   <Flex flexWrap={"wrap"}>
                     {orders &&
                       orders.map((order, index) => {
@@ -123,11 +129,11 @@ const order = () => {
                         );
                       })}
                   </Flex>
-                </TabPanel>
-              </TabPanels>
-            </Tabs>
-          </>
-        )
+                </>
+              )}
+            </TabPanel>
+          </TabPanels>
+        </Tabs>
       ) : (
         ""
       )}
