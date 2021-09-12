@@ -40,12 +40,12 @@ const order = () => {
 
   //To overwrite the formatRelativeLocale method
   const formatRelativeLocale = {
-    lastWeek: "'Last' eeee",
+    lastWeek: "'Last' eeee ' at 'hh:mm aa",
     yesterday: "'Yesterday at 'hh:mm aa",
     today: "'Today at 'hh:mm aa",
     tomorrow: "'Tomorrow at 'hh:mm aa",
-    nextWeek: "'Next ' eeee",
-    other: "dd.MM.yyyy",
+    nextWeek: "'Next ' eeee ' at ' hh:mm aa",
+    other: "dd.MM.yyyy ' at ' hh:mm aa",
   };
 
   const locale = {
@@ -63,24 +63,25 @@ const order = () => {
           <h2>Loading...</h2>
         ) : (
           <div>
-            {orders.map((order, index) => {
-              return (
-                <OrderCard
-                  key={index}
-                  creator_name={order.created_by.name}
-                  creator_pic={order.created_by.profilePic}
-                  res_name={order.res_name}
-                  ref_url={order.ref_url}
-                  order_date={formatRelative(
-                    new Date(order.order_date),
-                    new Date(),
-                    { locale }
-                  )}
-                  tips={order.tips}
-                  description={order.description}
-                />
-              );
-            })}
+            {orders &&
+              orders.map((order, index) => {
+                return (
+                  <OrderCard
+                    key={index}
+                    creator_name={order.created_by.name}
+                    creator_pic={order.created_by.profilePic}
+                    res_name={order.res_name}
+                    ref_url={order.ref_url}
+                    order_date={formatRelative(
+                      new Date(order.order_date),
+                      new Date(),
+                      { locale }
+                    )}
+                    tips={order.tips}
+                    description={order.description}
+                  />
+                );
+              })}
           </div>
         )
       ) : (
