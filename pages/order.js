@@ -5,6 +5,15 @@ import { useUser } from "../lib/auth/useUser";
 import OrderCard from "../components/OrderCard";
 import { formatRelative } from "date-fns";
 import enGB from "date-fns/locale/en-GB";
+import {
+  Flex,
+  Heading,
+  Tabs,
+  TabList,
+  TabPanels,
+  Tab,
+  TabPanel,
+} from "@chakra-ui/react";
 
 function useOrder(loading) {
   const [orders, setOrders] = useState([]);
@@ -62,27 +71,62 @@ const order = () => {
         isLoading ? (
           <h2>Loading...</h2>
         ) : (
-          <div>
-            {orders &&
-              orders.map((order, index) => {
-                return (
-                  <OrderCard
-                    key={index}
-                    creator_name={order.created_by.name}
-                    creator_pic={order.created_by.profilePic}
-                    res_name={order.res_name}
-                    ref_url={order.ref_url}
-                    order_date={formatRelative(
-                      new Date(order.order_date),
-                      new Date(),
-                      { locale }
-                    )}
-                    tips={order.tips}
-                    description={order.description}
-                  />
-                );
-              })}
-          </div>
+          <>
+            <Tabs isLazy>
+              <TabList>
+                <Tab>Orders Today</Tab>
+                <Tab>Your orders</Tab>
+              </TabList>
+              <TabPanels>
+                <TabPanel>
+                  <Flex flexWrap={"wrap"}>
+                    {orders &&
+                      orders.map((order, index) => {
+                        return (
+                          <OrderCard
+                            key={index}
+                            creator_name={order.created_by.name}
+                            creator_pic={order.created_by.profilePic}
+                            res_name={order.res_name}
+                            ref_url={order.ref_url}
+                            order_date={formatRelative(
+                              new Date(order.order_date),
+                              new Date(),
+                              { locale }
+                            )}
+                            tips={order.tips}
+                            description={order.description}
+                          />
+                        );
+                      })}
+                  </Flex>
+                </TabPanel>
+                <TabPanel>
+                  <Flex flexWrap={"wrap"}>
+                    {orders &&
+                      orders.map((order, index) => {
+                        return (
+                          <OrderCard
+                            key={index}
+                            creator_name={order.created_by.name}
+                            creator_pic={order.created_by.profilePic}
+                            res_name={order.res_name}
+                            ref_url={order.ref_url}
+                            order_date={formatRelative(
+                              new Date(order.order_date),
+                              new Date(),
+                              { locale }
+                            )}
+                            tips={order.tips}
+                            description={order.description}
+                          />
+                        );
+                      })}
+                  </Flex>
+                </TabPanel>
+              </TabPanels>
+            </Tabs>
+          </>
         )
       ) : (
         ""
