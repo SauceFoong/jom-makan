@@ -19,6 +19,7 @@ import {
   ExternalLinkIcon,
 } from "@chakra-ui/icons";
 import { MdAttachMoney } from "react-icons/md";
+import JomButton from "../components/JomButton";
 
 const OrderCard = ({
   creator_name,
@@ -87,7 +88,7 @@ const OrderCard = ({
           </Flex>
         </ListItem>
       </List>{" "}
-      <Button
+      {/* <Button
         w={"full"}
         mt={8}
         bg={useColorModeValue("#151f21", "gray.900")}
@@ -99,7 +100,8 @@ const OrderCard = ({
         }}
       >
         JOM
-      </Button>
+      </Button> */}
+      <JomButton />
     </Box>
   );
 };

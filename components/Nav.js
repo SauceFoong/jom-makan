@@ -18,22 +18,24 @@ import {
 } from "@chakra-ui/react";
 import { HamburgerIcon, CloseIcon, AddIcon } from "@chakra-ui/icons";
 import AddOrderButton from "./AddOrderButton";
+import NextLink from "next/link";
 
 const NavLink = ({ children }) => (
-  <Link
-    px={2}
-    py={1}
-    rounded={"md"}
-    _hover={{
-      textDecoration: "none",
-      bg: useColorModeValue("gray.200", "gray.700"),
-    }}
-    href={"#"}
-  >
-    {children}
-  </Link>
+  <NextLink href={"/" + children} passHref>
+    <Link
+      px={2}
+      py={1}
+      rounded={"md"}
+      _hover={{
+        textDecoration: "none",
+        bg: useColorModeValue("gray.200", "gray.700"),
+      }}
+    >
+      {children}
+    </Link>
+  </NextLink>
 );
-const Links = ["Feedback", "Info Board"];
+const Links = ["feedback", "about"];
 
 export default function withAction() {
   const { isOpen, onOpen, onClose } = useDisclosure();
