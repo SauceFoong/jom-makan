@@ -46,6 +46,7 @@ const AddOrderButton = () => {
       created_at: new Date().toISOString(),
       created_by: user.id,
       order_date: data.order_date.toISOString(),
+      jom_member: [],
     };
     console.log(order);
     createOrder(order);
