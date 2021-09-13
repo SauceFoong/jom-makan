@@ -18,25 +18,28 @@ import {
 function useOrder(loading) {
   const [orders, setOrders] = useState([]);
   useEffect(() => {
-    const unsubscribe = db.collection("orders").onSnapshot((snapshot) => {
-      const newOrder = snapshot.docs.map((doc) => ({
-        id: doc.id,
-        ...doc.data(),
-      }));
+    const unsubscribe = db
+      .collection("orders")
+      .orderBy("created_at", "desc")
+      .onSnapshot((snapshot) => {
+        const newOrder = snapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
 
-      newOrder.forEach(async (order, index) => {
-        const { user } = await getUserDetails(order.created_by);
-        newOrder[index].created_by = user;
+        newOrder.forEach(async (order, index) => {
+          const { user } = await getUserDetails(order.created_by);
+          newOrder[index].created_by = user;
 
-        //Wait for the forEach loop finish update the user data first
-        if (index === newOrder.length - 1) {
-          setOrders(newOrder);
-        }
+          //Wait for the forEach loop finish update the user data first
+          if (index === newOrder.length - 1) {
+            setOrders(newOrder);
+          }
+        });
+        loading(false);
+
+        // console.log(newOrder);
       });
-      loading(false);
-
-      // console.log(newOrder);
-    });
     return () => unsubscribe();
   }, []);
   return { orders };
@@ -85,6 +88,7 @@ const order = () => {
                         return (
                           <OrderCard
                             key={index}
+                            id={order.id}
                             creator_name={order.created_by.name}
                             creator_pic={order.created_by.profilePic}
                             res_name={order.res_name}
@@ -111,22 +115,25 @@ const order = () => {
                   <Flex flexWrap={"wrap"}>
                     {orders &&
                       orders.map((order, index) => {
-                        return (
-                          <OrderCard
-                            key={index}
-                            creator_name={order.created_by.name}
-                            creator_pic={order.created_by.profilePic}
-                            res_name={order.res_name}
-                            ref_url={order.ref_url}
-                            order_date={formatRelative(
-                              new Date(order.order_date),
-                              new Date(),
-                              { locale }
-                            )}
-                            tips={order.tips}
-                            description={order.description}
-                          />
-                        );
+                        if (order.created_by.id === user.id) {
+                          return (
+                            <OrderCard
+                              key={index}
+                              id={order.id}
+                              creator_name={order.created_by.name}
+                              creator_pic={order.created_by.profilePic}
+                              res_name={order.res_name}
+                              ref_url={order.ref_url}
+                              order_date={formatRelative(
+                                new Date(order.order_date),
+                                new Date(),
+                                { locale }
+                              )}
+                              tips={order.tips}
+                              description={order.description}
+                            />
+                          );
+                        }
                       })}
                   </Flex>
                 </>

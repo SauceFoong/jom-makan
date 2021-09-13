@@ -52,7 +52,9 @@ export default function withAction() {
             onClick={isOpen ? onClose : onOpen}
           />
           <HStack spacing={8} alignItems={"center"}>
-            <Box>JOM Makan</Box>
+            <Box>
+              <NextLink href="/">JOM Makan</NextLink>
+            </Box>
             <HStack
               as={"nav"}
               spacing={4}

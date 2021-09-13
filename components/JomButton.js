@@ -19,9 +19,9 @@ import { useForm } from "react-hook-form";
 import "react-calendar/dist/Calendar.css";
 import "react-clock/dist/Clock.css";
 import "react-datetime-picker/dist/DateTimePicker.css";
-import { createOrder } from "../lib/db";
+import { createJom } from "../lib/db";
 
-const JomButton = ({ order }) => {
+const JomButton = ({ order_id }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { user, logout } = useUser();
   const {
@@ -35,10 +35,12 @@ const JomButton = ({ order }) => {
   const onSubmit = async (data) => {
     const jom = {
       ...data,
+      order_id: order_id,
+      user_id: user.id,
       created_at: new Date().toISOString(),
     };
     console.log(jom);
-    // createOrder(jom);
+    createJom(jom);
     onClose();
     reset();
   };
@@ -67,17 +69,17 @@ const JomButton = ({ order }) => {
             <ModalHeader>Jom this order</ModalHeader>
             <ModalCloseButton />
             <ModalBody pb={6}>
-              <FormControl isInvalid={errors.jom_remark}>
+              <FormControl isInvalid={errors.remark}>
                 <FormLabel>Remark</FormLabel>
                 <Textarea
-                  id="jom_remark"
+                  id="remark"
                   placeholder="Write your remark here"
-                  {...register("jom_remark", {
+                  {...register("remark", {
                     required: "Remark is required",
                   })}
                 />
                 <FormErrorMessage>
-                  {errors.jom_remark && errors.jom_remark.message}
+                  {errors.remark && errors.remark.message}
                 </FormErrorMessage>
               </FormControl>
             </ModalBody>

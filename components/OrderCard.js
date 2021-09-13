@@ -2,10 +2,8 @@ import {
   Heading,
   Avatar,
   Box,
-  Center,
   Flex,
   Text,
-  Button,
   Link,
   List,
   ListItem,
@@ -20,8 +18,10 @@ import {
 } from "@chakra-ui/icons";
 import { MdAttachMoney } from "react-icons/md";
 import JomButton from "../components/JomButton";
+import { useUser } from "../lib/auth/useUser";
 
 const OrderCard = ({
+  id,
   creator_name,
   creator_pic,
   res_name,
@@ -101,7 +101,7 @@ const OrderCard = ({
       >
         JOM
       </Button> */}
-      <JomButton />
+      <JomButton order_id={id} />
     </Box>
   );
 };
