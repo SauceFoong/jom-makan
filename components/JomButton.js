@@ -44,6 +44,7 @@ const JomButton = ({ order_id }) => {
     console.log(jom);
     createJom(jom);
     onClose();
+    showToast();
     reset();
   };
 
@@ -102,7 +103,6 @@ const JomButton = ({ order_id }) => {
                 mr={3}
                 isLoading={isSubmitting}
                 type="submit"
-                onClick={showToast}
               >
                 Confirm
               </Button>
