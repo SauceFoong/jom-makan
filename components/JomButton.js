@@ -35,6 +35,8 @@ const JomButton = ({ order }) => {
   const onSubmit = async (data) => {
     const jom = {
       ...data,
+      order_id: order.id,
+      user_id: user.id,
       created_at: new Date().toISOString(),
     };
     console.log(jom);
