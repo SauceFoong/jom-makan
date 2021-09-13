@@ -11,6 +11,7 @@ import {
   ModalBody,
   ModalCloseButton,
   useDisclosure,
+  useToast,
   Textarea,
 } from "@chakra-ui/react";
 import React, { useState } from "react";
@@ -31,6 +32,7 @@ const JomButton = ({ order_id }) => {
     control,
     formState: { errors, isSubmitting },
   } = useForm();
+  const toast = useToast();
 
   const onSubmit = async (data) => {
     const jom = {
@@ -43,6 +45,16 @@ const JomButton = ({ order_id }) => {
     createJom(jom);
     onClose();
     reset();
+  };
+
+  const showToast = () => {
+    return toast({
+      title: "Jom Successfully.",
+      description: "Please wait for the orderer to confirm your jom request.",
+      status: "success",
+      duration: 9000,
+      isClosable: true,
+    });
   };
 
   return (
@@ -90,6 +102,7 @@ const JomButton = ({ order_id }) => {
                 mr={3}
                 isLoading={isSubmitting}
                 type="submit"
+                onClick={showToast}
               >
                 Confirm
               </Button>
