@@ -114,22 +114,24 @@ const order = () => {
                   <Flex flexWrap={"wrap"}>
                     {orders &&
                       orders.map((order, index) => {
-                        return (
-                          <OrderCard
-                            key={index}
-                            creator_name={order.created_by.name}
-                            creator_pic={order.created_by.profilePic}
-                            res_name={order.res_name}
-                            ref_url={order.ref_url}
-                            order_date={formatRelative(
-                              new Date(order.order_date),
-                              new Date(),
-                              { locale }
-                            )}
-                            tips={order.tips}
-                            description={order.description}
-                          />
-                        );
+                        if (order.created_by.id === user.id) {
+                          return (
+                            <OrderCard
+                              key={index}
+                              creator_name={order.created_by.name}
+                              creator_pic={order.created_by.profilePic}
+                              res_name={order.res_name}
+                              ref_url={order.ref_url}
+                              order_date={formatRelative(
+                                new Date(order.order_date),
+                                new Date(),
+                                { locale }
+                              )}
+                              tips={order.tips}
+                              description={order.description}
+                            />
+                          );
+                        }
                       })}
                   </Flex>
                 </>
