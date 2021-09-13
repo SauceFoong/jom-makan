@@ -88,6 +88,7 @@ const order = () => {
                         return (
                           <OrderCard
                             key={index}
+                            id={order.id}
                             creator_name={order.created_by.name}
                             creator_pic={order.created_by.profilePic}
                             res_name={order.res_name}
@@ -118,6 +119,7 @@ const order = () => {
                           return (
                             <OrderCard
                               key={index}
+                              id={order.id}
                               creator_name={order.created_by.name}
                               creator_pic={order.created_by.profilePic}
                               res_name={order.res_name}
