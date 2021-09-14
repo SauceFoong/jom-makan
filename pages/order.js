@@ -85,6 +85,7 @@ const order = () => {
                   <Flex flexWrap={"wrap"}>
                     {orders &&
                       orders.map((order, index) => {
+                        const yourOrder = order.created_by.id === user.id;
                         return (
                           <OrderCard
                             key={index}
@@ -100,6 +101,7 @@ const order = () => {
                             )}
                             tips={order.tips}
                             description={order.description}
+                            yourOrder={yourOrder}
                           />
                         );
                       })}
@@ -116,6 +118,7 @@ const order = () => {
                     {orders &&
                       orders.map((order, index) => {
                         if (order.created_by.id === user.id) {
+                          const yourOrder = order.created_by.id === user.id;
                           return (
                             <OrderCard
                               key={index}
@@ -131,6 +134,7 @@ const order = () => {
                               )}
                               tips={order.tips}
                               description={order.description}
+                              yourOrder={yourOrder}
                             />
                           );
                         }

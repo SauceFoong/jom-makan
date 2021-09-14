@@ -15,6 +15,7 @@ import {
   LinkIcon,
   InfoOutlineIcon,
   ExternalLinkIcon,
+  EditIcon,
 } from "@chakra-ui/icons";
 import { MdAttachMoney } from "react-icons/md";
 import JomButton from "../components/JomButton";
@@ -29,7 +30,10 @@ const OrderCard = ({
   order_date,
   description,
   tips,
+  yourOrder,
 }) => {
+  const { user, logout } = useUser();
+  //   console.log(user);
   return (
     <Box
       maxW={"320px"}
@@ -41,7 +45,17 @@ const OrderCard = ({
       textAlign={"center"}
       m={"5px"}
       flex={"1 1 25%"}
+      position="relative"
     >
+      {yourOrder ? (
+        <LinkIcon
+          as={EditIcon}
+          color="gray.800"
+          position="absolute"
+          right={2}
+          top={2}
+        />
+      ) : null}
       <Avatar
         size={"xl"}
         src={creator_pic}
@@ -101,7 +115,8 @@ const OrderCard = ({
       >
         JOM
       </Button> */}
-      <JomButton order_id={id} />
+      {/* {id !== id ? <JomButton order_id={id} /> : ""} */}
+      <JomButton order_id={id} order_name={res_name} />
     </Box>
   );
 };

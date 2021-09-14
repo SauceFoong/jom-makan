@@ -22,7 +22,7 @@ import "react-clock/dist/Clock.css";
 import "react-datetime-picker/dist/DateTimePicker.css";
 import { createJom } from "../lib/db";
 
-const JomButton = ({ order_id }) => {
+const JomButton = ({ order_id, order_name }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { user, logout } = useUser();
   const {
@@ -41,7 +41,7 @@ const JomButton = ({ order_id }) => {
       user_id: user.id,
       created_at: new Date().toISOString(),
     };
-    console.log(jom);
+    // console.log(jom);
     createJom(jom);
     onClose();
     showToast();
@@ -51,7 +51,7 @@ const JomButton = ({ order_id }) => {
   const showToast = () => {
     return toast({
       title: "Jom Successfully.",
-      description: "Please wait for the orderer to confirm your jom request.",
+      description: "Let's jom makan bersama !",
       status: "success",
       duration: 9000,
       isClosable: true,
@@ -79,7 +79,7 @@ const JomButton = ({ order_id }) => {
         <ModalOverlay />
         <ModalContent>
           <form onSubmit={handleSubmit(onSubmit)}>
-            <ModalHeader>Jom this order</ModalHeader>
+            <ModalHeader>Jom Makan - {order_name} </ModalHeader>
             <ModalCloseButton />
             <ModalBody pb={6}>
               <FormControl isInvalid={errors.remark}>

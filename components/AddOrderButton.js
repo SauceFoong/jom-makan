@@ -48,7 +48,7 @@ const AddOrderButton = () => {
       order_date: data.order_date.toISOString(),
       jom_member: [],
     };
-    console.log(order);
+    // console.log(order);
     createOrder(order);
     onClose();
     reset();
