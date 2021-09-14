@@ -4,7 +4,6 @@ import { db, getUserDetails } from "../lib/db";
 import { useUser } from "../lib/auth/useUser";
 import OrderCard from "../components/OrderCard";
 import { formatRelative } from "date-fns";
-import enGB from "date-fns/locale/en-GB";
 import {
   Flex,
   Heading,
@@ -51,19 +50,6 @@ const order = () => {
   const { orders } = useOrder(setLoading);
 
   //To overwrite the formatRelativeLocale method
-  const formatRelativeLocale = {
-    lastWeek: "'Last' eeee ' at 'hh:mm aa",
-    yesterday: "'Yesterday at 'hh:mm aa",
-    today: "'Today at 'hh:mm aa",
-    tomorrow: "'Tomorrow at 'hh:mm aa",
-    nextWeek: "'Next ' eeee ' at ' hh:mm aa",
-    other: "dd/MM/yyyy ' at ' hh:mm aa",
-  };
-
-  const locale = {
-    ...enGB,
-    formatRelative: (token) => formatRelativeLocale[token],
-  };
 
   return (
     <div>
@@ -94,11 +80,7 @@ const order = () => {
                             creator_pic={order.created_by.profilePic}
                             res_name={order.res_name}
                             ref_url={order.ref_url}
-                            order_date={formatRelative(
-                              new Date(order.order_date),
-                              new Date(),
-                              { locale }
-                            )}
+                            order_date={order.order_date}
                             tips={order.tips}
                             description={order.description}
                             yourOrder={yourOrder}
@@ -127,11 +109,7 @@ const order = () => {
                               creator_pic={order.created_by.profilePic}
                               res_name={order.res_name}
                               ref_url={order.ref_url}
-                              order_date={formatRelative(
-                                new Date(order.order_date),
-                                new Date(),
-                                { locale }
-                              )}
+                              order_date={order.order_date}
                               tips={order.tips}
                               description={order.description}
                               yourOrder={yourOrder}
