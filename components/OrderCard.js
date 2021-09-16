@@ -35,6 +35,7 @@ const OrderCard = ({
   description,
   tips,
   yourOrder,
+  yourJom,
 }) => {
   const { user, logout } = useUser();
   //   console.log(user);
@@ -138,8 +139,7 @@ const OrderCard = ({
       >
         JOM
       </Button> */}
-      {/* {id !== id ? <JomButton order_id={id} /> : ""} */}
-      <JomButton order_id={id} order_name={res_name} />
+      {yourOrder ? null : <JomButton order_id={id} order_name={res_name} />}
     </Box>
   );
 };
