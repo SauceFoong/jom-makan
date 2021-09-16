@@ -21,6 +21,7 @@ import { MdAttachMoney } from "react-icons/md";
 import JomButton from "../components/JomButton";
 import { useUser } from "../lib/auth/useUser";
 import EditOrderButton from "../components/EditOrderButton";
+import DeleteOrderButton from "../components/DeleteOrderButton";
 import enGB from "date-fns/locale/en-GB";
 import { formatRelative } from "date-fns";
 
@@ -66,14 +67,17 @@ const OrderCard = ({
       position="relative"
     >
       {yourOrder ? (
-        <EditOrderButton
-          order_id={id}
-          res_name={res_name}
-          ref_url={ref_url}
-          description={description}
-          order_date={order_date}
-          tips={tips}
-        />
+        <>
+          <EditOrderButton
+            order_id={id}
+            res_name={res_name}
+            ref_url={ref_url}
+            description={description}
+            order_date={order_date}
+            tips={tips}
+          />
+          <DeleteOrderButton order_id={id} res_name={res_name} />
+        </>
       ) : null}
       <Avatar
         size={"xl"}
