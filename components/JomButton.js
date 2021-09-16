@@ -21,8 +21,9 @@ import "react-calendar/dist/Calendar.css";
 import "react-clock/dist/Clock.css";
 import "react-datetime-picker/dist/DateTimePicker.css";
 import { createJom } from "../lib/db";
+import { showToast } from "../lib/Helper/Toast";
 
-const JomButton = ({ order_id }) => {
+const JomButton = ({ order_id, order_name }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { user, logout } = useUser();
   const {
@@ -41,20 +42,18 @@ const JomButton = ({ order_id }) => {
       user_id: user.id,
       created_at: new Date().toISOString(),
     };
-    console.log(jom);
+    // console.log(jom);
     createJom(jom);
     onClose();
+    showToast(
+      toast,
+      "Jom Successfully.",
+      "Let's jom makan " + order_name + " bersama !",
+      "success",
+      5000,
+      true
+    );
     reset();
-  };
-
-  const showToast = () => {
-    return toast({
-      title: "Jom Successfully.",
-      description: "Please wait for the orderer to confirm your jom request.",
-      status: "success",
-      duration: 9000,
-      isClosable: true,
-    });
   };
 
   return (
@@ -78,7 +77,7 @@ const JomButton = ({ order_id }) => {
         <ModalOverlay />
         <ModalContent>
           <form onSubmit={handleSubmit(onSubmit)}>
-            <ModalHeader>Jom this order</ModalHeader>
+            <ModalHeader>Jom Makan - {order_name} </ModalHeader>
             <ModalCloseButton />
             <ModalBody pb={6}>
               <FormControl isInvalid={errors.remark}>
@@ -102,7 +101,6 @@ const JomButton = ({ order_id }) => {
                 mr={3}
                 isLoading={isSubmitting}
                 type="submit"
-                onClick={showToast}
               >
                 Confirm
               </Button>

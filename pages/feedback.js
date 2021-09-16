@@ -22,8 +22,7 @@ import { useState } from "react";
 
 const feedbackForm = () => {
   const { user, logout } = useUser();
-  const [ alertMessage, setAlertMessage ] = useState('');
-
+  const [alertMessage, setAlertMessage] = useState("");
 
   const {
     register,
@@ -34,14 +33,14 @@ const feedbackForm = () => {
   } = useForm();
 
   const onSubmit = async (data) => {
-    setAlertMessage('');
+    setAlertMessage("");
     const feedback = {
       ...data,
       created_at: new Date().toISOString(),
       created_by: user.id,
       username: user.name,
     };
-    console.log(feedback);
+    // console.log(feedback);
     createFeedback(feedback);
     setAlertMessage("success");
     reset();
@@ -55,12 +54,12 @@ const feedbackForm = () => {
       <form onSubmit={handleSubmit(onSubmit)}>
         <Center>
           <VStack width={550} mt={5}>
-            {alertMessage != '' && 
-                <Alert status="success">
-                    <AlertIcon />
-                    <AlertDescription>Submitted.</AlertDescription>
-                </Alert>
-            }
+            {alertMessage != "" && (
+              <Alert status="success">
+                <AlertIcon />
+                <AlertDescription>Submitted.</AlertDescription>
+              </Alert>
+            )}
             <FormControl isInvalid={errors.subject}>
               <Select
                 id="subject"

@@ -15,10 +15,15 @@ import {
   LinkIcon,
   InfoOutlineIcon,
   ExternalLinkIcon,
+  EditIcon,
 } from "@chakra-ui/icons";
 import { MdAttachMoney } from "react-icons/md";
 import JomButton from "../components/JomButton";
 import { useUser } from "../lib/auth/useUser";
+import EditOrderButton from "../components/EditOrderButton";
+import DeleteOrderButton from "../components/DeleteOrderButton";
+import enGB from "date-fns/locale/en-GB";
+import { formatRelative } from "date-fns";
 
 const OrderCard = ({
   id,
@@ -29,7 +34,25 @@ const OrderCard = ({
   order_date,
   description,
   tips,
+  yourOrder,
 }) => {
+  const { user, logout } = useUser();
+  //   console.log(user);
+  //   const showEditModal = () => {}
+  const formatRelativeLocale = {
+    lastWeek: "'Last' eeee ' at 'hh:mm aa",
+    yesterday: "'Yesterday at 'hh:mm aa",
+    today: "'Today at 'hh:mm aa",
+    tomorrow: "'Tomorrow at 'hh:mm aa",
+    nextWeek: "'Next ' eeee ' at ' hh:mm aa",
+    other: "dd/MM/yyyy ' at ' hh:mm aa",
+  };
+
+  const locale = {
+    ...enGB,
+    formatRelative: (token) => formatRelativeLocale[token],
+  };
+
   return (
     <Box
       maxW={"320px"}
@@ -41,7 +64,21 @@ const OrderCard = ({
       textAlign={"center"}
       m={"5px"}
       flex={"1 1 25%"}
+      position="relative"
     >
+      {yourOrder ? (
+        <>
+          <EditOrderButton
+            order_id={id}
+            res_name={res_name}
+            ref_url={ref_url}
+            description={description}
+            order_date={order_date}
+            tips={tips}
+          />
+          <DeleteOrderButton order_id={id} res_name={res_name} />
+        </>
+      ) : null}
       <Avatar
         size={"xl"}
         src={creator_pic}
@@ -79,7 +116,7 @@ const OrderCard = ({
         </ListItem>
         <ListItem>
           <ListIcon as={TimeIcon} color="gray.800" />
-          {order_date}
+          {formatRelative(new Date(order_date), new Date(), { locale })}
         </ListItem>
         <ListItem>
           <Flex>
@@ -101,7 +138,8 @@ const OrderCard = ({
       >
         JOM
       </Button> */}
-      <JomButton order_id={id} />
+      {/* {id !== id ? <JomButton order_id={id} /> : ""} */}
+      <JomButton order_id={id} order_name={res_name} />
     </Box>
   );
 };

@@ -17,22 +17,29 @@ import {
   NumberInputStepper,
   NumberIncrementStepper,
   NumberDecrementStepper,
+  useColorModeValue,
   useToast,
 } from "@chakra-ui/react";
-import { AddIcon } from "@chakra-ui/icons";
+import { EditIcon, LinkIcon } from "@chakra-ui/icons";
 import React, { useState } from "react";
-import { useUser } from "../lib/auth/useUser";
 import { useForm, Controller } from "react-hook-form";
 import DateTimePicker from "react-datetime-picker/dist/entry.nostyle";
 import "react-calendar/dist/Calendar.css";
 import "react-clock/dist/Clock.css";
 import "react-datetime-picker/dist/DateTimePicker.css";
-import { createOrder } from "../lib/db";
+import { updateOrder } from "../lib/db";
+import { parseISO } from "date-fns";
 import { showToast } from "../lib/Helper/Toast";
 
-const AddOrderButton = () => {
+const EditOrderButton = ({
+  order_id,
+  res_name,
+  ref_url,
+  order_date,
+  tips,
+  description,
+}) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const { user, logout } = useUser();
   const [tipValue, setTip] = useState("0.50");
   const {
     register,
@@ -42,21 +49,19 @@ const AddOrderButton = () => {
     formState: { errors, isSubmitting },
   } = useForm();
   const toast = useToast();
+
   const onSubmit = async (data) => {
     const order = {
       ...data,
-      created_at: new Date().toISOString(),
       last_update: new Date().toISOString(),
-      created_by: user.id,
       order_date: data.order_date.toISOString(),
-      jom_member: [],
     };
-    // console.log(order);
-    await createOrder(order);
+    console.log(order);
+    await updateOrder(order_id, order);
     showToast(
       toast,
-      "Order Created Successfully.",
-      "Congrats ! People can view your order now.",
+      "Order updated Successfully.",
+      "Your can view your latest changes now !",
       "success",
       5000,
       true
@@ -67,21 +72,23 @@ const AddOrderButton = () => {
 
   return (
     <>
-      <Button
+      <LinkIcon
         onClick={onOpen}
-        variant={"solid"}
-        colorScheme={"blue"}
-        size={"sm"}
-        mr={4}
-        leftIcon={<AddIcon />}
-      >
-        Create Order
-      </Button>
+        as={EditIcon}
+        color="gray.800"
+        position="absolute"
+        right={2}
+        top={2}
+        cursor={"pointer"}
+        _hover={{
+          bg: useColorModeValue("blackAlpha.200", "whiteAlpha.200"),
+        }}
+      />
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent>
           <form onSubmit={handleSubmit(onSubmit)}>
-            <ModalHeader>Create your order</ModalHeader>
+            <ModalHeader>Edit - {res_name}</ModalHeader>
             <ModalCloseButton />
             <ModalBody pb={6}>
               <FormControl isInvalid={errors.res_name}>
@@ -89,6 +96,7 @@ const AddOrderButton = () => {
                 <Input
                   id="res_name"
                   placeholder="Restaurant Name"
+                  defaultValue={res_name}
                   {...register("res_name", {
                     required: "Restaurant Name is required",
                   })}
@@ -103,6 +111,7 @@ const AddOrderButton = () => {
                 <Input
                   id="description"
                   placeholder="Write your description here"
+                  defaultValue={description}
                   {...register("description", {
                     maxLength: {
                       value: 50,
@@ -120,6 +129,7 @@ const AddOrderButton = () => {
                 <Input
                   id="ref_url"
                   placeholder="http://example.com/"
+                  defaultValue={ref_url}
                   {...register("ref_url", {
                     required: "Ref Url is required",
                   })}
@@ -141,7 +151,7 @@ const AddOrderButton = () => {
                     required: true,
                   })}
                   onChange={(valueString) => setTip(valueString)}
-                  value={parseInt(tipValue) > 1 ? 1 : tipValue}
+                  defaultValue={parseInt(tips) > 1 ? 1 : tips}
                 >
                   <NumberInputField name="tips" />
                   <NumberInputStepper>
@@ -156,6 +166,7 @@ const AddOrderButton = () => {
                 <Controller
                   name="order_date"
                   control={control}
+                  defaultValue={parseISO(order_date)}
                   rules={{
                     required: "Please specify your order date.",
                   }}
@@ -176,7 +187,7 @@ const AddOrderButton = () => {
                 isLoading={isSubmitting}
                 type="submit"
               >
-                Create
+                Confirm
               </Button>
               <Button onClick={onClose}>Cancel</Button>
             </ModalFooter>
@@ -187,4 +198,4 @@ const AddOrderButton = () => {
   );
 };
 
-export default AddOrderButton;
+export default EditOrderButton;
