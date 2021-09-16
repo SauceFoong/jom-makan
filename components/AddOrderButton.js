@@ -17,6 +17,7 @@ import {
   NumberInputStepper,
   NumberIncrementStepper,
   NumberDecrementStepper,
+  useToast,
 } from "@chakra-ui/react";
 import { AddIcon } from "@chakra-ui/icons";
 import React, { useState } from "react";
@@ -27,6 +28,7 @@ import "react-calendar/dist/Calendar.css";
 import "react-clock/dist/Clock.css";
 import "react-datetime-picker/dist/DateTimePicker.css";
 import { createOrder } from "../lib/db";
+import { showToast } from "../lib/Helper/Toast";
 
 const AddOrderButton = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -39,17 +41,26 @@ const AddOrderButton = () => {
     control,
     formState: { errors, isSubmitting },
   } = useForm();
-
+  const toast = useToast();
   const onSubmit = async (data) => {
     const order = {
       ...data,
       created_at: new Date().toISOString(),
+      last_update: new Date().toISOString(),
       created_by: user.id,
       order_date: data.order_date.toISOString(),
       jom_member: [],
     };
     // console.log(order);
-    createOrder(order);
+    await createOrder(order);
+    showToast(
+      toast,
+      "Order Created Successfully.",
+      "Congrats ! People can view your order now.",
+      "success",
+      5000,
+      true
+    );
     onClose();
     reset();
   };

@@ -18,19 +18,21 @@ import {
   NumberIncrementStepper,
   NumberDecrementStepper,
   useColorModeValue,
+  useToast,
 } from "@chakra-ui/react";
 import { EditIcon, LinkIcon } from "@chakra-ui/icons";
 import React, { useState } from "react";
-import { useUser } from "../lib/auth/useUser";
 import { useForm, Controller } from "react-hook-form";
 import DateTimePicker from "react-datetime-picker/dist/entry.nostyle";
 import "react-calendar/dist/Calendar.css";
 import "react-clock/dist/Clock.css";
 import "react-datetime-picker/dist/DateTimePicker.css";
-import { createOrder } from "../lib/db";
-import { format, parseISO } from "date-fns";
+import { updateOrder } from "../lib/db";
+import { parseISO } from "date-fns";
+import { showToast } from "../lib/Helper/Toast";
 
 const EditOrderButton = ({
+  order_id,
   res_name,
   ref_url,
   order_date,
@@ -38,7 +40,6 @@ const EditOrderButton = ({
   description,
 }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const { user, logout } = useUser();
   const [tipValue, setTip] = useState("0.50");
   const {
     register,
@@ -47,19 +48,24 @@ const EditOrderButton = ({
     control,
     formState: { errors, isSubmitting },
   } = useForm();
-  console.log(parseISO(order_date));
-  console.log(order_date);
+  const toast = useToast();
 
   const onSubmit = async (data) => {
     const order = {
       ...data,
-      created_at: new Date().toISOString(),
-      created_by: user.id,
+      last_update: new Date().toISOString(),
       order_date: data.order_date.toISOString(),
-      jom_member: [],
     };
     console.log(order);
-    // createOrder(order);
+    await updateOrder(order_id, order);
+    showToast(
+      toast,
+      "Order updated Successfully.",
+      "Your can view your latest changes now !",
+      "success",
+      5000,
+      true
+    );
     onClose();
     reset();
   };
@@ -82,12 +88,19 @@ const EditOrderButton = ({
         <ModalOverlay />
         <ModalContent>
           <form onSubmit={handleSubmit(onSubmit)}>
-            <ModalHeader>Edit your order</ModalHeader>
+            <ModalHeader>Edit - {res_name}</ModalHeader>
             <ModalCloseButton />
             <ModalBody pb={6}>
               <FormControl isInvalid={errors.res_name}>
                 <FormLabel>Restaurant Name</FormLabel>
-                <Input {...register("res_name")} />
+                <Input
+                  id="res_name"
+                  placeholder="Restaurant Name"
+                  defaultValue={res_name}
+                  {...register("res_name", {
+                    required: "Restaurant Name is required",
+                  })}
+                />
                 <FormErrorMessage>
                   {errors.res_name && errors.res_name.message}
                 </FormErrorMessage>
@@ -98,7 +111,7 @@ const EditOrderButton = ({
                 <Input
                   id="description"
                   placeholder="Write your description here"
-                  value={description}
+                  defaultValue={description}
                   {...register("description", {
                     maxLength: {
                       value: 50,
@@ -116,7 +129,7 @@ const EditOrderButton = ({
                 <Input
                   id="ref_url"
                   placeholder="http://example.com/"
-                  value={ref_url}
+                  defaultValue={ref_url}
                   {...register("ref_url", {
                     required: "Ref Url is required",
                   })}
@@ -138,7 +151,7 @@ const EditOrderButton = ({
                     required: true,
                   })}
                   onChange={(valueString) => setTip(valueString)}
-                  value={parseInt(tips) > 1 ? 1 : tips}
+                  defaultValue={parseInt(tips) > 1 ? 1 : tips}
                 >
                   <NumberInputField name="tips" />
                   <NumberInputStepper>
@@ -153,12 +166,11 @@ const EditOrderButton = ({
                 <Controller
                   name="order_date"
                   control={control}
+                  defaultValue={parseISO(order_date)}
                   rules={{
                     required: "Please specify your order date.",
                   }}
-                  render={({ field }) => (
-                    <DateTimePicker {...register("order_date")} />
-                  )}
+                  render={({ field }) => <DateTimePicker {...field} />}
                 />
                 {errors.order_date && (
                   <FormErrorMessage>

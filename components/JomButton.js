@@ -21,6 +21,7 @@ import "react-calendar/dist/Calendar.css";
 import "react-clock/dist/Clock.css";
 import "react-datetime-picker/dist/DateTimePicker.css";
 import { createJom } from "../lib/db";
+import { showToast } from "../lib/Helper/Toast";
 
 const JomButton = ({ order_id, order_name }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -44,18 +45,15 @@ const JomButton = ({ order_id, order_name }) => {
     // console.log(jom);
     createJom(jom);
     onClose();
-    showToast();
+    showToast(
+      toast,
+      "Jom Successfully.",
+      "Let's jom makan " + order_name + " bersama !",
+      "success",
+      5000,
+      true
+    );
     reset();
-  };
-
-  const showToast = () => {
-    return toast({
-      title: "Jom Successfully.",
-      description: "Let's jom makan bersama !",
-      status: "success",
-      duration: 9000,
-      isClosable: true,
-    });
   };
 
   return (

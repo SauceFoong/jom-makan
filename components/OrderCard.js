@@ -67,6 +67,7 @@ const OrderCard = ({
     >
       {yourOrder ? (
         <EditOrderButton
+          order_id={id}
           res_name={res_name}
           ref_url={ref_url}
           description={description}
