@@ -39,7 +39,10 @@ const JomButton = ({ order_id, order_name }) => {
     const jom = {
       ...data,
       order_id: order_id,
+      order_name: order_name,
       user_id: user.id,
+      user_name: user.name,
+      pay: false,
       created_at: new Date().toISOString(),
     };
     // console.log(jom);

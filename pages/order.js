@@ -1,6 +1,6 @@
 import Head from "next/head";
 import React, { useState, useEffect } from "react";
-import { db, getUserDetails } from "../lib/db";
+import { db, getJom, getUserDetails } from "../lib/db";
 import { useUser } from "../lib/auth/useUser";
 import OrderCard from "../components/OrderCard";
 import { formatRelative } from "date-fns";
@@ -28,16 +28,17 @@ function useOrder(loading) {
 
         newOrder.forEach(async (order, index) => {
           const { user } = await getUserDetails(order.created_by);
+          // const { jom } = await getJom(order.id, user.id);
           newOrder[index].created_by = user;
 
           //Wait for the forEach loop finish update the user data first
           if (index === newOrder.length - 1) {
             setOrders(newOrder);
+            // console.log(orders);
           }
         });
         loading(false);
-
-        // console.log(newOrder);
+        console.log(newOrder);
       });
     return () => unsubscribe();
   }, []);
