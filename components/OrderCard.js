@@ -24,6 +24,7 @@ import EditOrderButton from "../components/EditOrderButton";
 import DeleteOrderButton from "../components/DeleteOrderButton";
 import enGB from "date-fns/locale/en-GB";
 import { formatRelative } from "date-fns";
+import CancelJomButton from "./CancelJomButton";
 
 const OrderCard = ({
   id,
@@ -35,6 +36,7 @@ const OrderCard = ({
   description,
   tips,
   yourOrder,
+  yourJom,
 }) => {
   const { user, logout } = useUser();
   //   console.log(user);
@@ -138,8 +140,10 @@ const OrderCard = ({
       >
         JOM
       </Button> */}
-      {/* {id !== id ? <JomButton order_id={id} /> : ""} */}
-      <JomButton order_id={id} order_name={res_name} />
+      {yourOrder || yourJom ? null : (
+        <JomButton order_id={id} order_name={res_name} />
+      )}
+      {yourJom ? <CancelJomButton order_id={id} res_name={res_name} /> : null}
     </Box>
   );
 };

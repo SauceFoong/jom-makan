@@ -49,7 +49,7 @@ const AddOrderButton = () => {
       last_update: new Date().toISOString(),
       created_by: user.id,
       order_date: data.order_date.toISOString(),
-      jom_member: [],
+      jom_members: [],
     };
     // console.log(order);
     await createOrder(order);

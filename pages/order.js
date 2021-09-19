@@ -1,6 +1,6 @@
 import Head from "next/head";
 import React, { useState, useEffect } from "react";
-import { db, getUserDetails } from "../lib/db";
+import { db, getJom, getUserDetails } from "../lib/db";
 import { useUser } from "../lib/auth/useUser";
 import OrderCard from "../components/OrderCard";
 import { formatRelative } from "date-fns";
@@ -28,16 +28,17 @@ function useOrder(loading) {
 
         newOrder.forEach(async (order, index) => {
           const { user } = await getUserDetails(order.created_by);
+          // const { jom } = await getJom(order.id, user.id);
           newOrder[index].created_by = user;
 
           //Wait for the forEach loop finish update the user data first
           if (index === newOrder.length - 1) {
             setOrders(newOrder);
+            // console.log(orders);
           }
         });
         loading(false);
-
-        // console.log(newOrder);
+        console.log(newOrder);
       });
     return () => unsubscribe();
   }, []);
@@ -60,7 +61,8 @@ const order = () => {
         <Tabs isLazy>
           <TabList>
             <Tab>Orders Today</Tab>
-            <Tab>Your orders</Tab>
+            <Tab>Your Orders</Tab>
+            <Tab>Your Joms</Tab>
           </TabList>
           <TabPanels>
             <TabPanel>
@@ -72,6 +74,8 @@ const order = () => {
                     {orders &&
                       orders.map((order, index) => {
                         const yourOrder = order.created_by.id === user.id;
+                        const yourJom = order.jom_members.includes(user.id);
+                        console.log(yourJom);
                         return (
                           <OrderCard
                             key={index}
@@ -84,6 +88,7 @@ const order = () => {
                             tips={order.tips}
                             description={order.description}
                             yourOrder={yourOrder}
+                            yourJom={yourJom}
                           />
                         );
                       })}
@@ -101,6 +106,7 @@ const order = () => {
                       orders.map((order, index) => {
                         if (order.created_by.id === user.id) {
                           const yourOrder = order.created_by.id === user.id;
+                          const yourJom = order.jom_members.includes(user.id);
                           return (
                             <OrderCard
                               key={index}
@@ -112,7 +118,38 @@ const order = () => {
                               order_date={order.order_date}
                               tips={order.tips}
                               description={order.description}
-                              yourOrder={yourOrder}
+                              yourOrder={true}
+                              yourJom={false}
+                            />
+                          );
+                        }
+                      })}
+                  </Flex>
+                </>
+              )}
+            </TabPanel>
+            <TabPanel>
+              {isLoading ? (
+                <h2>Loading...</h2>
+              ) : (
+                <>
+                  <Flex flexWrap={"wrap"}>
+                    {orders &&
+                      orders.map((order, index) => {
+                        if (order.jom_members.includes(user.id)) {
+                          return (
+                            <OrderCard
+                              key={index}
+                              id={order.id}
+                              creator_name={order.created_by.name}
+                              creator_pic={order.created_by.profilePic}
+                              res_name={order.res_name}
+                              ref_url={order.ref_url}
+                              order_date={order.order_date}
+                              tips={order.tips}
+                              description={order.description}
+                              yourOrder={false}
+                              yourJom={true}
                             />
                           );
                         }
