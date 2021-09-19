@@ -143,7 +143,13 @@ const OrderCard = ({
       {yourOrder || yourJom ? null : (
         <JomButton order_id={id} order_name={res_name} />
       )}
-      {yourJom ? <CancelJomButton order_id={id} res_name={res_name} /> : null}
+      {yourJom ? (
+        <CancelJomButton
+          order_id={id}
+          res_name={res_name}
+          order_date={new Date(order_date)}
+        />
+      ) : null}
     </Box>
   );
 };
