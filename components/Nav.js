@@ -35,7 +35,7 @@ const NavLink = ({ children }) => (
     </Link>
   </NextLink>
 );
-const Links = ["feedback", "about"];
+const Links = ["feedback", "about", "orderDetails"];
 
 export default function withAction() {
   const { isOpen, onOpen, onClose } = useDisclosure();

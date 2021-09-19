@@ -19,6 +19,7 @@ import { useUser } from "../lib/auth/useUser";
 import { createFeedback } from "../lib/db";
 import DateTimePicker from "react-datetime-picker/dist/entry.nostyle";
 import { useState } from "react";
+import { db, getJomDetails } from "../lib/db";
 
 const feedbackForm = () => {
   const { user, logout } = useUser();
@@ -39,8 +40,8 @@ const feedbackForm = () => {
       created_at: new Date().toISOString(),
       created_by: user.id,
       username: user.name,
-    };
-    // console.log(feedback);
+    }; 
+
     createFeedback(feedback);
     setAlertMessage("success");
     reset();
