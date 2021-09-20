@@ -15,9 +15,9 @@ import {
   LinkIcon,
   InfoOutlineIcon,
   ExternalLinkIcon,
-  EditIcon,
 } from "@chakra-ui/icons";
 import { MdAttachMoney } from "react-icons/md";
+import { FiUsers } from "react-icons/fi";
 import JomButton from "../components/JomButton";
 import { useUser } from "../lib/auth/useUser";
 import EditOrderButton from "../components/EditOrderButton";
@@ -37,6 +37,7 @@ const OrderCard = ({
   tips,
   yourOrder,
   yourJom,
+  jom_members,
 }) => {
   const { user, logout } = useUser();
   //   console.log(user);
@@ -124,6 +125,12 @@ const OrderCard = ({
           <Flex>
             <ListIcon as={InfoOutlineIcon} color="gray.800" />
             {description}
+          </Flex>
+        </ListItem>
+        <ListItem>
+          <Flex>
+            <ListIcon as={FiUsers} color="gray.800" />
+            {jom_members.length}
           </Flex>
         </ListItem>
       </List>{" "}

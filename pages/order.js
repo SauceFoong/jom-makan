@@ -82,6 +82,7 @@ const order = () => {
                               description={order.description}
                               yourOrder={yourOrder}
                               yourJom={yourJom}
+                              jom_members={order.jom_members}
                             />
                           );
                         }
@@ -113,6 +114,7 @@ const order = () => {
                             description={order.description}
                             yourOrder={yourOrder}
                             yourJom={yourJom}
+                            jom_members={order.jom_members}
                           />
                         );
                       })}
@@ -144,6 +146,7 @@ const order = () => {
                               description={order.description}
                               yourOrder={true}
                               yourJom={false}
+                              jom_members={order.jom_members}
                             />
                           );
                         }
@@ -174,6 +177,7 @@ const order = () => {
                               description={order.description}
                               yourOrder={false}
                               yourJom={true}
+                              jom_members={order.jom_members}
                             />
                           );
                         }
