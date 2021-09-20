@@ -32,7 +32,6 @@ const CancelJomButton = ({ order_id, res_name, order_date }) => {
   const onSubmit = async (data) => {
     console.log("Cancel Jom");
     const joms = await getUserOrderJom(order_id, user.id);
-    console.log(differenceInMinutes(order_date, new Date()));
     //Jom can only be cancelled 30 minutes before the order_date
     if (differenceInMinutes(order_date, new Date()) >= 30) {
       deleteJom(joms[0]);
@@ -45,10 +44,11 @@ const CancelJomButton = ({ order_id, res_name, order_date }) => {
         true
       );
     } else {
+      console.log(differenceInMinutes(order_date, new Date()));
       showToast(
         toast,
         "Your JOM cannot be cancelled.",
-        "JOM can only be cancelled one hour before the order date.",
+        "JOM can only be cancelled at least 30 minutes before the order time.",
         "error",
         5000,
         true
