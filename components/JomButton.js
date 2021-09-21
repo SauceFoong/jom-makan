@@ -22,8 +22,9 @@ import "react-clock/dist/Clock.css";
 import "react-datetime-picker/dist/DateTimePicker.css";
 import { createJom } from "../lib/db";
 import { showToast } from "../lib/Helper/Toast";
+import { differenceInMinutes, differenceInHours } from "date-fns";
 
-const JomButton = ({ order_id, order_name }) => {
+const JomButton = ({ order_id, order_name, order_date }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { user, logout } = useUser();
   const {
@@ -46,16 +47,29 @@ const JomButton = ({ order_id, order_name }) => {
       created_at: new Date().toISOString(),
     };
     // console.log(jom);
-    createJom(jom);
+    if (differenceInMinutes(order_date, new Date()) >= 30) {
+      createJom(jom);
+      showToast(
+        toast,
+        "Jom Successfully.",
+        "Let's jom makan " + order_name + " bersama !",
+        "success",
+        5000,
+        true
+      );
+    } else {
+      console.log(differenceInMinutes(order_date, new Date()));
+      showToast(
+        toast,
+        "Failed to JOM",
+        "JOM can only be made at least 30 minutes before the order time.",
+        "error",
+        5000,
+        true
+      );
+    }
+
     onClose();
-    showToast(
-      toast,
-      "Jom Successfully.",
-      "Let's jom makan " + order_name + " bersama !",
-      "success",
-      5000,
-      true
-    );
     reset();
   };
 

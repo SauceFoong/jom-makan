@@ -16,8 +16,13 @@ import "react-datetime-picker/dist/DateTimePicker.css";
 import { useUser } from "../lib/auth/useUser";
 import { deleteJom, getUserOrderJom } from "../lib/db";
 import { showToast } from "../lib/Helper/Toast";
+import {
+  differenceInMinutes,
+  differenceInHours,
+  differenceInDays,
+} from "date-fns";
 
-const CancelJomButton = ({ order_id, res_name }) => {
+const CancelJomButton = ({ order_id, res_name, order_date }) => {
   const [isOpen, setIsOpen] = useState(false);
   const onClose = () => setIsOpen(false);
   const cancelRef = useRef();
@@ -27,16 +32,29 @@ const CancelJomButton = ({ order_id, res_name }) => {
   const onSubmit = async (data) => {
     console.log("Cancel Jom");
     const joms = await getUserOrderJom(order_id, user.id);
-    console.log(joms[0]);
-    deleteJom(joms[0]);
-    showToast(
-      toast,
-      "Your JOM cancelled Successfully.",
-      "Orderer can't view this jom anymore !",
-      "success",
-      5000,
-      true
-    );
+    //Jom can only be cancelled 30 minutes before the order_date
+    if (differenceInMinutes(order_date, new Date()) >= 30) {
+      deleteJom(joms[0]);
+      showToast(
+        toast,
+        "Your JOM cancelled Successfully.",
+        "Orderer can't view this jom anymore !",
+        "success",
+        5000,
+        true
+      );
+    } else {
+      console.log(differenceInMinutes(order_date, new Date()));
+      showToast(
+        toast,
+        "Your JOM cannot be cancelled.",
+        "JOM can only be cancelled at least 30 minutes before the order time.",
+        "error",
+        5000,
+        true
+      );
+    }
+
     onClose();
   };
 
