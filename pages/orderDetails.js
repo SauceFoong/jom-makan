@@ -5,13 +5,15 @@ import {
   Tr,
   Th,
   Button,
+  Text,
+  Link,
+  Center,
 } from "@chakra-ui/react";
-import { db } from "../lib/db";
+import { db, getOrder, updatePayment } from "../lib/db";
 import { useEffect, useState } from "react";
 
 function useJom(order_id) {
   const [joms, setJom] = useState([]);
-
   useEffect(() => {
     const unsubscribe = db
       .collection("joms")
@@ -21,7 +23,7 @@ function useJom(order_id) {
           id: doc.id,
           ...doc.data(),
         }));
-
+        
         setJom(newJom.filter((jom) => jom.order_id === order_id));
       });
 
@@ -30,18 +32,40 @@ function useJom(order_id) {
   return { joms };
 }
 
+const onClickUpdatePayment = async (jom_id, jom) => {
+  const data = {
+    ...jom, 
+    pay: true,
+  }
+  await updatePayment(jom_id, data);
+};
+
 const orderDetails = () => {
   const { joms } = useJom("gkLd1DNhdCZAidkuX0Yr");
-  
-  return (
+  const [order, setOrder] = useState();
+  const [isLoading, setLoading] = useState(true);
+
+  useEffect(async () => {
+    const {order} = await getOrder("gkLd1DNhdCZAidkuX0Yr");
+    setOrder(order);
+    setLoading(false)
+  },[]);
+  return (  
     <>
-      <div>Order Details</div>
-      <Table variant="simple">
+    {isLoading ? <div>Loading ...</div> : 
+    <>
+    <Text as="u" style={{marginLeft:"15px"}}>Order Details</Text>
+    <Text style={{marginLeft:"15px"}}>Restaurant Name: {order.res_name}</Text>
+    <Text style={{marginLeft:"15px"}}>Menu: <Link>{order.ref_url}</Link></Text>
+    <Text style={{marginLeft:"15px"}}>Description: {order.description}</Text>
+    <Text style={{marginLeft:"15px"}}>Tips: {order.tips}</Text>
+    <Text style={{marginLeft:"15px"}}>Order Date: {order.order_date}</Text>
+      <Table variant="simple" style={{marginTop:"20px"}}>
         <Thead>
           <Tr>
             <Th>Name</Th>
             <Th>Remark</Th>
-            <Th>Pay</Th>
+            <Th><Center>Pay</Center></Th>
           </Tr>
         </Thead>
         <Tbody>
@@ -52,14 +76,15 @@ const orderDetails = () => {
                   <Th>{jom.user_id}</Th>
                   <Th>{jom.remark}</Th>
                   <Th>
-                    <Button onClick>Pay</Button>
+                    <Center>{jom.pay ? <Text>Paid</Text> : <Button onClick={() => onClickUpdatePayment(jom.id, jom)}>Pay</Button>}</Center>
                   </Th>
                 </Tr>
               );
             })}
         </Tbody>
-      </Table>
+      </Table></>}
     </>
+    
   );
 };
 
