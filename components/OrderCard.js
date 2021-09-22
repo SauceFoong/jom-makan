@@ -2,6 +2,7 @@ import {
   Heading,
   Avatar,
   Box,
+  Button,
   Flex,
   Text,
   Link,
@@ -25,6 +26,7 @@ import DeleteOrderButton from "../components/DeleteOrderButton";
 import enGB from "date-fns/locale/en-GB";
 import { formatRelative } from "date-fns";
 import CancelJomButton from "./CancelJomButton";
+import NextLink from "next/link";
 
 const OrderCard = ({
   id,
@@ -108,28 +110,32 @@ const OrderCard = ({
       </Text>
       <List spacing={3} textAlign={"left"}>
         <ListItem>
-          <ListIcon as={LinkIcon} color="gray.800" />
-          <Link href={ref_url} color={"blue.400"} isExternal>
-            View Menu <ExternalLinkIcon mx="2px" />
-          </Link>
-        </ListItem>
-        <ListItem>
-          <ListIcon as={MdAttachMoney} color="gray.800" />
-          RM {tips}
-        </ListItem>
-        <ListItem>
           <ListIcon as={TimeIcon} color="gray.800" />
           {formatRelative(new Date(order_date), new Date(), { locale })}
         </ListItem>
         <ListItem>
+          <ListIcon as={LinkIcon} color="gray.800" />
+          {ref_url ? (
+            <Link href={ref_url} color={"blue.400"} isExternal>
+              View Menu <ExternalLinkIcon mx="2px" />
+            </Link>
+          ) : (
+            "-"
+          )}
+        </ListItem>
+        <ListItem>
+          <ListIcon as={MdAttachMoney} color="gray.800" />
+          {tips !== "0.00" ? "RM " + tips : "-"}
+        </ListItem>
+        <ListItem>
           <Flex>
-            <ListIcon as={InfoOutlineIcon} color="gray.800" />
-            {description}
+            <ListIcon as={InfoOutlineIcon} color="gray.800" marginTop="1.5" />
+            {description ? description : "-"}
           </Flex>
         </ListItem>
         <ListItem>
           <Flex>
-            <ListIcon as={FiUsers} color="gray.800" />
+            <ListIcon as={FiUsers} color="gray.800" marginTop="1.5" />
             {jom_members.length}
           </Flex>
         </ListItem>
@@ -147,6 +153,21 @@ const OrderCard = ({
       >
         JOM
       </Button> */}
+      {/* <NextLink as={`/order-details/${id}`} href={`/order-details?id=${id}`}> */}
+      <NextLink href={`/order-details?id=${id}`}>
+        <Link
+          w={"full"}
+          mt={2}
+          color={"blue.600"}
+          rounded={"md"}
+          _hover={{
+            transform: "translateY(-2px)",
+          }}
+        >
+          {" "}
+          View Details
+        </Link>
+      </NextLink>
       {yourOrder || yourJom ? null : (
         <JomButton
           order_id={id}

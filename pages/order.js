@@ -12,7 +12,9 @@ import {
   TabPanels,
   Tab,
   TabPanel,
+  Link,
 } from "@chakra-ui/react";
+import NextLink from "next/link";
 
 function useOrder(loading) {
   const [orders, setOrders] = useState([]);
@@ -68,7 +70,6 @@ const order = () => {
                         if (isToday(new Date(order.order_date))) {
                           const yourOrder = order.created_by.id === user.id;
                           const yourJom = order.jom_members.includes(user.id);
-                          console.log(yourJom);
                           return (
                             <OrderCard
                               key={index}
