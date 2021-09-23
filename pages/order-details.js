@@ -54,7 +54,7 @@ const OrderDetails = () => {
   const router = useRouter();
   const { id } = router.query;
   const { joms } = useJom(id);
-  console.log(joms);
+  // console.log(joms);
 
   useEffect(async () => {
     const { order } = await getOrder(id);
@@ -98,10 +98,10 @@ const OrderDetails = () => {
             </Thead>
             <Tbody>
               {joms &&
-                joms.map((jom) => {
+                joms.map((jom, index) => {
                   return (
-                    <Tr>
-                      <Th>{jom.user_id}</Th>
+                    <Tr key={index}>
+                      <Th>{jom.user_name}</Th>
                       <Th>{jom.remark}</Th>
                       <Th>
                         <Center>

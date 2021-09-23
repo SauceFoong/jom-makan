@@ -18,7 +18,7 @@ import { deleteJom, getUserOrderJom } from "../lib/db";
 import { showToast } from "../lib/Helper/Toast";
 import {
   differenceInMinutes,
-  differenceInHours,
+  differenceInSeconds,
   differenceInDays,
 } from "date-fns";
 
@@ -33,7 +33,8 @@ const CancelJomButton = ({ order_id, res_name, order_date }) => {
     console.log("Cancel Jom");
     const joms = await getUserOrderJom(order_id, user.id);
     //Jom can only be cancelled 30 minutes before the order_date
-    if (differenceInMinutes(order_date, new Date()) >= 30) {
+    if (differenceInSeconds(order_date, new Date()) > 0) {
+      console.log(differenceInSeconds(order_date, new Date()));
       deleteJom(joms[0]);
       showToast(
         toast,
@@ -44,7 +45,7 @@ const CancelJomButton = ({ order_id, res_name, order_date }) => {
         true
       );
     } else {
-      console.log(differenceInMinutes(order_date, new Date()));
+      console.log(differenceInSeconds(order_date, new Date()));
       showToast(
         toast,
         "Your JOM cannot be cancelled.",
