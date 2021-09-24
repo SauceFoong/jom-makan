@@ -6,6 +6,7 @@ import OrderCard from "../components/OrderCard";
 import { formatRelative, isToday } from "date-fns";
 import {
   Flex,
+  Box,
   Heading,
   Tabs,
   TabList,
@@ -13,8 +14,12 @@ import {
   Tab,
   TabPanel,
   Link,
+  Skeleton,
+  SkeletonCircle,
+  SkeletonText,
 } from "@chakra-ui/react";
 import NextLink from "next/link";
+import NotFound from "../components/NotFound";
 
 function useOrder(loading) {
   const [orders, setOrders] = useState([]);
@@ -61,10 +66,20 @@ const order = () => {
           <TabPanels>
             <TabPanel>
               {isLoading ? (
-                <h2>Loading...</h2>
+                <>
+                  <h2>Loading...</h2>
+
+                  {/* <Box padding="6" boxShadow="lg" bg="white">
+                    <Skeleton>
+                      <Heading>feefwe</Heading>
+                    </Skeleton>
+                  </Box> */}
+                </>
               ) : (
                 <>
                   <Flex flexWrap={"wrap"}>
+                    {orders ? <NotFound /> : null}
+
                     {orders &&
                       orders.map((order, index) => {
                         if (isToday(new Date(order.order_date))) {

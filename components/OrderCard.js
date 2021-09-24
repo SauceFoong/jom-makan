@@ -60,7 +60,7 @@ const OrderCard = ({
 
   return (
     <Box
-      maxW={"320px"}
+      maxW={"300px"}
       w={"full"}
       bg={useColorModeValue("white", "gray.900")}
       boxShadow={"2xl"}

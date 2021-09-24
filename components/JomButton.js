@@ -22,7 +22,7 @@ import "react-clock/dist/Clock.css";
 import "react-datetime-picker/dist/DateTimePicker.css";
 import { createJom } from "../lib/db";
 import { showToast } from "../lib/Helper/Toast";
-import { differenceInMinutes, differenceInSeconds } from "date-fns";
+import { differenceInSeconds } from "date-fns";
 
 const JomButton = ({ order_id, order_name, order_date }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();

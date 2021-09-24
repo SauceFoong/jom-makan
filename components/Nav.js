@@ -31,10 +31,13 @@ const NavLink = ({ children }) => (
         bg: useColorModeValue("gray.200", "gray.700"),
       }}
     >
-      {children}
+      {capitalizeFirstWord(children)}
     </Link>
   </NextLink>
 );
+const capitalizeFirstWord = (s) => {
+  return s && s[0].toUpperCase() + s.slice(1);
+};
 const Links = ["feedback", "about"];
 
 export default function withAction() {
@@ -55,15 +58,17 @@ export default function withAction() {
             <Box>
               <NextLink href="/">JOM Makan</NextLink>
             </Box>
-            <HStack
-              as={"nav"}
-              spacing={4}
-              display={{ base: "none", md: "flex" }}
-            >
-              {Links.map((link) => (
-                <NavLink key={link}>{link}</NavLink>
-              ))}
-            </HStack>
+            {user ? (
+              <HStack
+                as={"nav"}
+                spacing={4}
+                display={{ base: "none", md: "flex" }}
+              >
+                {Links.map((link) => (
+                  <NavLink key={link}>{link}</NavLink>
+                ))}
+              </HStack>
+            ) : null}
           </HStack>
           {user ? (
             <Flex alignItems={"center"}>
