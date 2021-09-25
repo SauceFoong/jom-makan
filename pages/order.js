@@ -48,10 +48,10 @@ const order = () => {
   const [isLoading, setLoading] = useState(true);
   const { user, logout } = useUser();
   const { orders } = useOrder(setLoading);
-  let todayOrder = 0;
-  let allOrder = 0;
-  let yourOrder = 0;
-  let yourJom = 0;
+  let todayOrderCount = 0;
+  let allOrderCount = 0;
+  let yourOrderCount = 0;
+  let yourJomCount = 0;
 
   //To overwrite the formatRelativeLocale method
 
@@ -88,8 +88,7 @@ const order = () => {
                         if (isToday(new Date(order.order_date))) {
                           const yourOrder = order.created_by.id === user.id;
                           const yourJom = order.jom_members.includes(user.id);
-                          todayOrder++;
-                          console.log(todayOrder);
+                          todayOrderCount++;
                           return (
                             <OrderCard
                               key={index}
@@ -108,7 +107,7 @@ const order = () => {
                           );
                         }
                       })}
-                    {todayOrder === 0 ? <NotFound obj="Orders" /> : null}
+                    {todayOrderCount === 0 ? <NotFound obj="Orders" /> : null}
                   </Flex>
                 </>
               )}
@@ -123,7 +122,7 @@ const order = () => {
                       orders.map((order, index) => {
                         const yourOrder = order.created_by.id === user.id;
                         const yourJom = order.jom_members.includes(user.id);
-                        allOrder++;
+                        allOrderCount++;
                         return (
                           <OrderCard
                             key={index}
@@ -141,7 +140,7 @@ const order = () => {
                           />
                         );
                       })}
-                    {allOrder === 0 ? <NotFound obj="Orders" /> : null}
+                    {allOrderCount === 0 ? <NotFound obj="Orders" /> : null}
                   </Flex>
                 </>
               )}
@@ -157,7 +156,7 @@ const order = () => {
                         if (order.created_by.id === user.id) {
                           const yourOrder = order.created_by.id === user.id;
                           const yourJom = order.jom_members.includes(user.id);
-                          yourOrder++;
+                          yourOrderCount++;
                           return (
                             <OrderCard
                               key={index}
@@ -176,7 +175,7 @@ const order = () => {
                           );
                         }
                       })}
-                    {yourOrder === 0 ? <NotFound obj="Orders" /> : null}
+                    {yourOrderCount === 0 ? <NotFound obj="Orders" /> : null}
                   </Flex>
                 </>
               )}
@@ -190,7 +189,7 @@ const order = () => {
                     {orders &&
                       orders.map((order, index) => {
                         if (order.jom_members.includes(user.id)) {
-                          yourJom++;
+                          yourJomCount++;
                           return (
                             <OrderCard
                               key={index}
@@ -209,7 +208,7 @@ const order = () => {
                           );
                         }
                       })}
-                    {yourJom === 0 ? <NotFound obj="Joms" /> : null}
+                    {yourJomCount === 0 ? <NotFound obj="Joms" /> : null}
                   </Flex>
                 </>
               )}
