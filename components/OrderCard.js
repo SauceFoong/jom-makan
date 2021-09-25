@@ -1,10 +1,10 @@
 import {
   Heading,
   Avatar,
-  Box,
-  Button,
   Flex,
   Text,
+  LinkBox,
+  LinkOverlay,
   Link,
   List,
   ListItem,
@@ -42,14 +42,12 @@ const OrderCard = ({
   jom_members,
 }) => {
   const { user, logout } = useUser();
-  //   console.log(user);
-  //   const showEditModal = () => {}
   const formatRelativeLocale = {
-    lastWeek: "'Last' eeee ' at 'hh:mm aa",
+    lastWeek: "'Last' eee hh:mm aa",
     yesterday: "'Yesterday at 'hh:mm aa",
     today: "'Today at 'hh:mm aa",
     tomorrow: "'Tomorrow at 'hh:mm aa",
-    nextWeek: "'Next ' eeee ' at ' hh:mm aa",
+    nextWeek: "'Next ' eee ' at ' hh:mm aa",
     other: "dd/MM/yyyy ' at ' hh:mm aa",
   };
 
@@ -59,7 +57,7 @@ const OrderCard = ({
   };
 
   return (
-    <Box
+    <LinkBox
       maxW={"300px"}
       w={"full"}
       bg={useColorModeValue("white", "gray.900")}
@@ -73,15 +71,19 @@ const OrderCard = ({
     >
       {yourOrder ? (
         <>
-          <EditOrderButton
-            order_id={id}
-            res_name={res_name}
-            ref_url={ref_url}
-            description={description}
-            order_date={order_date}
-            tips={tips}
-          />
-          <DeleteOrderButton order_id={id} res_name={res_name} />
+          <Link zIndex="20">
+            <EditOrderButton
+              order_id={id}
+              res_name={res_name}
+              ref_url={ref_url}
+              description={description}
+              order_date={order_date}
+              tips={tips}
+            />
+          </Link>
+          <Link>
+            <DeleteOrderButton order_id={id} res_name={res_name} />
+          </Link>
         </>
       ) : null}
       <Avatar
@@ -102,8 +104,19 @@ const OrderCard = ({
           right: 3,
         }}
       />
+      <NextLink href={`/order-details?id=${id}`} passHref>
+        <LinkOverlay
+          w={"full"}
+          mt={2}
+          color={"blue.600"}
+          rounded={"md"}
+          _hover={{
+            transform: "translateY(-2px)",
+          }}
+        ></LinkOverlay>
+      </NextLink>
       <Heading fontSize={"2xl"} fontFamily={"body"}>
-        {res_name}
+        {res_name.length > 46 ? res_name.substring(0, 21) + "..." : res_name}
       </Heading>
       <Text fontWeight={600} fontSize={15} color={"gray.500"} mb={4}>
         by : {creator_name}
@@ -114,10 +127,11 @@ const OrderCard = ({
           {formatRelative(new Date(order_date), new Date(), { locale })}
         </ListItem>
         <ListItem>
-          <ListIcon as={LinkIcon} color="gray.800" />
+          <ListIcon as={ExternalLinkIcon} color="gray.800" />
           {ref_url ? (
             <Link href={ref_url} color={"blue.400"} isExternal>
-              View Menu <ExternalLinkIcon mx="2px" />
+              Menu
+              {/* Ref <ExternalLinkIcon mx="2px" /> */}
             </Link>
           ) : (
             "-"
@@ -127,12 +141,12 @@ const OrderCard = ({
           <ListIcon as={MdAttachMoney} color="gray.800" />
           {tips !== "0.00" ? "RM " + tips : "-"}
         </ListItem>
-        <ListItem>
+        {/* <ListItem>
           <Flex>
             <ListIcon as={InfoOutlineIcon} color="gray.800" marginTop="1.5" />
             {description ? description : "-"}
           </Flex>
-        </ListItem>
+        </ListItem> */}
         <ListItem>
           <Flex>
             <ListIcon as={FiUsers} color="gray.800" marginTop="1.5" />
@@ -140,34 +154,6 @@ const OrderCard = ({
           </Flex>
         </ListItem>
       </List>{" "}
-      {/* <Button
-        w={"full"}
-        mt={8}
-        bg={useColorModeValue("#151f21", "gray.900")}
-        color={"white"}
-        rounded={"md"}
-        _hover={{
-          transform: "translateY(-2px)",
-          boxShadow: "lg",
-        }}
-      >
-        JOM
-      </Button> */}
-      {/* <NextLink as={`/order-details/${id}`} href={`/order-details?id=${id}`}> */}
-      <NextLink href={`/order-details?id=${id}`}>
-        <Link
-          w={"full"}
-          mt={2}
-          color={"blue.600"}
-          rounded={"md"}
-          _hover={{
-            transform: "translateY(-2px)",
-          }}
-        >
-          {" "}
-          View Details
-        </Link>
-      </NextLink>
       {yourOrder || yourJom ? null : (
         <JomButton
           order_id={id}
@@ -182,7 +168,7 @@ const OrderCard = ({
           order_date={new Date(order_date)}
         />
       ) : null}
-    </Box>
+    </LinkBox>
   );
 };
 export default OrderCard;

@@ -50,6 +50,7 @@ const DeleteOrderButton = ({ order_id, res_name }) => {
         _hover={{
           bg: useColorModeValue("blackAlpha.200", "whiteAlpha.200"),
         }}
+        zIndex={1}
       />
       <AlertDialog
         isOpen={isOpen}

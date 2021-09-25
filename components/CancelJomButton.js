@@ -60,7 +60,7 @@ const CancelJomButton = ({ order_id, res_name, order_date }) => {
       <Button
         onClick={() => setIsOpen(true)}
         w={"full"}
-        mt={1}
+        mt={6}
         bg={"red.600"}
         color={"white"}
         rounded={"md"}

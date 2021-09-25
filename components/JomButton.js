@@ -81,7 +81,7 @@ const JomButton = ({ order_id, order_name, order_date }) => {
       <Button
         onClick={onOpen}
         w={"full"}
-        mt={1}
+        mt={6}
         bg={"gray.900"}
         color={"white"}
         rounded={"md"}

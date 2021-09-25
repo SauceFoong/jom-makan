@@ -19,6 +19,7 @@ import {
   NumberDecrementStepper,
   useColorModeValue,
   useToast,
+  Link,
 } from "@chakra-ui/react";
 import { EditIcon, LinkIcon } from "@chakra-ui/icons";
 import React, { useState } from "react";
@@ -83,6 +84,7 @@ const EditOrderButton = ({
         _hover={{
           bg: useColorModeValue("blackAlpha.200", "whiteAlpha.200"),
         }}
+        zIndex={1}
       />
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
