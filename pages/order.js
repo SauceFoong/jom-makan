@@ -45,7 +45,7 @@ function useOrder(loading) {
   return { orders };
 }
 
-const order = () => {
+const Order = () => {
   const [isLoading, setLoading] = useState(true);
   const { user, logout } = useUser();
   const { orders } = useOrder(setLoading);
@@ -229,4 +229,4 @@ const order = () => {
   );
 };
 
-export default order;
+export default Order;

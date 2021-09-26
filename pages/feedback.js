@@ -19,7 +19,7 @@ import { useUser } from "../lib/auth/useUser";
 import { createFeedback } from "../lib/db";
 import { useState } from "react";
 
-const feedbackForm = () => {
+const FeedbackForm = () => {
   const { user, logout } = useUser();
   const [alertMessage, setAlertMessage] = useState("");
 
@@ -109,4 +109,4 @@ const feedbackForm = () => {
   );
 };
 
-export default feedbackForm;
+export default FeedbackForm;

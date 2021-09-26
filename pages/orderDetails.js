@@ -25,7 +25,7 @@ function useJom(order_id) {
           id: doc.id,
           ...doc.data(),
         }));
-        
+
         setJom(newJom.filter((jom) => jom.order_id === order_id));
       });
 
@@ -36,13 +36,13 @@ function useJom(order_id) {
 
 const onClickUpdatePayment = async (jom_id, jom) => {
   const data = {
-    ...jom, 
+    ...jom,
     pay: true,
-  }
+  };
   await updatePayment(jom_id, data);
 };
 
-const orderDetails = () => {
+const OrderDetails = () => {
   const { joms } = useJom("gkLd1DNhdCZAidkuX0Yr");
   const [order, setOrder] = useState();
   const [isLoading, setLoading] = useState(true);
@@ -62,46 +62,72 @@ const orderDetails = () => {
   };
 
   useEffect(async () => {
-    const {order} = await getOrder("gkLd1DNhdCZAidkuX0Yr");
+    const { order } = await getOrder("gkLd1DNhdCZAidkuX0Yr");
     setOrder(order);
-    setLoading(false)
-  },[]);
-  return (  
+    setLoading(false);
+  }, []);
+  return (
     <>
-    {isLoading ? <div>Loading ...</div> : 
-    <>
-    <Text as="u" style={{marginLeft:"15px"}}>Order Details</Text>
-    <Text style={{marginLeft:"15px"}}>Restaurant Name: {order.res_name}</Text>
-    <Text style={{marginLeft:"15px"}}>Menu: <Link>{order.ref_url}</Link></Text>
-    <Text style={{marginLeft:"15px"}}>Description: {order.description}</Text>
-    <Text style={{marginLeft:"15px"}}>Tips: {order.tips}</Text>
-    <Text style={{marginLeft:"15px"}}>Order Date: {formatRelative(new Date(order.order_date), new Date(), { locale })}</Text>
-      <Table variant="simple" style={{marginTop:"20px"}}>
-        <Thead>
-          <Tr>
-            <Th>Name</Th>
-            <Th>Remark</Th>
-            <Th><Center>Pay</Center></Th>
-          </Tr>
-        </Thead>
-        <Tbody>
-          {joms &&
-            joms.map((jom) => {
-              return (
-                <Tr>
-                  <Th>{jom.user_name}</Th>
-                  <Th>{jom.remark}</Th>
-                  <Th>
-                    <Center>{jom.pay ? <Text>Paid</Text> : <Button onClick={() => onClickUpdatePayment(jom.id, jom)}>Pay</Button>}</Center>
-                  </Th>
-                </Tr>
-              );
-            })}
-        </Tbody>
-      </Table></>}
+      {isLoading ? (
+        <div>Loading ...</div>
+      ) : (
+        <>
+          <Text as="u" style={{ marginLeft: "15px" }}>
+            Order Details
+          </Text>
+          <Text style={{ marginLeft: "15px" }}>
+            Restaurant Name: {order.res_name}
+          </Text>
+          <Text style={{ marginLeft: "15px" }}>
+            Menu: <Link>{order.ref_url}</Link>
+          </Text>
+          <Text style={{ marginLeft: "15px" }}>
+            Description: {order.description}
+          </Text>
+          <Text style={{ marginLeft: "15px" }}>Tips: {order.tips}</Text>
+          <Text style={{ marginLeft: "15px" }}>
+            Order Date:{" "}
+            {formatRelative(new Date(order.order_date), new Date(), { locale })}
+          </Text>
+          <Table variant="simple" style={{ marginTop: "20px" }}>
+            <Thead>
+              <Tr>
+                <Th>Name</Th>
+                <Th>Remark</Th>
+                <Th>
+                  <Center>Pay</Center>
+                </Th>
+              </Tr>
+            </Thead>
+            <Tbody>
+              {joms &&
+                joms.map((jom) => {
+                  return (
+                    <Tr>
+                      <Th>{jom.user_name}</Th>
+                      <Th>{jom.remark}</Th>
+                      <Th>
+                        <Center>
+                          {jom.pay ? (
+                            <Text>Paid</Text>
+                          ) : (
+                            <Button
+                              onClick={() => onClickUpdatePayment(jom.id, jom)}
+                            >
+                              Pay
+                            </Button>
+                          )}
+                        </Center>
+                      </Th>
+                    </Tr>
+                  );
+                })}
+            </Tbody>
+          </Table>
+        </>
+      )}
     </>
-    
   );
 };
 
-export default orderDetails;
+export default OrderDetails;

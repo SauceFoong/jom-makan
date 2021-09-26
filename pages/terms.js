@@ -1,7 +1,7 @@
 import React from "react";
 
-const terms = () => {
+const Terms = () => {
   return <div>Terms</div>;
 };
 
-export default terms;
+export default Terms;

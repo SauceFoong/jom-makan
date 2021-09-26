@@ -49,7 +49,7 @@ const JomButton = ({ order_id, order_name, order_date }) => {
     };
     // console.log(jom);
     if (differenceInSeconds(order_date, new Date()) > 0) {
-      console.log(differenceInSeconds(order_date, new Date()));
+      // console.log(differenceInSeconds(order_date, new Date()));
       createJom(jom);
       showToast(
         toast,
@@ -61,7 +61,7 @@ const JomButton = ({ order_id, order_name, order_date }) => {
       );
     } else {
       //console.log(differenceInMinutes(order_date, new Date()));
-      console.log(differenceInSeconds(order_date, new Date()));
+      // console.log(differenceInSeconds(order_date, new Date()));
 
       showToast(
         toast,
