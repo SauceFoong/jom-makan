@@ -103,7 +103,7 @@ const OrderDetails = () => {
                 joms.map((jom, index) => {
                   return (
                     <Tr key={jom.id}>
-                      <Th>{jom.user_name}</Th>
+                      <Th key={jom.id}>{jom.user_name}</Th>
                       <Th>{jom.remark}</Th>
                       <Th>
                         <Center>
