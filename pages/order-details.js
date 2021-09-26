@@ -58,10 +58,18 @@ const OrderDetails = () => {
   const { joms } = useJom(id);
   // console.log(joms);
 
-  useEffect(async () => {
-    const { order } = await getOrder(id);
-    setOrder(order);
-    setLoading(false);
+  useEffect(() => {
+    // const { order } = await getOrder(id);
+    getOrder(id).then((orderData) => {
+      const { order } = orderData;
+      console.log(order);
+      setOrder(order);
+      setLoading(false);
+      // if (orderData.exists) {
+      //   const { order } = orderData;
+
+      // }
+    });
   }, []);
   return (
     <>
@@ -104,7 +112,7 @@ const OrderDetails = () => {
                 joms.map((jom, index) => {
                   return (
                     <JomTable
-                      key={jom.id}
+                      key={index}
                       jom={jom}
                       updatefunc={onClickUpdatePayment}
                     />
