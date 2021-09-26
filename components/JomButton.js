@@ -13,6 +13,7 @@ import {
   useDisclosure,
   useToast,
   Textarea,
+  useColorModeValue,
 } from "@chakra-ui/react";
 import React, { useState } from "react";
 import { useUser } from "../lib/auth/useUser";
@@ -82,7 +83,7 @@ const JomButton = ({ order_id, order_name, order_date }) => {
         onClick={onOpen}
         w={"full"}
         mt={6}
-        bg={"blue.900"}
+        bg={useColorModeValue("blue.600", "blue.900")}
         color={"white"}
         rounded={"md"}
         _hover={{

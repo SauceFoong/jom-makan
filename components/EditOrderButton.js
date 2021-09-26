@@ -76,7 +76,7 @@ const EditOrderButton = ({
       <LinkIcon
         onClick={onOpen}
         as={EditIcon}
-        color="gray.800"
+        color={useColorModeValue("gray.900", "white")}
         position="absolute"
         right={2}
         top={2}

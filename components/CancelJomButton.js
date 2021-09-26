@@ -61,7 +61,7 @@ const CancelJomButton = ({ order_id, res_name, order_date }) => {
         onClick={() => setIsOpen(true)}
         w={"full"}
         mt={6}
-        bg={"red.600"}
+        bg={useColorModeValue("red.600", "red.700")}
         color={"white"}
         rounded={"md"}
         _hover={{

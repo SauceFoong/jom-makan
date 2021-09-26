@@ -42,7 +42,7 @@ const DeleteOrderButton = ({ order_id, res_name }) => {
       <LinkIcon
         onClick={() => setIsOpen(true)}
         as={DeleteIcon}
-        color="gray.800"
+        color={useColorModeValue("gray.900", "white")}
         position="absolute"
         right={2}
         top={10}
