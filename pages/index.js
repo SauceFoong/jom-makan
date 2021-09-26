@@ -68,8 +68,8 @@ export default function Home() {
           </Text>
         </Heading>
         <Text color={"gray.500"} maxW={"3xl"}>
-          Feel lazy to buy lunch yourself ? Do not know what to eat during the
-          lunch time ? JOM Makan is here to solve your concerns, JOM Makan
+          Feel lazy to buy lunch for yourself ? Do not know what to eat during
+          the lunch time ? JOM Makan is here to solve your concerns, JOM Makan
           bersama !
         </Text>
         <Stack spacing={6} direction={"row"}>
