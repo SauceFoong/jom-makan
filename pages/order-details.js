@@ -105,12 +105,13 @@ const OrderDetails = () => {
                     <Tr key={index}>
                       <Th key={index}>{jom.user_name}</Th>
                       <Th key={index}>{jom.remark}</Th>
-                      <Th>
+                      <Th key={index}>
                         <Center>
                           {jom.pay ? (
-                            <Text>Paid</Text>
+                            <Text key={index}>Paid</Text>
                           ) : (
                             <Button
+                              key={index}
                               onClick={() => onClickUpdatePayment(jom.id, jom)}
                             >
                               Pay
