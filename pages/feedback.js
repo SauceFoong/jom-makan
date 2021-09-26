@@ -1,3 +1,4 @@
+import Head from "next/head";
 import {
   Text,
   Center,
@@ -18,7 +19,6 @@ import { useUser } from "../lib/auth/useUser";
 import { createFeedback } from "../lib/db";
 import { useState } from "react";
 
-
 const feedbackForm = () => {
   const { user, logout } = useUser();
   const [alertMessage, setAlertMessage] = useState("");
@@ -38,7 +38,7 @@ const feedbackForm = () => {
       created_at: new Date().toISOString(),
       created_by: user.id,
       username: user.name,
-    }; 
+    };
 
     createFeedback(feedback);
     setAlertMessage("success");
@@ -47,6 +47,9 @@ const feedbackForm = () => {
 
   return (
     <>
+      <Head>
+        <title>Feedback</title>
+      </Head>
       <Center fontSize={40} pt={10}>
         Send us your feedback.
       </Center>

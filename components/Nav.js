@@ -15,8 +15,15 @@ import {
   useDisclosure,
   useColorModeValue,
   Stack,
+  useColorMode,
 } from "@chakra-ui/react";
-import { HamburgerIcon, CloseIcon, AddIcon } from "@chakra-ui/icons";
+import {
+  HamburgerIcon,
+  CloseIcon,
+  AddIcon,
+  SunIcon,
+  MoonIcon,
+} from "@chakra-ui/icons";
 import AddOrderButton from "./AddOrderButton";
 import NextLink from "next/link";
 
@@ -31,15 +38,20 @@ const NavLink = ({ children }) => (
         bg: useColorModeValue("gray.200", "gray.700"),
       }}
     >
-      {children}
+      {capitalizeFirstWord(children)}
     </Link>
   </NextLink>
 );
-const Links = ["feedback", "about", "orderDetails"];
+const capitalizeFirstWord = (s) => {
+  return s && s[0].toUpperCase() + s.slice(1);
+};
+const Links = ["feedback", "about"];
 
 export default function withAction() {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { user, logout } = useUser();
+  const { colorMode, toggleColorMode } = useColorMode();
+
   return (
     <>
       <Box bg={useColorModeValue("gray.100", "gray.900")} px={4}>
@@ -53,42 +65,59 @@ export default function withAction() {
           />
           <HStack spacing={8} alignItems={"center"}>
             <Box>
-              <NextLink href="/">JOM Makan</NextLink>
+              {user ? (
+                <NextLink href="/order">JOM Makan</NextLink>
+              ) : (
+                <NextLink href="/">JOM Makan</NextLink>
+              )}
             </Box>
-            <HStack
-              as={"nav"}
-              spacing={4}
-              display={{ base: "none", md: "flex" }}
-            >
-              {Links.map((link) => (
-                <NavLink key={link}>{link}</NavLink>
-              ))}
-            </HStack>
+            {user ? (
+              <HStack
+                as={"nav"}
+                spacing={4}
+                display={{ base: "none", md: "flex" }}
+              >
+                {Links.map((link) => (
+                  <NavLink key={link}>{link}</NavLink>
+                ))}
+              </HStack>
+            ) : null}
           </HStack>
-          {user ? (
-            <Flex alignItems={"center"}>
-              <AddOrderButton />
-              <Menu>
-                <MenuButton
-                  as={Button}
-                  rounded={"full"}
-                  variant={"link"}
-                  cursor={"pointer"}
-                  minW={0}
-                >
-                  <Avatar size={"sm"} src={user.profilePic} />
-                </MenuButton>
-                <MenuList>
-                  <MenuItem>Your orders</MenuItem>
-                  <MenuItem>Settings</MenuItem>
-                  <MenuDivider />
-                  <MenuItem onClick={() => logout()}>Sign Out</MenuItem>
-                </MenuList>
-              </Menu>
-            </Flex>
-          ) : (
-            ""
-          )}
+          <Flex alignItems={"center"}>
+            <IconButton
+              aria-label={`Switch to ${
+                colorMode === "light" ? "dark" : "light"
+              } mode`}
+              onClick={toggleColorMode}
+              rounded="xl"
+              icon={colorMode == "light" ? <SunIcon /> : <MoonIcon />}
+              m={2}
+            />
+            {user ? (
+              <>
+                <AddOrderButton />
+
+                <Menu>
+                  <MenuButton
+                    as={Button}
+                    rounded={"full"}
+                    variant={"link"}
+                    cursor={"pointer"}
+                    minW={0}
+                  >
+                    <Avatar size={"sm"} src={user.profilePic} />
+                  </MenuButton>
+                  <MenuList zIndex={2}>
+                    {/* <MenuItem>Settings</MenuItem>
+                  <MenuDivider /> */}
+                    <MenuItem onClick={() => logout()}>Sign Out</MenuItem>
+                  </MenuList>
+                </Menu>
+              </>
+            ) : (
+              ""
+            )}
+          </Flex>
         </Flex>
 
         {isOpen ? (

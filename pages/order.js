@@ -6,13 +6,21 @@ import OrderCard from "../components/OrderCard";
 import { formatRelative, isToday } from "date-fns";
 import {
   Flex,
+  Box,
   Heading,
   Tabs,
   TabList,
   TabPanels,
   Tab,
   TabPanel,
+  Link,
+  Skeleton,
+  SkeletonCircle,
+  SkeletonText,
 } from "@chakra-ui/react";
+import NextLink from "next/link";
+import NotFound from "../components/NotFound";
+import OrderCardSkeleton from "../components/OrdeCardSkeleton";
 
 function useOrder(loading) {
   const [orders, setOrders] = useState([]);
@@ -41,6 +49,11 @@ const order = () => {
   const [isLoading, setLoading] = useState(true);
   const { user, logout } = useUser();
   const { orders } = useOrder(setLoading);
+  let todayOrderCount = 0;
+  let allOrderCount = 0;
+  let yourOrderCount = 0;
+  let yourJomCount = 0;
+
   //To overwrite the formatRelativeLocale method
 
   return (
@@ -49,7 +62,7 @@ const order = () => {
         <title>Order</title>
       </Head>
       {user ? (
-        <Tabs isLazy>
+        <Tabs isFitted isLazy>
           <TabList>
             <Tab>Today's Orders</Tab>
             <Tab>All Orders</Tab>
@@ -59,7 +72,21 @@ const order = () => {
           <TabPanels>
             <TabPanel>
               {isLoading ? (
-                <h2>Loading...</h2>
+                <>
+                  {/* <h2>Loading...</h2> */}
+                  <Flex flexWrap={"wrap"}>
+                    <OrderCardSkeleton />
+                    <OrderCardSkeleton />
+                    <OrderCardSkeleton />
+                    <OrderCardSkeleton />
+                  </Flex>
+
+                  {/* <Box padding="6" boxShadow="lg" bg="white">
+                    <Skeleton>
+                      <Heading>feefwe</Heading>
+                    </Skeleton>
+                  </Box> */}
+                </>
               ) : (
                 <>
                   <Flex flexWrap={"wrap"}>
@@ -68,7 +95,7 @@ const order = () => {
                         if (isToday(new Date(order.order_date))) {
                           const yourOrder = order.created_by.id === user.id;
                           const yourJom = order.jom_members.includes(user.id);
-                          console.log(yourJom);
+                          todayOrderCount++;
                           return (
                             <OrderCard
                               key={index}
@@ -87,6 +114,7 @@ const order = () => {
                           );
                         }
                       })}
+                    {todayOrderCount === 0 ? <NotFound obj="Orders" /> : null}
                   </Flex>
                 </>
               )}
@@ -101,6 +129,7 @@ const order = () => {
                       orders.map((order, index) => {
                         const yourOrder = order.created_by.id === user.id;
                         const yourJom = order.jom_members.includes(user.id);
+                        allOrderCount++;
                         return (
                           <OrderCard
                             key={index}
@@ -118,6 +147,7 @@ const order = () => {
                           />
                         );
                       })}
+                    {allOrderCount === 0 ? <NotFound obj="Orders" /> : null}
                   </Flex>
                 </>
               )}
@@ -133,6 +163,7 @@ const order = () => {
                         if (order.created_by.id === user.id) {
                           const yourOrder = order.created_by.id === user.id;
                           const yourJom = order.jom_members.includes(user.id);
+                          yourOrderCount++;
                           return (
                             <OrderCard
                               key={index}
@@ -151,6 +182,7 @@ const order = () => {
                           );
                         }
                       })}
+                    {yourOrderCount === 0 ? <NotFound obj="Orders" /> : null}
                   </Flex>
                 </>
               )}
@@ -164,6 +196,7 @@ const order = () => {
                     {orders &&
                       orders.map((order, index) => {
                         if (order.jom_members.includes(user.id)) {
+                          yourJomCount++;
                           return (
                             <OrderCard
                               key={index}
@@ -182,6 +215,7 @@ const order = () => {
                           );
                         }
                       })}
+                    {yourJomCount === 0 ? <NotFound obj="Joms" /> : null}
                   </Flex>
                 </>
               )}

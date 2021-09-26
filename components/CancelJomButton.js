@@ -16,11 +16,7 @@ import "react-datetime-picker/dist/DateTimePicker.css";
 import { useUser } from "../lib/auth/useUser";
 import { deleteJom, getUserOrderJom } from "../lib/db";
 import { showToast } from "../lib/Helper/Toast";
-import {
-  differenceInMinutes,
-  differenceInHours,
-  differenceInDays,
-} from "date-fns";
+import { differenceInSeconds } from "date-fns";
 
 const CancelJomButton = ({ order_id, res_name, order_date }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -33,7 +29,8 @@ const CancelJomButton = ({ order_id, res_name, order_date }) => {
     console.log("Cancel Jom");
     const joms = await getUserOrderJom(order_id, user.id);
     //Jom can only be cancelled 30 minutes before the order_date
-    if (differenceInMinutes(order_date, new Date()) >= 30) {
+    if (differenceInSeconds(order_date, new Date()) > 0) {
+      console.log(differenceInSeconds(order_date, new Date()));
       deleteJom(joms[0]);
       showToast(
         toast,
@@ -44,7 +41,7 @@ const CancelJomButton = ({ order_id, res_name, order_date }) => {
         true
       );
     } else {
-      console.log(differenceInMinutes(order_date, new Date()));
+      console.log(differenceInSeconds(order_date, new Date()));
       showToast(
         toast,
         "Your JOM cannot be cancelled.",
@@ -63,7 +60,7 @@ const CancelJomButton = ({ order_id, res_name, order_date }) => {
       <Button
         onClick={() => setIsOpen(true)}
         w={"full"}
-        mt={8}
+        mt={6}
         bg={"red.600"}
         color={"white"}
         rounded={"md"}

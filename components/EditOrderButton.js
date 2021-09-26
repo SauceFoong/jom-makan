@@ -19,6 +19,7 @@ import {
   NumberDecrementStepper,
   useColorModeValue,
   useToast,
+  Link,
 } from "@chakra-ui/react";
 import { EditIcon, LinkIcon } from "@chakra-ui/icons";
 import React, { useState } from "react";
@@ -56,7 +57,7 @@ const EditOrderButton = ({
       last_update: new Date().toISOString(),
       order_date: data.order_date.toISOString(),
     };
-    console.log(order);
+    //console.log(order);
     await updateOrder(order_id, order);
     showToast(
       toast,
@@ -83,6 +84,7 @@ const EditOrderButton = ({
         _hover={{
           bg: useColorModeValue("blackAlpha.200", "whiteAlpha.200"),
         }}
+        zIndex={1}
       />
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
@@ -131,7 +133,7 @@ const EditOrderButton = ({
                   placeholder="http://example.com/"
                   defaultValue={ref_url}
                   {...register("ref_url", {
-                    required: "Ref Url is required",
+                    required: false,
                   })}
                 />
                 <FormErrorMessage>
@@ -162,7 +164,7 @@ const EditOrderButton = ({
               </FormControl>
 
               <FormControl mt={4} isInvalid={errors.order_date}>
-                <FormLabel>Order Date</FormLabel>
+                <FormLabel>Order Date & Close Order Time</FormLabel>
                 <Controller
                   name="order_date"
                   control={control}

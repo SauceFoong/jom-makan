@@ -121,7 +121,7 @@ const AddOrderButton = () => {
                   id="ref_url"
                   placeholder="http://example.com/"
                   {...register("ref_url", {
-                    required: "Ref Url is required",
+                    required: false,
                   })}
                 />
                 <FormErrorMessage>
@@ -152,12 +152,13 @@ const AddOrderButton = () => {
               </FormControl>
 
               <FormControl mt={4} isInvalid={errors.order_date}>
-                <FormLabel>Order Date</FormLabel>
+                <FormLabel>Order Date & Close Order Time</FormLabel>
                 <Controller
                   name="order_date"
                   control={control}
                   rules={{
-                    required: "Please specify your order date.",
+                    required:
+                      "Please specify your order date and close order time.",
                   }}
                   render={({ field }) => <DateTimePicker {...field} />}
                 />

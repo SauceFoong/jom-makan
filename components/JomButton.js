@@ -22,7 +22,7 @@ import "react-clock/dist/Clock.css";
 import "react-datetime-picker/dist/DateTimePicker.css";
 import { createJom } from "../lib/db";
 import { showToast } from "../lib/Helper/Toast";
-import { differenceInMinutes, differenceInHours } from "date-fns";
+import { differenceInSeconds } from "date-fns";
 
 const JomButton = ({ order_id, order_name, order_date }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -47,7 +47,8 @@ const JomButton = ({ order_id, order_name, order_date }) => {
       created_at: new Date().toISOString(),
     };
     // console.log(jom);
-    if (differenceInMinutes(order_date, new Date()) >= 30) {
+    if (differenceInSeconds(order_date, new Date()) > 0) {
+      console.log(differenceInSeconds(order_date, new Date()));
       createJom(jom);
       showToast(
         toast,
@@ -58,7 +59,9 @@ const JomButton = ({ order_id, order_name, order_date }) => {
         true
       );
     } else {
-      console.log(differenceInMinutes(order_date, new Date()));
+      //console.log(differenceInMinutes(order_date, new Date()));
+      console.log(differenceInSeconds(order_date, new Date()));
+
       showToast(
         toast,
         "Failed to JOM",
@@ -78,8 +81,8 @@ const JomButton = ({ order_id, order_name, order_date }) => {
       <Button
         onClick={onOpen}
         w={"full"}
-        mt={8}
-        bg={"gray.900"}
+        mt={6}
+        bg={"blue.900"}
         color={"white"}
         rounded={"md"}
         _hover={{
