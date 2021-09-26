@@ -14,6 +14,7 @@ import { db, getOrder, updatePayment } from "../lib/db";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import OrderDetailSkeleton from "../components/OrderDetailSkeleton";
+import JomTable from "../components/JomTable";
 
 function useJom(order_id) {
   const [joms, setJom] = useState([]);
@@ -102,23 +103,28 @@ const OrderDetails = () => {
               {joms &&
                 joms.map((jom, index) => {
                   return (
-                    <Tr key={jom.id}>
-                      <Th key={jom.id}>{jom.user_name}</Th>
-                      <Th>{jom.remark}</Th>
-                      <Th>
-                        <Center>
-                          {jom.pay ? (
-                            <Text>Paid</Text>
-                          ) : (
-                            <Button
-                              onClick={() => onClickUpdatePayment(jom.id, jom)}
-                            >
-                              Pay
-                            </Button>
-                          )}
-                        </Center>
-                      </Th>
-                    </Tr>
+                    <JomTable
+                      key={jom.id}
+                      jom={jom}
+                      updatefunc={onClickUpdatePayment}
+                    />
+                    // <Tr key={jom.id}>
+                    //   <Th key={jom.id}>{jom.user_name}</Th>
+                    //   <Th>{jom.remark}</Th>
+                    //   <Th>
+                    //     <Center>
+                    //       {jom.pay ? (
+                    //         <Text>Paid</Text>
+                    //       ) : (
+                    //         <Button
+                    //           onClick={() => onClickUpdatePayment(jom.id, jom)}
+                    //         >
+                    //           Pay
+                    //         </Button>
+                    //       )}
+                    //     </Center>
+                    //   </Th>
+                    // </Tr>
                   );
                 })}
             </Tbody>
