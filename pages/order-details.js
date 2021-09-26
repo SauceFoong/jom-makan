@@ -13,6 +13,7 @@ import Head from "next/head";
 import { db, getOrder, updatePayment } from "../lib/db";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
+import OrderDetailSkeleton from "../components/OrderDetailSkeleton";
 
 function useJom(order_id) {
   const [joms, setJom] = useState([]);
@@ -64,7 +65,8 @@ const OrderDetails = () => {
   return (
     <>
       {isLoading ? (
-        <div>Loading ...</div>
+        // <div>Loading ...</div>
+        <OrderDetailSkeleton />
       ) : (
         <>
           <Head>

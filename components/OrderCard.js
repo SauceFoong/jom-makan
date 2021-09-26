@@ -43,7 +43,7 @@ const OrderCard = ({
 }) => {
   const { user, logout } = useUser();
   const formatRelativeLocale = {
-    lastWeek: "'Last' eee hh:mm aa",
+    lastWeek: "'Last' eee ' at ' hh:mm aa",
     yesterday: "'Yesterday at 'hh:mm aa",
     today: "'Today at 'hh:mm aa",
     tomorrow: "'Tomorrow at 'hh:mm aa",
@@ -123,11 +123,17 @@ const OrderCard = ({
       </Text>
       <List spacing={3} textAlign={"left"}>
         <ListItem>
-          <ListIcon as={TimeIcon} color="gray.800" />
+          <ListIcon
+            as={TimeIcon}
+            color={useColorModeValue("gray.900", "white")}
+          />
           {formatRelative(new Date(order_date), new Date(), { locale })}
         </ListItem>
         <ListItem>
-          <ListIcon as={ExternalLinkIcon} color="gray.800" />
+          <ListIcon
+            as={ExternalLinkIcon}
+            color={useColorModeValue("gray.900", "white")}
+          />
           {ref_url ? (
             <Link href={ref_url} color={"blue.400"} isExternal>
               Menu
@@ -138,7 +144,10 @@ const OrderCard = ({
           )}
         </ListItem>
         <ListItem>
-          <ListIcon as={MdAttachMoney} color="gray.800" />
+          <ListIcon
+            as={MdAttachMoney}
+            color={useColorModeValue("gray.900", "white")}
+          />
           {tips !== "0.00" ? "RM " + tips : "-"}
         </ListItem>
         {/* <ListItem>
@@ -149,7 +158,11 @@ const OrderCard = ({
         </ListItem> */}
         <ListItem>
           <Flex>
-            <ListIcon as={FiUsers} color="gray.800" marginTop="1.5" />
+            <ListIcon
+              as={FiUsers}
+              color={useColorModeValue("gray.900", "white")}
+              marginTop="1.5"
+            />
             {jom_members.length}
           </Flex>
         </ListItem>

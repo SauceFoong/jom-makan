@@ -20,6 +20,7 @@ import {
 } from "@chakra-ui/react";
 import NextLink from "next/link";
 import NotFound from "../components/NotFound";
+import OrderCardSkeleton from "../components/OrdeCardSkeleton";
 
 function useOrder(loading) {
   const [orders, setOrders] = useState([]);
@@ -61,7 +62,7 @@ const order = () => {
         <title>Order</title>
       </Head>
       {user ? (
-        <Tabs isLazy>
+        <Tabs isFitted isLazy>
           <TabList>
             <Tab>Today's Orders</Tab>
             <Tab>All Orders</Tab>
@@ -72,7 +73,13 @@ const order = () => {
             <TabPanel>
               {isLoading ? (
                 <>
-                  <h2>Loading...</h2>
+                  {/* <h2>Loading...</h2> */}
+                  <Flex flexWrap={"wrap"}>
+                    <OrderCardSkeleton />
+                    <OrderCardSkeleton />
+                    <OrderCardSkeleton />
+                    <OrderCardSkeleton />
+                  </Flex>
 
                   {/* <Box padding="6" boxShadow="lg" bg="white">
                     <Skeleton>

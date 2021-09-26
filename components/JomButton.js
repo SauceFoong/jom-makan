@@ -82,7 +82,7 @@ const JomButton = ({ order_id, order_name, order_date }) => {
         onClick={onOpen}
         w={"full"}
         mt={6}
-        bg={"gray.900"}
+        bg={"blue.900"}
         color={"white"}
         rounded={"md"}
         _hover={{
