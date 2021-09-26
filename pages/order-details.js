@@ -102,16 +102,15 @@ const OrderDetails = () => {
               {joms &&
                 joms.map((jom, index) => {
                   return (
-                    <Tr key={index}>
-                      <Th key={index}>{jom.user_name}</Th>
-                      <Th key={index}>{jom.remark}</Th>
-                      <Th key={index}>
+                    <Tr key={jom.id}>
+                      <Th>{jom.user_name}</Th>
+                      <Th>{jom.remark}</Th>
+                      <Th>
                         <Center>
                           {jom.pay ? (
-                            <Text key={index}>Paid</Text>
+                            <Text>Paid</Text>
                           ) : (
                             <Button
-                              key={index}
                               onClick={() => onClickUpdatePayment(jom.id, jom)}
                             >
                               Pay
