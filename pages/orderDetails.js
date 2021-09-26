@@ -10,6 +10,8 @@ import {
   Center,
 } from "@chakra-ui/react";
 import { db, getOrder, updatePayment } from "../lib/db";
+import enGB from "date-fns/locale/en-GB";
+import { formatRelative } from "date-fns";
 import { useEffect, useState } from "react";
 
 function useJom(order_id) {
@@ -45,6 +47,20 @@ const orderDetails = () => {
   const [order, setOrder] = useState();
   const [isLoading, setLoading] = useState(true);
 
+  const formatRelativeLocale = {
+    lastWeek: "'Last' eeee ' at 'hh:mm aa",
+    yesterday: "'Yesterday at 'hh:mm aa",
+    today: "'Today at 'hh:mm aa",
+    tomorrow: "'Tomorrow at 'hh:mm aa",
+    nextWeek: "'Next ' eeee ' at ' hh:mm aa",
+    other: "dd/MM/yyyy ' at ' hh:mm aa",
+  };
+
+  const locale = {
+    ...enGB,
+    formatRelative: (token) => formatRelativeLocale[token],
+  };
+
   useEffect(async () => {
     const {order} = await getOrder("gkLd1DNhdCZAidkuX0Yr");
     setOrder(order);
@@ -59,7 +75,7 @@ const orderDetails = () => {
     <Text style={{marginLeft:"15px"}}>Menu: <Link>{order.ref_url}</Link></Text>
     <Text style={{marginLeft:"15px"}}>Description: {order.description}</Text>
     <Text style={{marginLeft:"15px"}}>Tips: {order.tips}</Text>
-    <Text style={{marginLeft:"15px"}}>Order Date: {order.order_date}</Text>
+    <Text style={{marginLeft:"15px"}}>Order Date: {formatRelative(new Date(order.order_date), new Date(), { locale })}</Text>
       <Table variant="simple" style={{marginTop:"20px"}}>
         <Thead>
           <Tr>
@@ -73,7 +89,7 @@ const orderDetails = () => {
             joms.map((jom) => {
               return (
                 <Tr>
-                  <Th>{jom.user_id}</Th>
+                  <Th>{jom.user_name}</Th>
                   <Th>{jom.remark}</Th>
                   <Th>
                     <Center>{jom.pay ? <Text>Paid</Text> : <Button onClick={() => onClickUpdatePayment(jom.id, jom)}>Pay</Button>}</Center>
