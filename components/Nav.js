@@ -47,7 +47,7 @@ const capitalizeFirstWord = (s) => {
 };
 const Links = ["feedback", "about"];
 
-export default function withAction() {
+export default function WithAction() {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { user, logout } = useUser();
   const { colorMode, toggleColorMode } = useColorMode();

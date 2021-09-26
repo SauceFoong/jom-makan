@@ -64,7 +64,7 @@ const Order = () => {
       {user ? (
         <Tabs isFitted isLazy>
           <TabList>
-            <Tab>Today's Orders</Tab>
+            <Tab>Today Orders</Tab>
             <Tab>All Orders</Tab>
             <Tab>Your Orders</Tab>
             <Tab>Your Joms</Tab>

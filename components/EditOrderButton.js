@@ -144,7 +144,6 @@ const EditOrderButton = ({
               <FormControl mt={4}>
                 <FormLabel>Tips Request (RM)</FormLabel>
                 <NumberInput
-                  defaultValue={0.5}
                   precision={2}
                   step={0.1}
                   max={1}
