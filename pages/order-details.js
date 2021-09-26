@@ -8,12 +8,18 @@ import {
   Text,
   Link,
   Center,
+  Divider,
+  useToast,
 } from "@chakra-ui/react";
 import Head from "next/head";
 import { db, getOrder, updatePayment } from "../lib/db";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
+import { useUser } from "../lib/auth/useUser";
+import enGB from "date-fns/locale/en-GB";
+import { formatRelative } from "date-fns";
 import OrderDetailSkeleton from "../components/OrderDetailSkeleton";
+
 
 function useJom(order_id) {
   const [joms, setJom] = useState([]);
@@ -35,12 +41,14 @@ function useJom(order_id) {
   return { joms };
 }
 
-const onClickUpdatePayment = async (jom_id, jom) => {
+const onClickUpdatePayment = async (jom_id, jom, order_id, user_id) => {
   const data = {
     ...jom,
     pay: true,
   };
-  await updatePayment(jom_id, data);
+  const callback = await updatePayment(jom_id, data, order_id, user_id);
+  console.log(callback);
+  return callback;
 };
 
 export async function getServerSideProps(context) {
@@ -50,18 +58,33 @@ export async function getServerSideProps(context) {
 }
 
 const OrderDetails = () => {
+  const {user, logout} = useUser();
   const [order, setOrder] = useState();
   const [isLoading, setLoading] = useState(true);
   const router = useRouter();
   const { id } = router.query;
   const { joms } = useJom(id);
-  // console.log(joms);
+
+  const formatRelativeLocale = {
+    lastWeek: "'Last' eeee ' at 'hh:mm aa",
+    yesterday: "'Yesterday at 'hh:mm aa",
+    today: "'Today at 'hh:mm aa",
+    tomorrow: "'Tomorrow at 'hh:mm aa",
+    nextWeek: "'Next ' eeee ' at ' hh:mm aa",
+    other: "dd/MM/yyyy ' at ' hh:mm aa",
+  };
+
+  const locale = {
+    ...enGB,
+    formatRelative: (token) => formatRelativeLocale[token],
+  };
 
   useEffect(async () => {
     const { order } = await getOrder(id);
     setOrder(order);
     setLoading(false);
   }, []);
+  const toast = useToast();
   return (
     <>
       {isLoading ? (
@@ -86,8 +109,9 @@ const OrderDetails = () => {
           </Text>
           <Text style={{ marginLeft: "15px" }}>Tips: {order.tips}</Text>
           <Text style={{ marginLeft: "15px" }}>
-            Order Date: {order.order_date}
+            Order Date: {formatRelative(new Date(order.order_date), new Date(), { locale })}
           </Text>
+          <Divider />
           <Table variant="simple" style={{ marginTop: "20px" }}>
             <Thead>
               <Tr>
@@ -111,7 +135,20 @@ const OrderDetails = () => {
                             <Text>Paid</Text>
                           ) : (
                             <Button
-                              onClick={() => onClickUpdatePayment(jom.id, jom)}
+                              onClick={() => {
+                                const callback = onClickUpdatePayment(jom.id, jom, jom.order_id, user.id);
+                                callback.then((result) => {
+                                  if (result == false) {
+                                    toast({
+                                      title: "Not owner.",
+                                      description: "Only owner of the order can click the pay button",
+                                      status: "error",
+                                      duration: 3000,
+                                      isClosable: true,
+                                    })
+                                  }
+                                })
+                              }}
                             >
                               Pay
                             </Button>
