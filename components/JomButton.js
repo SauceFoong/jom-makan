@@ -66,7 +66,7 @@ const JomButton = ({ order_id, order_name, order_date }) => {
       showToast(
         toast,
         "Failed to JOM",
-        "JOM can only be made at least 30 minutes before the order time.",
+        "JOM can only be made before the Order Close Time.",
         "error",
         5000,
         true

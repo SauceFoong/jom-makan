@@ -45,7 +45,7 @@ const CancelJomButton = ({ order_id, res_name, order_date }) => {
       showToast(
         toast,
         "Your JOM cannot be cancelled.",
-        "JOM can only be cancelled at least 30 minutes before the order time.",
+        "JOM can only be cancelled before the Order Close Time.",
         "error",
         5000,
         true

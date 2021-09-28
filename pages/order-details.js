@@ -110,7 +110,10 @@ const OrderDetails = () => {
             Restaurant Name: {order.res_name}
           </Text>
           <Text style={{ marginLeft: "15px" }}>
-            Menu: <Link>{order.ref_url}</Link>
+            Menu:{" "}
+            <Link href={order.ref_url} isExternal>
+              {order.ref_url}
+            </Link>
           </Text>
           <Text style={{ marginLeft: "15px" }}>
             Description: {order.description}
