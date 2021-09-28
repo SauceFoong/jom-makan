@@ -72,21 +72,12 @@ const Order = () => {
           <TabPanels>
             <TabPanel>
               {isLoading ? (
-                <>
-                  {/* <h2>Loading...</h2> */}
-                  <Flex flexWrap={"wrap"}>
-                    <OrderCardSkeleton />
-                    <OrderCardSkeleton />
-                    <OrderCardSkeleton />
-                    <OrderCardSkeleton />
-                  </Flex>
-
-                  {/* <Box padding="6" boxShadow="lg" bg="white">
-                    <Skeleton>
-                      <Heading>feefwe</Heading>
-                    </Skeleton>
-                  </Box> */}
-                </>
+                <Flex flexWrap={"wrap"}>
+                  <OrderCardSkeleton />
+                  <OrderCardSkeleton />
+                  <OrderCardSkeleton />
+                  <OrderCardSkeleton />
+                </Flex>
               ) : (
                 <>
                   <Flex flexWrap={"wrap"}>
@@ -154,7 +145,12 @@ const Order = () => {
             </TabPanel> */}
             <TabPanel>
               {isLoading ? (
-                <h2>Loading...</h2>
+                <Flex flexWrap={"wrap"}>
+                  <OrderCardSkeleton />
+                  <OrderCardSkeleton />
+                  <OrderCardSkeleton />
+                  <OrderCardSkeleton />
+                </Flex>
               ) : (
                 <>
                   <Flex flexWrap={"wrap"}>
@@ -189,7 +185,12 @@ const Order = () => {
             </TabPanel>
             <TabPanel>
               {isLoading ? (
-                <h2>Loading...</h2>
+                <Flex flexWrap={"wrap"}>
+                  <OrderCardSkeleton />
+                  <OrderCardSkeleton />
+                  <OrderCardSkeleton />
+                  <OrderCardSkeleton />
+                </Flex>
               ) : (
                 <>
                   <Flex flexWrap={"wrap"}>
