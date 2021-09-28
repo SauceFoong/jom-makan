@@ -18,6 +18,7 @@ import {
   NumberIncrementStepper,
   NumberDecrementStepper,
   useToast,
+  useColorModeValue,
 } from "@chakra-ui/react";
 import { AddIcon } from "@chakra-ui/icons";
 import React, { useState } from "react";
@@ -151,8 +152,14 @@ const AddOrderButton = () => {
                 </NumberInput>
               </FormControl>
 
-              <FormControl mt={4} isInvalid={errors.order_date}>
-                <FormLabel>Order Date & Close Order Time</FormLabel>
+              <FormControl
+                mt={4}
+                isInvalid={errors.order_date}
+                color={useColorModeValue("gray.900", "gray.600")}
+              >
+                <FormLabel color={useColorModeValue("gray.900", "white")}>
+                  Order Date & Close Order Time
+                </FormLabel>
                 <Controller
                   name="order_date"
                   control={control}

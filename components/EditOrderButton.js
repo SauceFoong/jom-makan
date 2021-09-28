@@ -162,8 +162,14 @@ const EditOrderButton = ({
                 </NumberInput>
               </FormControl>
 
-              <FormControl mt={4} isInvalid={errors.order_date}>
-                <FormLabel>Order Date & Close Order Time</FormLabel>
+              <FormControl
+                mt={4}
+                isInvalid={errors.order_date}
+                color={useColorModeValue("gray.900", "gray.600")}
+              >
+                <FormLabel color={useColorModeValue("gray.900", "white")}>
+                  Order Date & Close Order Time
+                </FormLabel>
                 <Controller
                   name="order_date"
                   control={control}

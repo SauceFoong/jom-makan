@@ -50,7 +50,7 @@ const Order = () => {
   const { user, logout } = useUser();
   const { orders } = useOrder(setLoading);
   let todayOrderCount = 0;
-  let allOrderCount = 0;
+  // let allOrderCount = 0;
   let yourOrderCount = 0;
   let yourJomCount = 0;
 
@@ -65,7 +65,7 @@ const Order = () => {
         <Tabs isFitted isLazy>
           <TabList>
             <Tab>Today Orders</Tab>
-            <Tab>All Orders</Tab>
+            {/* <Tab>All Orders</Tab> */}
             <Tab>Your Orders</Tab>
             <Tab>Your Joms</Tab>
           </TabList>
@@ -119,7 +119,7 @@ const Order = () => {
                 </>
               )}
             </TabPanel>
-            <TabPanel>
+            {/* <TabPanel>
               {isLoading ? (
                 <h2>Loading...</h2>
               ) : (
@@ -151,7 +151,7 @@ const Order = () => {
                   </Flex>
                 </>
               )}
-            </TabPanel>
+            </TabPanel> */}
             <TabPanel>
               {isLoading ? (
                 <h2>Loading...</h2>
