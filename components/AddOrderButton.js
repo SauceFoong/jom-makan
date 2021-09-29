@@ -19,6 +19,7 @@ import {
   NumberDecrementStepper,
   useToast,
   useColorModeValue,
+  Textarea,
 } from "@chakra-ui/react";
 import { AddIcon } from "@chakra-ui/icons";
 import React, { useState } from "react";
@@ -101,7 +102,7 @@ const AddOrderButton = () => {
 
               <FormControl mt={4} isInvalid={errors.description}>
                 <FormLabel>Description</FormLabel>
-                <Input
+                <Textarea
                   id="description"
                   placeholder="Write your description here"
                   {...register("description", {

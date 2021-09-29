@@ -20,6 +20,7 @@ import {
   useColorModeValue,
   useToast,
   Link,
+  Textarea,
 } from "@chakra-ui/react";
 import { EditIcon, LinkIcon } from "@chakra-ui/icons";
 import React, { useState } from "react";
@@ -110,7 +111,7 @@ const EditOrderButton = ({
 
               <FormControl mt={4} isInvalid={errors.description}>
                 <FormLabel>Description</FormLabel>
-                <Input
+                <Textarea
                   id="description"
                   placeholder="Write your description here"
                   defaultValue={description}

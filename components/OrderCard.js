@@ -105,7 +105,9 @@ const OrderCard = ({
         ></LinkOverlay>
       </NextLink>
       <Heading fontSize={"2xl"} fontFamily={"body"}>
-        {res_name.length > 46 ? res_name.substring(0, 21) + "..." : res_name}
+        {res_name.length >= 20
+          ? res_name.substring(0, 17) + "..."
+          : res_name.length + res_name}
       </Heading>
       <Text fontWeight={600} fontSize={15} color={"gray.500"} mb={4}>
         by : {creator_name}
