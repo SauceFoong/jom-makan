@@ -11,12 +11,7 @@ import {
   ListIcon,
   useColorModeValue,
 } from "@chakra-ui/react";
-import {
-  TimeIcon,
-  LinkIcon,
-  InfoOutlineIcon,
-  ExternalLinkIcon,
-} from "@chakra-ui/icons";
+import { TimeIcon, ExternalLinkIcon } from "@chakra-ui/icons";
 import { MdAttachMoney } from "react-icons/md";
 import { FiUsers } from "react-icons/fi";
 import JomButton from "../components/JomButton";
@@ -105,9 +100,7 @@ const OrderCard = ({
         ></LinkOverlay>
       </NextLink>
       <Heading fontSize={"2xl"} fontFamily={"body"}>
-        {res_name.length >= 20
-          ? res_name.substring(0, 17) + "..."
-          : res_name.length + res_name}
+        {res_name.length >= 20 ? res_name.substring(0, 17) + "..." : res_name}
       </Heading>
       <Text fontWeight={600} fontSize={15} color={"gray.500"} mb={4}>
         by : {creator_name}

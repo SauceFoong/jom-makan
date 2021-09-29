@@ -19,7 +19,6 @@ import {
   NumberDecrementStepper,
   useColorModeValue,
   useToast,
-  Link,
   Textarea,
 } from "@chakra-ui/react";
 import { EditIcon, LinkIcon } from "@chakra-ui/icons";

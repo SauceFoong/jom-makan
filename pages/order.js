@@ -1,24 +1,17 @@
 import Head from "next/head";
 import React, { useState, useEffect } from "react";
-import { db, getJom, getUserDetails } from "../lib/db";
+import { db, getUserDetails } from "../lib/db";
 import { useUser } from "../lib/auth/useUser";
 import OrderCard from "../components/OrderCard";
-import { formatRelative, isToday } from "date-fns";
+import { isToday } from "date-fns";
 import {
   Flex,
-  Box,
-  Heading,
   Tabs,
   TabList,
   TabPanels,
   Tab,
   TabPanel,
-  Link,
-  Skeleton,
-  SkeletonCircle,
-  SkeletonText,
 } from "@chakra-ui/react";
-import NextLink from "next/link";
 import NotFound from "../components/NotFound";
 import OrderCardSkeleton from "../components/OrdeCardSkeleton";
 

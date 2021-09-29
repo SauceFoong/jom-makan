@@ -1,12 +1,9 @@
 import Head from "next/head";
 import {
-  Text,
   Center,
-  Input,
   Textarea,
   Button,
   FormControl,
-  FormLabel,
   FormErrorMessage,
   VStack,
   Select,

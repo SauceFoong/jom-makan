@@ -1,10 +1,4 @@
-import {
-  Box,
-  Center,
-  Skeleton,
-  SkeletonCircle,
-  SkeletonText,
-} from "@chakra-ui/react";
+import { Box, Skeleton, SkeletonText } from "@chakra-ui/react";
 
 const OrderDetailSkeleton = () => {
   return (

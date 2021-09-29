@@ -19,7 +19,6 @@ import { useUser } from "../lib/auth/useUser";
 import enGB from "date-fns/locale/en-GB";
 import { formatRelative } from "date-fns";
 import OrderDetailSkeleton from "../components/OrderDetailSkeleton";
-import JomTable from "../components/JomTable";
 
 function useJom(order_id) {
   const [joms, setJom] = useState([]);
@@ -138,28 +137,6 @@ const OrderDetails = () => {
               {joms &&
                 joms.map((jom, index) => {
                   return (
-                    // <JomTable
-                    //   key={index}
-                    //   jom={jom}
-                    //   updatefunc={onClickUpdatePayment}
-                    // />
-                    // <Tr key={jom.id}>
-                    //   <Th key={jom.id}>{jom.user_name}</Th>
-                    //   <Th>{jom.remark}</Th>
-                    //   <Th>
-                    //     <Center>
-                    //       {jom.pay ? (
-                    //         <Text>Paid</Text>
-                    //       ) : (
-                    //         <Button
-                    //           onClick={() => onClickUpdatePayment(jom.id, jom)}
-                    //         >
-                    //           Pay
-                    //         </Button>
-                    //       )}
-                    //     </Center>
-                    //   </Th>
-                    // </Tr>
                     <Tr key={index}>
                       <Th>{jom.user_name}</Th>
                       <Th>{jom.remark}</Th>
