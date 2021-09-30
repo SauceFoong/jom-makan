@@ -32,7 +32,6 @@ const JomButton = ({ order_id, order_name, order_date }) => {
     register,
     reset,
     handleSubmit,
-    control,
     formState: { errors, isSubmitting },
   } = useForm();
   const toast = useToast();
