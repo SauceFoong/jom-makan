@@ -19,6 +19,9 @@ import { useUser } from "../lib/auth/useUser";
 import enGB from "date-fns/locale/en-GB";
 import { formatRelative } from "date-fns";
 import OrderDetailSkeleton from "../components/OrderDetailSkeleton";
+import UploadFile from "../components/UploadFile";
+
+const MAX_FILE_SIZE = 5000000;
 
 function useJom(order_id) {
   const [joms, setJom] = useState([]);
@@ -60,6 +63,7 @@ const OrderDetails = () => {
   const { user, logout } = useUser();
   const [order, setOrder] = useState();
   const [isLoading, setLoading] = useState(true);
+  const [orderReceipt, setOrderReceipt] = useState([]);
   const router = useRouter();
   const { id } = router.query;
   const { joms } = useJom(id);
@@ -82,7 +86,7 @@ const OrderDetails = () => {
     // const { order } = await getOrder(id);
     getOrder(id).then((orderData) => {
       const { order } = orderData;
-      console.log(order);
+      // console.log(order);
       setOrder(order);
       setLoading(false);
       // if (orderData.exists) {
@@ -122,6 +126,15 @@ const OrderDetails = () => {
             Order Date:{" "}
             {formatRelative(new Date(order.order_date), new Date(), { locale })}
           </Text>
+          <UploadFile
+            multiple
+            orderId={order.id}
+            accept=".jpg,.png,.jpeg"
+            limitFiles={1}
+            maxFileSizeInBytes={MAX_FILE_SIZE}
+            label="Supports PNG, JPG, JPEG up to 5Mb"
+            updateFilesCb={(files) => setOrderReceipt(files)}
+          />
           <Divider />
           <Table variant="simple" style={{ marginTop: "20px" }}>
             <Thead>
