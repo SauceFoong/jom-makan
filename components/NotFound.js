@@ -4,14 +4,20 @@ import styles from "../styles/NotFound.module.css";
 const NotFound = ({ obj }) => {
   return (
     <Box className={styles.img_container} textAlign="center" maxW={"600px"}>
-      <svg viewBox="0 0 900 600" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <svg
+        width="900"
+        height="600"
+        viewBox="0 0 900 600"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
         <path fill="transparent" d="M0 0h900v600H0z" />
         <path
           stroke="#E1E4E5"
-          stroke-width="4.242"
-          stroke-linecap="round"
-          stroke-linejoin="bevel"
-          stroke-dasharray="10.6 26.51"
+          strokeWidth="4.242"
+          strokeLinecap="round"
+          strokeLinejoin="bevel"
+          strokeDasharray="10.6 26.51"
           d="M152 108.014h597v381.741H152z"
         />
         <path
@@ -20,7 +26,7 @@ const NotFound = ({ obj }) => {
           d="m626.615 145.89-77.704-77.774A54.948 54.948 0 0 0 510.058 52H312.993c-30.362 0-54.954 24.614-54.954 55.003v385.018c0 30.389 24.592 55.003 54.954 55.003h274.77c30.362 0 54.954-24.614 54.954-55.003V184.776a55.044 55.044 0 0 0-16.102-38.886z"
           fill="#fff"
           stroke="#E1E4E5"
-          stroke-width="4"
+          strokeWidth="4"
         />
         <rect
           x="316.361"
@@ -30,9 +36,9 @@ const NotFound = ({ obj }) => {
           rx="5.832"
           fill="#fff"
           stroke="#E1E4E5"
-          stroke-width="4.242"
-          stroke-linecap="round"
-          stroke-linejoin="round"
+          strokeWidth="4.242"
+          strokeLinecap="round"
+          strokeLinejoin="round"
         />
         <rect
           x="316.361"
@@ -42,9 +48,9 @@ const NotFound = ({ obj }) => {
           rx="5.832"
           fill="#fff"
           stroke="#E1E4E5"
-          stroke-width="4.242"
-          stroke-linecap="round"
-          stroke-linejoin="round"
+          strokeWidth="4.242"
+          strokeLinecap="round"
+          strokeLinejoin="round"
         />
         <rect
           x="316.361"
@@ -55,8 +61,8 @@ const NotFound = ({ obj }) => {
           fill="#fff"
           stroke="#E1E4E5"
           stroke-width="4.242"
-          stroke-linecap="round"
-          stroke-linejoin="round"
+          strokeLinecap="round"
+          strokeLinejoin="round"
         />
         <rect
           x="316.361"
@@ -66,9 +72,9 @@ const NotFound = ({ obj }) => {
           rx="5.832"
           fill="#fff"
           stroke="#E1E4E5"
-          stroke-width="4.242"
-          stroke-linecap="round"
-          stroke-linejoin="round"
+          strokeWidth="4.242"
+          strokeLinecap="round"
+          strokeLinejoin="round"
         />
         <rect
           x="316.361"
@@ -78,9 +84,9 @@ const NotFound = ({ obj }) => {
           rx="5.832"
           fill="#fff"
           stroke="#E1E4E5"
-          stroke-width="4.242"
-          stroke-linecap="round"
-          stroke-linejoin="round"
+          strokeWidth="4.242"
+          strokeLinecap="round"
+          strokeLinejoin="round"
         />
         <rect
           x="316.361"
@@ -90,9 +96,9 @@ const NotFound = ({ obj }) => {
           rx="5.832"
           fill="#fff"
           stroke="#E1E4E5"
-          stroke-width="4.242"
-          stroke-linecap="round"
-          stroke-linejoin="round"
+          strokeWidth="4.242"
+          strokeLinecap="round"
+          strokeLinejoin="round"
         />
         <rect
           x="316.361"
@@ -102,9 +108,9 @@ const NotFound = ({ obj }) => {
           rx="5.832"
           fill="#fff"
           stroke="#E1E4E5"
-          stroke-width="4.242"
-          stroke-linecap="round"
-          stroke-linejoin="round"
+          strokeWidth="4.242"
+          strokeLinecap="round"
+          strokeLinejoin="round"
         />
         <rect
           x="316.361"
@@ -114,9 +120,9 @@ const NotFound = ({ obj }) => {
           rx="5.832"
           fill="#fff"
           stroke="#E1E4E5"
-          stroke-width="4.242"
-          stroke-linecap="round"
-          stroke-linejoin="round"
+          strokeWidth="4.242"
+          strokeLinecap="round"
+          strokeLinejoin="round"
         />
         <rect
           x="316.361"
@@ -126,16 +132,16 @@ const NotFound = ({ obj }) => {
           rx="5.832"
           fill="#fff"
           stroke="#E1E4E5"
-          stroke-width="4.242"
-          stroke-linecap="round"
-          stroke-linejoin="round"
+          strokeWidth="4.242"
+          strokeLinecap="round"
+          strokeLinejoin="round"
         />
         <path
           d="m695.938 519.585-45.891-45.891"
           stroke="#000000"
-          stroke-width="42.536"
-          stroke-linecap="round"
-          stroke-linejoin="round"
+          strokeWidth="42.536"
+          strokeLinecap="round"
+          strokeLinejoin="round"
         />
         <circle
           cx="554.418"
@@ -143,18 +149,18 @@ const NotFound = ({ obj }) => {
           r="132.019"
           fill="#000000"
           stroke="#000000"
-          stroke-width="39.017"
-          stroke-linecap="round"
-          stroke-linejoin="round"
+          strokeWidth="39.017"
+          strokeLinecap="round"
+          strokeLinejoin="round"
         />
         <path
           d="M554.408 400.223v-4.299c0-14.079 8.701-21.701 17.423-27.557 8.515-5.732 17.05-13.208 17.05-26.997 0-19.043-15.43-34.453-34.452-34.453-19.023 0-34.473 15.389-34.473 34.432m34.43 107.447a3.08 3.08 0 0 0-3.095 3.115 3.112 3.112 0 0 0 3.116 3.115 3.112 3.112 0 0 0 3.115-3.115 3.102 3.102 0 0 0-3.136-3.115"
           stroke="#fff"
-          stroke-width="25.449"
-          stroke-linecap="round"
-          stroke-linejoin="round"
+          strokeWidth="25.449"
+          strokeLinecap="round"
+          strokeLinejoin="round"
         />
-      </svg>{" "}
+      </svg>
       <Text as="em" fontSize="3xl">
         No {obj} Found
       </Text>
