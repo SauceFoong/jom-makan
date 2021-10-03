@@ -21,8 +21,8 @@ const NotFound = ({ obj }) => {
           d="M152 108.014h597v381.741H152z"
         />
         <path
-          fill-rule="evenodd"
-          clip-rule="evenodd"
+          fillRule="evenodd"
+          clipRule="evenodd"
           d="m626.615 145.89-77.704-77.774A54.948 54.948 0 0 0 510.058 52H312.993c-30.362 0-54.954 24.614-54.954 55.003v385.018c0 30.389 24.592 55.003 54.954 55.003h274.77c30.362 0 54.954-24.614 54.954-55.003V184.776a55.044 55.044 0 0 0-16.102-38.886z"
           fill="#fff"
           stroke="#E1E4E5"
@@ -60,7 +60,7 @@ const NotFound = ({ obj }) => {
           rx="5.832"
           fill="#fff"
           stroke="#E1E4E5"
-          stroke-width="4.242"
+          strokeWidth="4.242"
           strokeLinecap="round"
           strokeLinejoin="round"
         />
