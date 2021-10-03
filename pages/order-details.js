@@ -8,12 +8,9 @@ import {
   Button,
   Text,
   Link,
-  Center,
   Divider,
   useToast,
-  Image,
   Icon,
-  useColorModeValue,
   List,
   ListItem,
   ListIcon,
@@ -28,8 +25,10 @@ import {
   BiCalendarX,
   BiAlarmExclamation,
 } from "react-icons/bi";
+import { useForm } from "react-hook-form";
+import React from "react";
 import Head from "next/head";
-import { db, getOrder, updatePayment } from "../lib/db";
+import { db, updatePayment, updateRemark } from "../lib/db";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { useUser } from "../lib/auth/useUser";
@@ -45,6 +44,7 @@ import { uploadOrderReceipt, deleteOderReceipt } from "../lib/db";
 import { showToast } from "../lib/Helper/Toast";
 
 const MAX_FILE_SIZE = 5000000;
+import EditRemarkButton from "../components/EditRemarkButton";
 
 function useJom(order_id) {
   const [joms, setJom] = useState([]);
@@ -143,11 +143,12 @@ const OrderDetails = () => {
     // }
     // });
   }, []);
+
   const toast = useToast();
+
   return (
     <>
       {isLoading ? (
-        // <div>Loading ...</div>
         <OrderDetailSkeleton />
       ) : (
         <>
@@ -277,9 +278,8 @@ const OrderDetails = () => {
               <Tr>
                 <Th>Name</Th>
                 <Th>Remark</Th>
-                <Th>
-                  <Center>Pay</Center>
-                </Th>
+                <Th></Th>
+                <Th>Pay</Th>
               </Tr>
             </Thead>
             <Tbody>
@@ -290,36 +290,41 @@ const OrderDetails = () => {
                       <Th>{jom.user_name}</Th>
                       <Th>{jom.remark}</Th>
                       <Th>
-                        <Center>
-                          {jom.pay ? (
-                            <Text>Paid</Text>
-                          ) : (
-                            <Button
-                              onClick={() => {
-                                const callback = onClickUpdatePayment(
-                                  jom.id,
-                                  jom,
-                                  jom.order_id,
-                                  user.id
-                                );
-                                callback.then((result) => {
-                                  if (result == false) {
-                                    toast({
-                                      title: "Not owner.",
-                                      description:
-                                        "Only owner of the order can click the pay button",
-                                      status: "error",
-                                      duration: 3000,
-                                      isClosable: true,
-                                    });
-                                  }
-                                });
-                              }}
-                            >
-                              Pay
-                            </Button>
-                          )}
-                        </Center>
+                        {jom.user_id === user.id ? (
+                          <EditRemarkButton jom={jom} jom_id={jom.id} />
+                        ) : (
+                          ""
+                        )}
+                      </Th>
+                      <Th>
+                        {jom.pay ? (
+                          <Text>Paid</Text>
+                        ) : (
+                          <Button
+                            onClick={() => {
+                              const callback = onClickUpdatePayment(
+                                jom.id,
+                                jom,
+                                jom.order_id,
+                                user.id
+                              );
+                              callback.then((result) => {
+                                if (result == false) {
+                                  showToast(
+                                    toast,
+                                    "Not owner.",
+                                    "Only owner of the order can click the pay button",
+                                    "error",
+                                    5000,
+                                    true
+                                  );
+                                }
+                              });
+                            }}
+                          >
+                            Pay
+                          </Button>
+                        )}
                       </Th>
                     </Tr>
                   );
