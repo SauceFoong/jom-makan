@@ -39,7 +39,7 @@ const NavLink = ({ children }) => (
 const capitalizeFirstWord = (s) => {
   return s && s[0].toUpperCase() + s.slice(1);
 };
-const Links = ["feedback", "about"];
+const Links = ["order", "feedback", "about"];
 
 export default function WithAction() {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -60,10 +60,14 @@ export default function WithAction() {
           <HStack spacing={8} alignItems={"center"}>
             <Box>
               {user ? (
+                // <NextLink href="/order">
                 <Logo />
               ) : (
+                // </NextLink>
                 // <NextLink href="/order">JOM Makan</NextLink>
+                // <NextLink href="/">
                 <Logo />
+                // </NextLink>
 
                 // <NextLink href="/">JOM Makan</NextLink>
               )}
