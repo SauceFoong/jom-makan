@@ -52,6 +52,7 @@ const AddOrderButton = () => {
       created_by: user.id,
       order_date: data.order_date.toISOString(),
       jom_members: [],
+      order_receipt: [],
     };
     // console.log(order);
     await createOrder(order);

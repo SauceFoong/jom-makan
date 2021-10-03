@@ -1,5 +1,4 @@
 import { Image, Space } from "antd";
-import "antd/dist/antd.css";
 
 const ImageView = () => {
   return (

@@ -9,7 +9,6 @@ import {
   useToast,
   UnorderedList,
   ListItem,
-  useColorModeValue,
   useDisclosure,
   Button,
   Modal,
@@ -23,7 +22,6 @@ import {
   Center,
 } from "@chakra-ui/react";
 import { CloseIcon, LinkIcon } from "@chakra-ui/icons";
-import { uploadOrderReceipt } from "../lib/db";
 import { showToast } from "../lib/Helper/Toast";
 
 const KILO_BYTES_PER_BYTE = 1000;
@@ -40,19 +38,21 @@ const UploadFile = ({
   maxFileSizeInBytes = DEFAULT_MAX_FILE_SIZE_IN_BYTES,
   label,
   limitFiles = 5,
+  dbFunc,
   ...otherProps
 }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const toast = useToast();
   const [uploadLoading, setUploadLoading] = useState(false);
+  const [buttonDisable, setButtonDisabled] = useState(false);
   const [files, setFiles] = useState({});
 
   const addNewFiles = (newFiles) => {
     for (let file of newFiles) {
-      console.log(newFiles.length);
+      //   console.log(newFiles.length);
       const filesLength = Object.keys(files).length;
-      console.log(filesLength);
+      //   console.log(filesLength);
       if (newFiles.length > limitFiles || filesLength == limitFiles) {
         showToast(
           toast,
@@ -85,7 +85,7 @@ const UploadFile = ({
 
   const callUpdateFilesCb = (files) => {
     const filesAsArray = convertNestedObjectToArray(files);
-    updateFilesCb(filesAsArray);
+    //updateFilesCb(filesAsArray);
   };
 
   const handleNewFileUpload = (event) => {
@@ -94,43 +94,46 @@ const UploadFile = ({
     if (newFiles.length) {
       let updatedFiles = addNewFiles(newFiles);
       setFiles(updatedFiles);
-      callUpdateFilesCb(updatedFiles);
+      //callUpdateFilesCb(updatedFiles);
     }
   };
 
   const removeFile = (fileName) => {
     delete files[fileName];
     setFiles({ ...files });
-    callUpdateFilesCb({ ...files });
+    //callUpdateFilesCb({ ...files });
   };
 
   const handleSubmit = async () => {
     setUploadLoading(true);
-    await uploadOrderReceipt(orderId, files);
+    //Can use props to use other function
+    await dbFunc(orderId, files);
+
     setUploadLoading(false);
-    setFiles({});
-    onClose();
     showToast(
       toast,
-      "Order Receipt Uploaded Successfully.",
-      "Your jommers can view your receipt now!",
+      "Receipt Uploaded Successfully.",
+      "Everyone can see your receipt now!",
       "success",
       5000,
       true
     );
-    // onClose();
-    // setTimeout(function () {
-    //   setUploadLoading(false);
-    // }, 5000);
+    setFiles({});
+    onClose();
+    setButtonDisabled(true);
   };
 
   return (
     <>
-      <Button onClick={onOpen}>Upload</Button>
+      <Button onClick={onOpen} disabled={buttonDisable}>
+        {buttonDisable ? "Uploaded" : "Upload"}
+      </Button>
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>Upload your receipt</ModalHeader>
+          <ModalHeader>
+            {uploadLoading ? "Uploading..." : "Upload your receipt"}
+          </ModalHeader>
 
           <ModalCloseButton />
           <ModalBody pb={6}>
@@ -163,7 +166,9 @@ const UploadFile = ({
                 >
                   <ImageIcon boxSize="12" />
                   <Text fontWeight="medium">Upload / Drop Files Here</Text>
-
+                  <Text fontSize="sm" color="gray.500">
+                    Maximum Files: {limitFiles}
+                  </Text>
                   <Input
                     pos="absolute"
                     top="0"
@@ -222,10 +227,17 @@ const UploadFile = ({
           </ModalBody>
 
           <ModalFooter>
-            <Button colorScheme="blue" mr={3} onClick={handleSubmit}>
+            <Button
+              colorScheme="blue"
+              mr={3}
+              onClick={handleSubmit}
+              disabled={uploadLoading}
+            >
               Save
             </Button>
-            <Button onClick={onClose}>Cancel</Button>
+            <Button onClick={onClose} disabled={uploadLoading}>
+              Cancel
+            </Button>
           </ModalFooter>
         </ModalContent>
       </Modal>

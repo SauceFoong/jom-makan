@@ -1,4 +1,5 @@
 import {
+  Box,
   Table,
   Thead,
   Tbody,
@@ -10,7 +11,23 @@ import {
   Center,
   Divider,
   useToast,
+  Image,
+  Icon,
+  useColorModeValue,
+  List,
+  ListItem,
+  ListIcon,
 } from "@chakra-ui/react";
+import { CloseIcon, LinkIcon } from "@chakra-ui/icons";
+import {
+  BiReceipt,
+  BiRestaurant,
+  BiLink,
+  BiInfoCircle,
+  BiDollar,
+  BiCalendarX,
+  BiAlarmExclamation,
+} from "react-icons/bi";
 import Head from "next/head";
 import { db, getOrder, updatePayment } from "../lib/db";
 import { useEffect, useState } from "react";
@@ -20,7 +37,12 @@ import enGB from "date-fns/locale/en-GB";
 import { formatRelative } from "date-fns";
 import OrderDetailSkeleton from "../components/OrderDetailSkeleton";
 import UploadFile from "../components/UploadFile";
-import ImageView from "../components/ImageView";
+import Lightbox from "react-awesome-lightbox";
+import "react-awesome-lightbox/build/style.css";
+import JomButton from "../components/JomButton";
+import CancelJomButton from "../components/CancelJomButton";
+import { uploadOrderReceipt, deleteOderReceipt } from "../lib/db";
+import { showToast } from "../lib/Helper/Toast";
 
 const MAX_FILE_SIZE = 5000000;
 
@@ -64,7 +86,8 @@ const OrderDetails = () => {
   const { user, logout } = useUser();
   const [order, setOrder] = useState();
   const [isLoading, setLoading] = useState(true);
-  const [orderReceipt, setOrderReceipt] = useState([]);
+  // const [orderReceipt, setOrderReceipt] = useState([]);
+  const [toggleLightBox, setToggleLightBox] = useState(false);
   const router = useRouter();
   const { id } = router.query;
   const { joms } = useJom(id);
@@ -83,18 +106,42 @@ const OrderDetails = () => {
     formatRelative: (token) => formatRelativeLocale[token],
   };
 
-  useEffect(() => {
-    // const { order } = await getOrder(id);
-    getOrder(id).then((orderData) => {
-      const { order } = orderData;
-      // console.log(order);
-      setOrder(order);
-      setLoading(false);
-      // if (orderData.exists) {
-      //   const { order } = orderData;
+  const removeOrderReceipt = async (order_id) => {
+    await deleteOderReceipt(order_id);
+    showToast(
+      toast,
+      "Receipt Deleted Successfully.",
+      "Please reupload a new receipt!",
+      "success",
+      5000,
+      true
+    );
+  };
 
-      // }
-    });
+  useEffect(() => {
+    //Realtime update of order
+    const unsubscribe = db
+      .collection("orders")
+      .doc(id)
+      .onSnapshot((doc) => {
+        const order = doc.data();
+        setOrder(order);
+        setLoading(false);
+      });
+    return () => unsubscribe();
+
+    // const { order } = await getOrder(id);
+    // getOrder(id).then((orderData) => {
+    //   const { order } = orderData;
+    //   // console.log(order);
+    //   setOrder(order);
+    //   // console.log(order);
+    //   setLoading(false);
+    // if (orderData.exists) {
+    //   const { order } = orderData;
+
+    // }
+    // });
   }, []);
   const toast = useToast();
   return (
@@ -107,35 +154,122 @@ const OrderDetails = () => {
           <Head>
             <title>Order Details</title>
           </Head>
+
           <Text as="u" style={{ marginLeft: "15px" }}>
             Order Details
           </Text>
-          <Text style={{ marginLeft: "15px" }}>
-            Restaurant Name: {order.res_name}
-          </Text>
-          <Text style={{ marginLeft: "15px" }}>
-            Menu:{" "}
-            <Link href={order.ref_url} isExternal>
-              {order.ref_url}
-            </Link>
-          </Text>
-          <Text style={{ marginLeft: "15px" }}>
-            Description: {order.description}
-          </Text>
-          <Text style={{ marginLeft: "15px" }}>Tips: {order.tips}</Text>
-          <Text style={{ marginLeft: "15px" }}>
-            Order Date:{" "}
-            {formatRelative(new Date(order.order_date), new Date(), { locale })}
-          </Text>
-          <UploadFile
-            multiple
-            orderId={order.id}
-            accept=".jpg,.png,.jpeg"
-            limitFiles={1}
-            maxFileSizeInBytes={MAX_FILE_SIZE}
-            label="Supports PNG, JPG, JPEG up to 5Mb"
-            updateFilesCb={(files) => setOrderReceipt(files)}
-          />
+          <List spacing={1} p={3}>
+            <ListItem>
+              <ListIcon as={BiRestaurant} color="blue.500" />
+              Restaurant Name: {order.res_name}
+            </ListItem>
+            <ListItem>
+              <ListIcon as={BiLink} color="blue.500" />
+              Menu:{" "}
+              <Link href={order.ref_url} isExternal>
+                {order.ref_url}
+              </Link>{" "}
+            </ListItem>
+            <ListItem>
+              <ListIcon as={BiInfoCircle} color="blue.500" />
+              Description: {order.description}
+            </ListItem>
+            <ListItem>
+              <ListIcon as={BiDollar} color="blue.500" />
+              Tips: {order.tips}{" "}
+            </ListItem>
+            <ListItem>
+              <ListIcon as={BiCalendarX} color="blue.500" />
+              Order Date:{" "}
+              {formatRelative(new Date(order.order_date), new Date(), {
+                locale,
+              })}{" "}
+            </ListItem>
+            <ListItem>
+              <ListIcon as={BiAlarmExclamation} color="blue.500" />
+              Order Receipt:{" "}
+              {order.order_receipt.length > 0 ? (
+                <>
+                  <Icon
+                    as={BiReceipt}
+                    w={10}
+                    h={10}
+                    onClick={setToggleLightBox}
+                    cursor={"zoom-in"}
+                    _hover={{
+                      bg: "gray.500",
+                    }}
+                  />
+                  {user && order.created_by === user.id ? (
+                    <LinkIcon
+                      ml={2}
+                      fontSize={10}
+                      onClick={() => removeOrderReceipt(order.id)}
+                      as={CloseIcon}
+                      color={"red"}
+                      cursor={"pointer"}
+                      _hover={{
+                        bg: "gray.300",
+                        borderRadius: "50%",
+                      }}
+                      zIndex={1}
+                    />
+                  ) : (
+                    ""
+                  )}
+                  {toggleLightBox && order.order_receipt.length > 1 ? (
+                    //Multiple Receipt
+                    <Lightbox
+                      images={order.order_receipt}
+                      title={"Order Receipt "}
+                      onClose={() => setToggleLightBox(false)}
+                    />
+                  ) : toggleLightBox && order.order_receipt.length === 1 ? (
+                    //Single Receipt
+                    <Lightbox
+                      image={order.order_receipt}
+                      title={"Order Receipt "}
+                      onClose={() => setToggleLightBox(false)}
+                    />
+                  ) : (
+                    ""
+                  )}
+                </>
+              ) : user && order.created_by === user.id ? (
+                <UploadFile
+                  multiple
+                  orderId={order.id}
+                  accept=".jpg,.png,.jpeg"
+                  limitFiles={2}
+                  maxFileSizeInBytes={MAX_FILE_SIZE}
+                  label="Supports PNG, JPG, JPEG up to 5Mb"
+                  dbFunc={uploadOrderReceipt}
+                />
+              ) : (
+                //updateFilesCb={(files) => setOrderReceipt(files)}
+                "-"
+              )}
+            </ListItem>
+          </List>
+          <Box p={3} maxW={"300px"} textAlign={"Center"}>
+            {user && user.id != order.created_by ? (
+              !order.jom_members.includes(user.id) ? (
+                <JomButton
+                  order_id={order.id}
+                  order_name={order.res_name}
+                  order_date={new Date(order.order_date)}
+                />
+              ) : (
+                <CancelJomButton
+                  order_id={order.id}
+                  order_name={order.res_name}
+                  order_date={new Date(order.order_date)}
+                />
+              )
+            ) : (
+              ""
+            )}
+          </Box>
 
           <Divider />
           <Table variant="simple" style={{ marginTop: "20px" }}>
