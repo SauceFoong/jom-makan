@@ -7,18 +7,33 @@ import {
   Button,
   Text,
   Link,
-  Center,
   Divider,
   useToast,
+  Modal,
+  ModalBody,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalCloseButton,
+  FormControl,
+  FormLabel,
+  useDisclosure,
+  Textarea,
+  FormErrorMessage,
+  ModalFooter,
 } from "@chakra-ui/react";
+import { useForm } from "react-hook-form";
+import React from "react";
+import { EditIcon } from "@chakra-ui/icons";
 import Head from "next/head";
-import { db, getOrder, updatePayment } from "../lib/db";
+import { db, getOrder, updatePayment, updateRemark } from "../lib/db";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { useUser } from "../lib/auth/useUser";
 import enGB from "date-fns/locale/en-GB";
 import { formatRelative } from "date-fns";
 import OrderDetailSkeleton from "../components/OrderDetailSkeleton";
+import EditRemarkButton from "../components/EditRemarkButton";
 
 function useJom(order_id) {
   const [joms, setJom] = useState([]);
@@ -39,6 +54,15 @@ function useJom(order_id) {
   }, []);
   return { joms };
 }
+
+const onClickUpdateRemark = async (jom_id, jom, order_id, user_id, remark) => {
+  const data = {
+    ...jom,
+    remark: remark,
+  };
+  const callback = await updateRemark(jom_id, data, order_id, user_id);
+  return callback;
+};
 
 const onClickUpdatePayment = async (jom_id, jom, order_id, user_id) => {
   const data = {
@@ -63,6 +87,12 @@ const OrderDetails = () => {
   const router = useRouter();
   const { id } = router.query;
   const { joms } = useJom(id);
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+  } = useForm();
 
   const formatRelativeLocale = {
     lastWeek: "'Last' eeee ' at 'hh:mm aa",
@@ -78,24 +108,22 @@ const OrderDetails = () => {
     formatRelative: (token) => formatRelativeLocale[token],
   };
 
+  const onSubmit = async (data) => {};
+
   useEffect(() => {
-    // const { order } = await getOrder(id);
     getOrder(id).then((orderData) => {
       const { order } = orderData;
       console.log(order);
       setOrder(order);
       setLoading(false);
-      // if (orderData.exists) {
-      //   const { order } = orderData;
-
-      // }
     });
   }, []);
+
   const toast = useToast();
+
   return (
     <>
       {isLoading ? (
-        // <div>Loading ...</div>
         <OrderDetailSkeleton />
       ) : (
         <>
@@ -128,9 +156,8 @@ const OrderDetails = () => {
               <Tr>
                 <Th>Name</Th>
                 <Th>Remark</Th>
-                <Th>
-                  <Center>Pay</Center>
-                </Th>
+                <Th></Th>
+                <Th>Pay</Th>
               </Tr>
             </Thead>
             <Tbody>
@@ -141,36 +168,41 @@ const OrderDetails = () => {
                       <Th>{jom.user_name}</Th>
                       <Th>{jom.remark}</Th>
                       <Th>
-                        <Center>
-                          {jom.pay ? (
-                            <Text>Paid</Text>
-                          ) : (
-                            <Button
-                              onClick={() => {
-                                const callback = onClickUpdatePayment(
-                                  jom.id,
-                                  jom,
-                                  jom.order_id,
-                                  user.id
-                                );
-                                callback.then((result) => {
-                                  if (result == false) {
-                                    toast({
-                                      title: "Not owner.",
-                                      description:
-                                        "Only owner of the order can click the pay button",
-                                      status: "error",
-                                      duration: 3000,
-                                      isClosable: true,
-                                    });
-                                  }
-                                });
-                              }}
-                            >
-                              Pay
-                            </Button>
-                          )}
-                        </Center>
+                        {jom.user_id === user.id ? (
+                          <EditRemarkButton jom={jom} jom_id={jom.id} />
+                        ) : (
+                          ""
+                        )}
+                      </Th>
+                      <Th>
+                        {jom.pay ? (
+                          <Text>Paid</Text>
+                        ) : (
+                          <Button
+                            onClick={() => {
+                              const callback = onClickUpdatePayment(
+                                jom.id,
+                                jom,
+                                jom.order_id,
+                                user.id
+                              );
+                              callback.then((result) => {
+                                if (result == false) {
+                                  toast({
+                                    title: "Not owner.",
+                                    description:
+                                      "Only owner of the order can click the pay button",
+                                    status: "error",
+                                    duration: 3000,
+                                    isClosable: true,
+                                  });
+                                }
+                              });
+                            }}
+                          >
+                            Pay
+                          </Button>
+                        )}
                       </Th>
                     </Tr>
                   );
