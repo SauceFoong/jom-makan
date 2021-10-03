@@ -78,7 +78,7 @@ const AddOrderButton = () => {
         mr={4}
         leftIcon={<AddIcon />}
       >
-        Create Order
+        Order
       </Button>
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />

@@ -19,6 +19,7 @@ import {
 import { HamburgerIcon, CloseIcon, SunIcon, MoonIcon } from "@chakra-ui/icons";
 import AddOrderButton from "./AddOrderButton";
 import NextLink from "next/link";
+import Logo from "./Logo";
 
 const NavLink = ({ children }) => (
   <NextLink href={"/" + children} passHref>
@@ -59,9 +60,12 @@ export default function WithAction() {
           <HStack spacing={8} alignItems={"center"}>
             <Box>
               {user ? (
-                <NextLink href="/order">JOM Makan</NextLink>
+                <Logo />
               ) : (
-                <NextLink href="/">JOM Makan</NextLink>
+                // <NextLink href="/order">JOM Makan</NextLink>
+                <Logo />
+
+                // <NextLink href="/">JOM Makan</NextLink>
               )}
             </Box>
             {user ? (
