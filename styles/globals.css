@@ -18,3 +18,18 @@ a {
 .datePicker {
   color: black;
 }
+
+.modal-mount {
+  position: relative; /* Position 'absolute' will anchor to the closed element with position 'relative'. */
+  display: inline-block;
+  width: 800px;
+  height: 500px;
+  padding: 10px;
+  background: #fff;
+  border: 1px solid #000;
+}
+
+.modal-mount .ant-modal-mask,
+.modal-mount .ant-modal-wrap {
+  position: absolute;
+}

@@ -19,9 +19,11 @@ import {
   ModalFooter,
   ModalBody,
   ModalCloseButton,
+  Spinner,
+  Center,
 } from "@chakra-ui/react";
 import { CloseIcon, LinkIcon } from "@chakra-ui/icons";
-import { uploadOrderReceipt, updateOrderReceipt } from "../lib/db";
+import { uploadOrderReceipt } from "../lib/db";
 import { showToast } from "../lib/Helper/Toast";
 
 const KILO_BYTES_PER_BYTE = 1000;
@@ -43,7 +45,7 @@ const UploadFile = ({
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const toast = useToast();
-
+  const [uploadLoading, setUploadLoading] = useState(false);
   const [files, setFiles] = useState({});
 
   const addNewFiles = (newFiles) => {
@@ -102,8 +104,24 @@ const UploadFile = ({
     callUpdateFilesCb({ ...files });
   };
 
-  const handleSubmit = () => {
-    updateOrderReceipt(orderId, files);
+  const handleSubmit = async () => {
+    setUploadLoading(true);
+    await uploadOrderReceipt(orderId, files);
+    setUploadLoading(false);
+    setFiles({});
+    onClose();
+    showToast(
+      toast,
+      "Order Receipt Uploaded Successfully.",
+      "Your jommers can view your receipt now!",
+      "success",
+      5000,
+      true
+    );
+    // onClose();
+    // setTimeout(function () {
+    //   setUploadLoading(false);
+    // }, 5000);
   };
 
   return (
@@ -113,46 +131,59 @@ const UploadFile = ({
         <ModalOverlay />
         <ModalContent>
           <ModalHeader>Upload your receipt</ModalHeader>
+
           <ModalCloseButton />
           <ModalBody pb={6}>
-            <Flex
-              pos="relative"
-              align="center"
-              justify="center"
-              py="8"
-              borderWidth={2}
-              borderColor="gray.500"
-              borderStyle="dashed"
-              rounded="xl"
-            >
-              <Stack
-                spacing="1"
-                direction="column"
-                fontSize="sm"
-                align="center"
-              >
-                <ImageIcon boxSize="12" />
-                <Text fontWeight="medium">Upload / Drop Files Here</Text>
-
-                <Input
-                  pos="absolute"
-                  top="0"
-                  left="0"
-                  opacity="0"
-                  h="full"
-                  bg="transparent"
-                  variant="outline"
-                  borderWidth={2}
-                  type="file"
-                  value=""
-                  onChange={handleNewFileUpload}
-                  {...otherProps}
+            {uploadLoading ? (
+              <Center>
+                <Spinner
+                  thickness="4px"
+                  speed="0.65s"
+                  emptyColor="gray.200"
+                  color="blue.500"
+                  size="xl"
                 />
-                <Text fontSize="sm" color="gray.500">
-                  {label}
-                </Text>
-              </Stack>
-            </Flex>
+              </Center>
+            ) : (
+              <Flex
+                pos="relative"
+                align="center"
+                justify="center"
+                py="8"
+                borderWidth={2}
+                borderColor="gray.500"
+                borderStyle="dashed"
+                rounded="xl"
+              >
+                <Stack
+                  spacing="1"
+                  direction="column"
+                  fontSize="sm"
+                  align="center"
+                >
+                  <ImageIcon boxSize="12" />
+                  <Text fontWeight="medium">Upload / Drop Files Here</Text>
+
+                  <Input
+                    pos="absolute"
+                    top="0"
+                    left="0"
+                    opacity="0"
+                    h="full"
+                    bg="transparent"
+                    variant="outline"
+                    borderWidth={2}
+                    type="file"
+                    value=""
+                    onChange={handleNewFileUpload}
+                    {...otherProps}
+                  />
+                  <Text fontSize="sm" color="gray.500">
+                    {label}
+                  </Text>
+                </Stack>
+              </Flex>
+            )}
             {Object.keys(files).length != 0 && (
               <>
                 <Box mt="8" mb="4">

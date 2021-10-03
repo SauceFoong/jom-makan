@@ -20,6 +20,7 @@ import enGB from "date-fns/locale/en-GB";
 import { formatRelative } from "date-fns";
 import OrderDetailSkeleton from "../components/OrderDetailSkeleton";
 import UploadFile from "../components/UploadFile";
+import ImageView from "../components/ImageView";
 
 const MAX_FILE_SIZE = 5000000;
 
@@ -135,6 +136,7 @@ const OrderDetails = () => {
             label="Supports PNG, JPG, JPEG up to 5Mb"
             updateFilesCb={(files) => setOrderReceipt(files)}
           />
+
           <Divider />
           <Table variant="simple" style={{ marginTop: "20px" }}>
             <Thead>
