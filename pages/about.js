@@ -6,7 +6,7 @@ const About = () => {
       <Head>
         <title>About Us</title>
       </Head>
-      <h1>Coming Soon...</h1>
+      <h1>Coming Soon..</h1>
     </div>
   );
 };
