@@ -4,13 +4,7 @@ import styles from "../styles/NotFound.module.css";
 const NotFound = ({ obj }) => {
   return (
     <Box className={styles.img_container} textAlign="center" maxW={"600px"}>
-      <svg
-        width="900"
-        height="600"
-        viewBox="0 0 900 600"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-      >
+      <svg viewBox="0 0 900 600" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path fill="transparent" d="M0 0h900v600H0z" />
         <path
           stroke="#E1E4E5"
@@ -24,9 +18,9 @@ const NotFound = ({ obj }) => {
           fillRule="evenodd"
           clipRule="evenodd"
           d="m626.615 145.89-77.704-77.774A54.948 54.948 0 0 0 510.058 52H312.993c-30.362 0-54.954 24.614-54.954 55.003v385.018c0 30.389 24.592 55.003 54.954 55.003h274.77c30.362 0 54.954-24.614 54.954-55.003V184.776a55.044 55.044 0 0 0-16.102-38.886z"
-          fill="#fff"
           stroke="#E1E4E5"
           strokeWidth="4"
+          fill="currentColor"
         />
         <rect
           x="316.361"
@@ -34,7 +28,7 @@ const NotFound = ({ obj }) => {
           width="244.95"
           height="11.664"
           rx="5.832"
-          fill="#fff"
+          fill="currentColor"
           stroke="#E1E4E5"
           strokeWidth="4.242"
           strokeLinecap="round"
@@ -46,7 +40,7 @@ const NotFound = ({ obj }) => {
           width="244.95"
           height="11.664"
           rx="5.832"
-          fill="#fff"
+          fill="currentColor"
           stroke="#E1E4E5"
           strokeWidth="4.242"
           strokeLinecap="round"
@@ -58,7 +52,7 @@ const NotFound = ({ obj }) => {
           width="244.95"
           height="11.664"
           rx="5.832"
-          fill="#fff"
+          fill="currentColor"
           stroke="#E1E4E5"
           strokeWidth="4.242"
           strokeLinecap="round"
@@ -70,7 +64,7 @@ const NotFound = ({ obj }) => {
           width="244.95"
           height="11.664"
           rx="5.832"
-          fill="#fff"
+          fill="currentColor"
           stroke="#E1E4E5"
           strokeWidth="4.242"
           strokeLinecap="round"
@@ -82,7 +76,7 @@ const NotFound = ({ obj }) => {
           width="244.95"
           height="11.664"
           rx="5.832"
-          fill="#fff"
+          fill="currentColor"
           stroke="#E1E4E5"
           strokeWidth="4.242"
           strokeLinecap="round"
@@ -94,7 +88,7 @@ const NotFound = ({ obj }) => {
           width="244.95"
           height="11.664"
           rx="5.832"
-          fill="#fff"
+          fill="currentColor"
           stroke="#E1E4E5"
           strokeWidth="4.242"
           strokeLinecap="round"
@@ -106,7 +100,7 @@ const NotFound = ({ obj }) => {
           width="244.95"
           height="11.664"
           rx="5.832"
-          fill="#fff"
+          fill="currentColor"
           stroke="#E1E4E5"
           strokeWidth="4.242"
           strokeLinecap="round"
@@ -118,7 +112,7 @@ const NotFound = ({ obj }) => {
           width="244.95"
           height="11.664"
           rx="5.832"
-          fill="#fff"
+          fill="currentColor"
           stroke="#E1E4E5"
           strokeWidth="4.242"
           strokeLinecap="round"
@@ -130,7 +124,7 @@ const NotFound = ({ obj }) => {
           width="244.95"
           height="11.664"
           rx="5.832"
-          fill="#fff"
+          fill="currentColor"
           stroke="#E1E4E5"
           strokeWidth="4.242"
           strokeLinecap="round"
