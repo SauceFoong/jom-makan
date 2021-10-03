@@ -9,24 +9,10 @@ import {
   Link,
   Divider,
   useToast,
-  Modal,
-  ModalBody,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalCloseButton,
-  FormControl,
-  FormLabel,
-  useDisclosure,
-  Textarea,
-  FormErrorMessage,
-  ModalFooter,
 } from "@chakra-ui/react";
-import { useForm } from "react-hook-form";
 import React from "react";
-import { EditIcon } from "@chakra-ui/icons";
 import Head from "next/head";
-import { db, getOrder, updatePayment, updateRemark } from "../lib/db";
+import { db, updatePayment } from "../lib/db";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { useUser } from "../lib/auth/useUser";
@@ -55,15 +41,6 @@ function useJom(order_id) {
   return { joms };
 }
 
-const onClickUpdateRemark = async (jom_id, jom, order_id, user_id, remark) => {
-  const data = {
-    ...jom,
-    remark: remark,
-  };
-  const callback = await updateRemark(jom_id, data, order_id, user_id);
-  return callback;
-};
-
 const onClickUpdatePayment = async (jom_id, jom, order_id, user_id) => {
   const data = {
     ...jom,
@@ -87,12 +64,6 @@ const OrderDetails = () => {
   const router = useRouter();
   const { id } = router.query;
   const { joms } = useJom(id);
-  const { isOpen, onOpen, onClose } = useDisclosure();
-  const {
-    register,
-    handleSubmit,
-    formState: { errors, isSubmitting },
-  } = useForm();
 
   const formatRelativeLocale = {
     lastWeek: "'Last' eeee ' at 'hh:mm aa",
@@ -107,17 +78,6 @@ const OrderDetails = () => {
     ...enGB,
     formatRelative: (token) => formatRelativeLocale[token],
   };
-
-  const onSubmit = async (data) => {};
-
-  useEffect(() => {
-    getOrder(id).then((orderData) => {
-      const { order } = orderData;
-      console.log(order);
-      setOrder(order);
-      setLoading(false);
-    });
-  }, []);
 
   const toast = useToast();
 
