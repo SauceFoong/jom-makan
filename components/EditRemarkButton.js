@@ -78,7 +78,11 @@ const EditRemarkButton = ({ order_date, jom, jom_id }) => {
 
   return (
     <>
-      <Button variant="unstyled" onClick={onOpen}>
+      <Button
+        variant="unstyled"
+        onClick={onOpen}
+        disabled={differenceInSeconds(order_date, new Date()) < 0}
+      >
         <EditIcon />
       </Button>
       <Modal isOpen={isOpen} onClose={onClose}>
