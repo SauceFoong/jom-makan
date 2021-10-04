@@ -14,15 +14,16 @@ import {
   useDisclosure,
   useToast,
   Textarea,
+  Select,
 } from "@chakra-ui/react";
 import React from "react";
 import { EditIcon } from "@chakra-ui/icons";
 import { useForm } from "react-hook-form";
-import { updateRemark } from "../lib/db";
+import { updateJom } from "../lib/db";
 import { showToast } from "../lib/Helper/Toast";
 import { differenceInSeconds } from "date-fns";
 
-const EditRemarkButton = ({ order_date, jom, jom_id }) => {
+const EditJomButton = ({ order_date, jom }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const {
     register,
@@ -34,13 +35,14 @@ const EditRemarkButton = ({ order_date, jom, jom_id }) => {
   const toast = useToast();
 
   const onSubmit = async (data) => {
-    const remark = {
+    const jom_obj = {
       ...jom,
       remark: data.remark,
+      payment_method: data.payment_method,
     };
     if (differenceInSeconds(order_date, new Date()) > 0) {
       // console.log(differenceInSeconds(order_date, new Date()));
-      await updateRemark(jom_id, remark);
+      await updateJom(jom_obj);
       showToast(
         toast,
         "Remark Edited Successful!",
@@ -89,13 +91,31 @@ const EditRemarkButton = ({ order_date, jom, jom_id }) => {
         <ModalOverlay />
         <ModalContent>
           <form onSubmit={handleSubmit(onSubmit)}>
-            <ModalHeader>Edit Remark</ModalHeader>
+            <ModalHeader>Edit Jom Details</ModalHeader>
             <ModalCloseButton />
             <ModalBody>
+              <FormControl isInvalid={errors.payment_method}>
+                <FormLabel>Payment Method</FormLabel>
+                <Select
+                  id="Payment Method"
+                  placeholder="Select your payment method"
+                  defaultValue={jom.payment_method}
+                  {...register("payment_method", {
+                    required: "Please select a payment method.",
+                  })}
+                >
+                  <option>Cash</option>
+                  <option>Online Transfer</option>
+                </Select>
+                <FormErrorMessage>
+                  {errors.payment_method && errors.payment_method.message}
+                </FormErrorMessage>
+              </FormControl>
               <FormControl isInvalid={errors.remark}>
                 <FormLabel>Remark</FormLabel>
                 <Textarea
                   id="remark"
+                  defaultValue={jom.remark}
                   placeholder="Edit Your Remark Here"
                   {...register("remark", {
                     require: "Remark is required",
@@ -119,4 +139,4 @@ const EditRemarkButton = ({ order_date, jom, jom_id }) => {
   );
 };
 
-export default EditRemarkButton;
+export default EditJomButton;

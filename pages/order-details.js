@@ -40,11 +40,16 @@ import Lightbox from "react-awesome-lightbox";
 import "react-awesome-lightbox/build/style.css";
 import JomButton from "../components/JomButton";
 import CancelJomButton from "../components/CancelJomButton";
-import { uploadOrderReceipt, deleteOderReceipt } from "../lib/db";
+import {
+  uploadOrderReceipt,
+  deleteOderReceipt,
+  uploadPaymentReceipt,
+} from "../lib/db";
 import { showToast } from "../lib/Helper/Toast";
+import Receipt from "../components/Receipt";
 
 const MAX_FILE_SIZE = 5000000;
-import EditRemarkButton from "../components/EditRemarkButton";
+import EditJomButton from "../components/EditJomButton";
 
 function useJom(order_id) {
   const [joms, setJom] = useState([]);
@@ -239,7 +244,7 @@ const OrderDetails = () => {
               ) : user && order.created_by === user.id ? (
                 <UploadFile
                   multiple
-                  orderId={order.id}
+                  id={order.id}
                   accept=".jpg,.png,.jpeg"
                   limitFiles={2}
                   maxFileSizeInBytes={MAX_FILE_SIZE}
@@ -273,68 +278,121 @@ const OrderDetails = () => {
           </Box>
 
           <Divider />
-          <Table variant="simple" style={{ marginTop: "20px" }}>
-            <Thead>
-              <Tr>
-                <Th>Name</Th>
-                <Th>Remark</Th>
-                <Th></Th>
-                <Th>Pay</Th>
-              </Tr>
-            </Thead>
-            <Tbody>
-              {joms &&
-                joms.map((jom, index) => {
-                  return (
-                    <Tr key={index}>
-                      <Th>{jom.user_name}</Th>
-                      <Th>{jom.remark}</Th>
-                      <Th>
-                        {user && jom.user_id === user.id ? (
-                          <EditRemarkButton
-                            order_date={new Date(order.order_date)}
-                            jom={jom}
-                            jom_id={jom.id}
-                          />
-                        ) : (
-                          ""
-                        )}
-                      </Th>
-                      <Th>
-                        {jom.pay ? (
-                          <Text>Paid</Text>
-                        ) : (
-                          <Button
-                            onClick={() => {
-                              const callback = onClickUpdatePayment(
-                                jom.id,
-                                jom,
-                                jom.order_id,
-                                user.id
-                              );
-                              callback.then((result) => {
-                                if (result == false) {
-                                  showToast(
-                                    toast,
-                                    "Not owner.",
-                                    "Only owner of the order can click the pay button",
-                                    "error",
-                                    5000,
-                                    true
-                                  );
-                                }
-                              });
-                            }}
-                          >
-                            Pay
-                          </Button>
-                        )}
-                      </Th>
-                    </Tr>
-                  );
-                })}
-            </Tbody>
-          </Table>
+          <Box overflowX="auto">
+            <Table variant="simple" style={{ marginTop: "20px" }}>
+              <Thead>
+                <Tr>
+                  <Th>Name</Th>
+                  <Th>Remark</Th>
+                  <Th>Payment Method</Th>
+                  <Th></Th>
+                  <Th>Receipt</Th>
+                  <Th>Pay</Th>
+                </Tr>
+              </Thead>
+              <Tbody>
+                {joms &&
+                  joms.map((jom, index) => {
+                    return (
+                      <Tr key={index}>
+                        <Th>{jom.user_name}</Th>
+                        <Th>{jom.remark}</Th>
+                        <Th>{jom.payment_method}</Th>
+                        <Th>
+                          {user && jom.user_id === user.id ? (
+                            <>
+                              <EditJomButton
+                                order_date={new Date(order.order_date)}
+                                jom={jom}
+                              />
+                            </>
+                          ) : (
+                            ""
+                          )}
+                        </Th>
+                        <Th>
+                          {user &&
+                          jom.user_id === user.id &&
+                          jom.payment_method === "Online Transfer" ? (
+                            jom.payment_receipt.length === 0 ? (
+                              <UploadFile
+                                multiple
+                                id={jom.id}
+                                accept=".jpg,.png,.jpeg"
+                                limitFiles={1}
+                                maxFileSizeInBytes={MAX_FILE_SIZE}
+                                label="Supports PNG, JPG, JPEG up to 5Mb"
+                                dbFunc={uploadPaymentReceipt}
+                              />
+                            ) : (
+                              ""
+                            )
+                          ) : jom.payment_method === "Online Transfer" ? (
+                            ""
+                          ) : (
+                            "-"
+                          )}
+                          {jom.payment_receipt.length > 0 ? (
+                            <Receipt jom={jom} />
+                          ) : (
+                            ""
+                          )}
+                          {/* {user &&
+                          jom.user_id === user.id &&
+                          jom.payment_method === "Online Transfer" ? (
+                            jom.payment_receipt.length === 0 ? (
+                              <UploadFile
+                                multiple
+                                id={jom.id}
+                                accept=".jpg,.png,.jpeg"
+                                limitFiles={1}
+                                maxFileSizeInBytes={MAX_FILE_SIZE}
+                                label="Supports PNG, JPG, JPEG up to 5Mb"
+                                dbFunc={uploadPaymentReceipt}
+                              />
+                            ) : (
+                              <Receipt jom={jom} />
+                            )
+                          ) : (
+                            "-"
+                          )} */}
+                        </Th>
+                        <Th>
+                          {jom.pay ? (
+                            <Text>Paid</Text>
+                          ) : (
+                            <Button
+                              onClick={() => {
+                                const callback = onClickUpdatePayment(
+                                  jom.id,
+                                  jom,
+                                  jom.order_id,
+                                  user.id
+                                );
+                                callback.then((result) => {
+                                  if (result == false) {
+                                    showToast(
+                                      toast,
+                                      "Not owner.",
+                                      "Only owner of the order can click the pay button",
+                                      "error",
+                                      5000,
+                                      true
+                                    );
+                                  }
+                                });
+                              }}
+                            >
+                              Pay
+                            </Button>
+                          )}
+                        </Th>
+                      </Tr>
+                    );
+                  })}
+              </Tbody>
+            </Table>
+          </Box>
         </>
       )}
     </>

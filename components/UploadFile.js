@@ -33,7 +33,7 @@ const convertNestedObjectToArray = (nestedObj) =>
 const convertBytesToKB = (bytes) => Math.round(bytes / KILO_BYTES_PER_BYTE);
 
 const UploadFile = ({
-  orderId,
+  id,
   updateFilesCb,
   maxFileSizeInBytes = DEFAULT_MAX_FILE_SIZE_IN_BYTES,
   label,
@@ -107,7 +107,7 @@ const UploadFile = ({
   const handleSubmit = async () => {
     setUploadLoading(true);
     //Can use props to use other function
-    await dbFunc(orderId, files);
+    await dbFunc(id, files);
 
     setUploadLoading(false);
     showToast(

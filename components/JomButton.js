@@ -14,6 +14,7 @@ import {
   useToast,
   Textarea,
   useColorModeValue,
+  Select,
 } from "@chakra-ui/react";
 import React, { useState } from "react";
 import { useUser } from "../lib/auth/useUser";
@@ -43,6 +44,7 @@ const JomButton = ({ order_id, order_name, order_date }) => {
       order_name: order_name,
       user_id: user.id,
       user_name: user.name,
+      payment_receipt: [],
       pay: false,
       created_at: new Date().toISOString(),
     };
@@ -100,6 +102,22 @@ const JomButton = ({ order_id, order_name, order_date }) => {
             <ModalHeader>Jom Makan - {order_name} </ModalHeader>
             <ModalCloseButton />
             <ModalBody pb={6}>
+              <FormControl isInvalid={errors.payment_method}>
+                <FormLabel>Payment Method</FormLabel>
+                <Select
+                  id="Payment Method"
+                  placeholder="Select your payment method"
+                  {...register("payment_method", {
+                    required: "Please select a payment method.",
+                  })}
+                >
+                  <option>Cash</option>
+                  <option>Online Transfer</option>
+                </Select>
+                <FormErrorMessage>
+                  {errors.payment_method && errors.payment_method.message}
+                </FormErrorMessage>
+              </FormControl>
               <FormControl isInvalid={errors.remark}>
                 <FormLabel>Remark</FormLabel>
                 <Textarea
