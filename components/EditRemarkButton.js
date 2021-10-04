@@ -20,8 +20,9 @@ import { EditIcon } from "@chakra-ui/icons";
 import { useForm } from "react-hook-form";
 import { updateRemark } from "../lib/db";
 import { showToast } from "../lib/Helper/Toast";
+import { differenceInSeconds } from "date-fns";
 
-const EditRemarkButton = ({ jom, jom_id }) => {
+const EditRemarkButton = ({ order_date, jom, jom_id }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const {
     register,
@@ -37,18 +38,42 @@ const EditRemarkButton = ({ jom, jom_id }) => {
       ...jom,
       remark: data.remark,
     };
+    if (differenceInSeconds(order_date, new Date()) > 0) {
+      // console.log(differenceInSeconds(order_date, new Date()));
+      await updateRemark(jom_id, remark);
+      showToast(
+        toast,
+        "Remark Edited Successful!",
+        "Your Remark has been edited successfully",
+        "success",
+        5000,
+        true
+      );
+      onClose();
+      reset();
+    } else {
+      // console.log(differenceInSeconds(order_date, new Date()));
+      showToast(
+        toast,
+        "Remark Cannot Be Edited After Order Closed!",
+        "Please edit the your jom remark before the order closed.",
+        "error",
+        5000,
+        true
+      );
+    }
 
-    await updateRemark(jom_id, remark);
-    showToast(
-      toast,
-      "Remark Edited Successful!",
-      "Your Remark has been edited successfully",
-      "success",
-      5000,
-      true
-    );
-    onClose();
-    reset();
+    // await updateRemark(jom_id, remark);
+    // showToast(
+    //   toast,
+    //   "Remark Edited Successful!",
+    //   "Your Remark has been edited successfully",
+    //   "success",
+    //   5000,
+    //   true
+    // );
+    // onClose();
+    // reset();
   };
 
   return (

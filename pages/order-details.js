@@ -290,8 +290,12 @@ const OrderDetails = () => {
                       <Th>{jom.user_name}</Th>
                       <Th>{jom.remark}</Th>
                       <Th>
-                        {jom.user_id === user.id ? (
-                          <EditRemarkButton jom={jom} jom_id={jom.id} />
+                        {user && jom.user_id === user.id ? (
+                          <EditRemarkButton
+                            order_date={new Date(order.order_date)}
+                            jom={jom}
+                            jom_id={jom.id}
+                          />
                         ) : (
                           ""
                         )}
