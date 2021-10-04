@@ -327,7 +327,8 @@ const OrderDetails = () => {
                             ) : (
                               ""
                             )
-                          ) : jom.payment_method === "Online Transfer" ? (
+                          ) : jom.payment_method === "Online Transfer" ||
+                            jom.payment_receipt.length > 0 ? (
                             ""
                           ) : (
                             "-"
