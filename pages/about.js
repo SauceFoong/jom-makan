@@ -35,8 +35,8 @@ const About = () => {
                 </Tr>
                 <Tr border={"hidden"}>
                   <Td>
-                    a. To create an order, you can click on the "+ Order"
-                    button.
+                    a. To create an order, you can click on the &quot;+
+                    Order&quot; button.
                   </Td>
                 </Tr>
                 <Tr border={"hidden"}>
@@ -45,7 +45,9 @@ const About = () => {
                   </Td>
                 </Tr>
                 <Tr border={"hidden"}>
-                  <Td>b. In the pop-up form, enter the Restaurant's Name</Td>
+                  <Td>
+                    b. In the pop-up form, enter the Restaurant&apos;s Name
+                  </Td>
                 </Tr>
                 <Tr border={"hidden"}>
                   <Td>
@@ -54,9 +56,9 @@ const About = () => {
                 </Tr>
                 <Tr border={"hidden"}>
                   <Td>
-                    c. You may also enter the Order's Description to give the
-                    other Jommers an idea of what this Jom is about. (e.g. Brief
-                    intro to what are the specialties of the restaurant).
+                    c. You may also enter the Order&apos;s Description to give
+                    the other Jommers an idea of what this Jom is about. (e.g.
+                    Brief intro to what are the specialties of the restaurant).
                   </Td>
                 </Tr>
                 <Tr border={"hidden"}>
