@@ -19,6 +19,7 @@ import {
 import { HamburgerIcon, CloseIcon, SunIcon, MoonIcon } from "@chakra-ui/icons";
 import AddOrderButton from "./AddOrderButton";
 import NextLink from "next/link";
+import Logo from "./Logo";
 
 const NavLink = ({ children }) => (
   <NextLink href={"/" + children} passHref>
@@ -38,7 +39,7 @@ const NavLink = ({ children }) => (
 const capitalizeFirstWord = (s) => {
   return s && s[0].toUpperCase() + s.slice(1);
 };
-const Links = ["feedback", "about"];
+const Links = ["order", "feedback", "about"];
 
 export default function WithAction() {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -59,9 +60,16 @@ export default function WithAction() {
           <HStack spacing={8} alignItems={"center"}>
             <Box>
               {user ? (
-                <NextLink href="/order">JOM Makan</NextLink>
+                // <NextLink href="/order">
+                <Logo />
               ) : (
-                <NextLink href="/">JOM Makan</NextLink>
+                // </NextLink>
+                // <NextLink href="/order">JOM Makan</NextLink>
+                // <NextLink href="/">
+                <Logo />
+                // </NextLink>
+
+                // <NextLink href="/">JOM Makan</NextLink>
               )}
             </Box>
             {user ? (

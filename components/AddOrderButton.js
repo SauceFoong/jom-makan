@@ -52,6 +52,7 @@ const AddOrderButton = () => {
       created_by: user.id,
       order_date: data.order_date.toISOString(),
       jom_members: [],
+      order_receipt: [],
     };
     // console.log(order);
     await createOrder(order);
@@ -77,7 +78,7 @@ const AddOrderButton = () => {
         mr={4}
         leftIcon={<AddIcon />}
       >
-        Create Order
+        Order
       </Button>
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />

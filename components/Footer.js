@@ -51,7 +51,7 @@ export default function Footer() {
         justify={{ base: "center", md: "space-between" }}
         align={{ base: "center", md: "center" }}
       >
-        <Text>© 2020 Jom Makan. All rights reserved</Text>
+        <Text>© 2021 Jom Makan. All rights reserved</Text>
         <Stack direction={"row"} spacing={4}>
           <NextLink href="/privacy" passHref>
             <Link fontSize="md" fontWeight="medium" mr="12">

@@ -99,7 +99,11 @@ const OrderCard = ({
           }}
         ></LinkOverlay>
       </NextLink>
-      <Heading fontSize={"2xl"} fontFamily={"body"}>
+      <Heading
+        fontSize={"2xl"}
+        fontFamily={"body"}
+        color={useColorModeValue("gray.900", "white")}
+      >
         {res_name.length >= 20 ? res_name.substring(0, 17) + "..." : res_name}
       </Heading>
       <Text fontWeight={600} fontSize={15} color={"gray.500"} mb={4}>

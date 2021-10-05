@@ -3,6 +3,7 @@ import {
   FormErrorMessage,
   FormLabel,
   FormControl,
+  Input,
   Modal,
   ModalOverlay,
   ModalContent,
@@ -13,100 +14,92 @@ import {
   useDisclosure,
   useToast,
   Textarea,
-  useColorModeValue,
   Select,
 } from "@chakra-ui/react";
-import React, { useState } from "react";
-import { useUser } from "../lib/auth/useUser";
+import React from "react";
+import { EditIcon } from "@chakra-ui/icons";
 import { useForm } from "react-hook-form";
-import "react-calendar/dist/Calendar.css";
-import "react-clock/dist/Clock.css";
-import "react-datetime-picker/dist/DateTimePicker.css";
-import { createJom } from "../lib/db";
+import { updateJom } from "../lib/db";
 import { showToast } from "../lib/Helper/Toast";
 import { differenceInSeconds } from "date-fns";
 
-const JomButton = ({ order_id, order_name, order_date }) => {
+const EditJomButton = ({ order_date, jom }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const { user, logout } = useUser();
   const {
     register,
     reset,
     handleSubmit,
-    formState: { errors, isSubmitting },
+    formState: { errors, isSubmtting },
   } = useForm();
+
   const toast = useToast();
 
   const onSubmit = async (data) => {
-    const jom = {
-      ...data,
-      order_id: order_id,
-      order_name: order_name,
-      user_id: user.id,
-      user_name: user.name,
-      payment_receipt: [],
-      pay: false,
-      created_at: new Date().toISOString(),
+    const jom_obj = {
+      ...jom,
+      remark: data.remark,
+      payment_method: data.payment_method,
     };
-    // console.log(jom);
     if (differenceInSeconds(order_date, new Date()) > 0) {
       // console.log(differenceInSeconds(order_date, new Date()));
-      createJom(jom);
+      await updateJom(jom_obj);
       showToast(
         toast,
-        "Jom Successfully.",
-        "Let's jom makan " + order_name + " bersama !",
+        "Remark Edited Successful!",
+        "Your Remark has been edited successfully",
         "success",
         5000,
         true
       );
+      onClose();
+      reset();
     } else {
-      //console.log(differenceInMinutes(order_date, new Date()));
       // console.log(differenceInSeconds(order_date, new Date()));
-
       showToast(
         toast,
-        "Failed to JOM",
-        "JOM can only be made before the Order Close Time.",
+        "Remark Cannot Be Edited After Order Closed!",
+        "Please edit the your jom remark before the order closed.",
         "error",
         5000,
         true
       );
     }
 
-    onClose();
-    reset();
+    // await updateRemark(jom_id, remark);
+    // showToast(
+    //   toast,
+    //   "Remark Edited Successful!",
+    //   "Your Remark has been edited successfully",
+    //   "success",
+    //   5000,
+    //   true
+    // );
+    // onClose();
+    // reset();
   };
 
   return (
     <>
       <Button
+        variant="unstyled"
         onClick={onOpen}
-        w={"full"}
-        mt={6}
-        bg={useColorModeValue("blue.600", "blue.900")}
-        color={"white"}
-        rounded={"md"}
-        _hover={{
-          transform: "translateY(-2px)",
-          boxShadow: "lg",
-        }}
+        disabled={differenceInSeconds(order_date, new Date()) < 0}
       >
-        JOM
+        <EditIcon />
       </Button>
-
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent>
           <form onSubmit={handleSubmit(onSubmit)}>
-            <ModalHeader>Jom Makan - {order_name} </ModalHeader>
+            <ModalHeader>Edit Jom Details</ModalHeader>
             <ModalCloseButton />
-            <ModalBody pb={6}>
+            <ModalBody>
               <FormControl isInvalid={errors.payment_method}>
                 <FormLabel>Payment Method</FormLabel>
                 <Select
                   id="Payment Method"
                   placeholder="Select your payment method"
+                  defaultValue={jom.payment_method}
                   {...register("payment_method", {
                     required: "Please select a payment method.",
                   })}
@@ -122,9 +115,10 @@ const JomButton = ({ order_id, order_name, order_date }) => {
                 <FormLabel>Remark</FormLabel>
                 <Textarea
                   id="remark"
-                  placeholder="Write your remark here"
+                  defaultValue={jom.remark}
+                  placeholder="Edit Your Remark Here"
                   {...register("remark", {
-                    required: "Remark is required",
+                    require: "Remark is required",
                   })}
                 />
                 <FormErrorMessage>
@@ -132,23 +126,17 @@ const JomButton = ({ order_id, order_name, order_date }) => {
                 </FormErrorMessage>
               </FormControl>
             </ModalBody>
-
             <ModalFooter>
-              <Button
-                colorScheme="blue"
-                mr={3}
-                isLoading={isSubmitting}
-                type="submit"
-              >
-                Confirm
+              <Button type="submit">Change</Button>
+              <Button onClick={onClose} ml={3}>
+                Cancel
               </Button>
-              <Button onClick={onClose}>Cancel</Button>
             </ModalFooter>
           </form>
         </ModalContent>
-      </Modal>
+      </Modal>{" "}
     </>
   );
 };
 
-export default JomButton;
+export default EditJomButton;
