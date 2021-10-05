@@ -24,7 +24,7 @@ const About = () => {
       </Center>
       <Accordion allowToggle allowMultiple>
         <AccordionItem>
-          <AccordionButton fontSize={30}>
+          <AccordionButton fontSize={25}>
             <Box>1. How to Create An Order?</Box>
           </AccordionButton>
           <AccordionPanel>
