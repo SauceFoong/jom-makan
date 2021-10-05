@@ -10,12 +10,6 @@ import {
   Link,
   Divider,
   useToast,
-<<<<<<< HEAD
-} from "@chakra-ui/react";
-import React from "react";
-import Head from "next/head";
-import { db, updatePayment } from "../lib/db";
-=======
   Icon,
   List,
   ListItem,
@@ -35,7 +29,6 @@ import { useForm } from "react-hook-form";
 import React from "react";
 import Head from "next/head";
 import { db, updatePayment, updateRemark } from "../lib/db";
->>>>>>> origin/master
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { useUser } from "../lib/auth/useUser";
@@ -118,8 +111,6 @@ const OrderDetails = () => {
     formatRelative: (token) => formatRelativeLocale[token],
   };
 
-<<<<<<< HEAD
-=======
   const removeOrderReceipt = async (order_id) => {
     await deleteOderReceipt(order_id);
     showToast(
@@ -158,7 +149,6 @@ const OrderDetails = () => {
     // });
   }, []);
 
->>>>>>> origin/master
   const toast = useToast();
 
   return (
