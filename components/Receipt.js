@@ -11,8 +11,8 @@ const Receipt = ({ jom }) => {
     <>
       <Icon
         as={BiReceipt}
-        w={10}
-        h={10}
+        w={5}
+        h={5}
         onClick={setToggleLightBox}
         cursor={"zoom-in"}
         _hover={{
