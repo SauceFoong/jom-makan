@@ -20,8 +20,12 @@ import {
   useToast,
   useColorModeValue,
   Textarea,
+  RadioGroup,
+  Stack,
+  Radio,
+  Tooltip,
 } from "@chakra-ui/react";
-import { AddIcon } from "@chakra-ui/icons";
+import { AddIcon, InfoIcon } from "@chakra-ui/icons";
 import React, { useState } from "react";
 import { useUser } from "../lib/auth/useUser";
 import { useForm, Controller } from "react-hook-form";
@@ -36,6 +40,7 @@ const AddOrderButton = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { user, logout } = useUser();
   const [tipValue, setTip] = useState("0.50");
+  const [orderType, setOrderType] = useState(2);
   const {
     register,
     reset,
@@ -45,6 +50,7 @@ const AddOrderButton = () => {
   } = useForm();
   const toast = useToast();
   const onSubmit = async (data) => {
+    // console.log(data);
     const order = {
       ...data,
       created_at: new Date().toISOString(),
@@ -54,7 +60,7 @@ const AddOrderButton = () => {
       jom_members: [],
       order_receipt: [],
     };
-    // console.log(order);
+    console.log(order);
     await createOrder(order);
     showToast(
       toast,
@@ -119,7 +125,15 @@ const AddOrderButton = () => {
               </FormControl>
 
               <FormControl mt={4} isInvalid={errors.ref_url}>
-                <FormLabel>Menu / Reference Url</FormLabel>
+                <FormLabel>
+                  Menu / Reference Url{" "}
+                  <Tooltip
+                    label="It can be either an online menu or a reference link to let the jommer have a better understanding what should they pick for their lunch."
+                    fontSize="md"
+                  >
+                    <InfoIcon />
+                  </Tooltip>
+                </FormLabel>
                 <Input
                   id="ref_url"
                   placeholder="http://example.com/"
@@ -133,7 +147,15 @@ const AddOrderButton = () => {
               </FormControl>
 
               <FormControl mt={4}>
-                <FormLabel>Tips Request (RM)</FormLabel>
+                <FormLabel>
+                  Tips Request (RM){" "}
+                  <Tooltip
+                    label="We believe there are no free lunch in the world, feel free to set your tips as a motivation to keep contributing to the Jommers."
+                    fontSize="md"
+                  >
+                    <InfoIcon />
+                  </Tooltip>
+                </FormLabel>
                 <NumberInput
                   defaultValue={0.5}
                   precision={2}
@@ -160,7 +182,13 @@ const AddOrderButton = () => {
                 color={useColorModeValue("gray.900", "gray.600")}
               >
                 <FormLabel color={useColorModeValue("gray.900", "white")}>
-                  Order Date & Close Order Time
+                  Order Date & Close Order Time{" "}
+                  <Tooltip
+                    label="Your order will be closed after the close order time that you set, no one can jom or cancel their order after that."
+                    fontSize="md"
+                  >
+                    <InfoIcon />
+                  </Tooltip>
                 </FormLabel>
                 <Controller
                   name="order_date"
@@ -176,6 +204,39 @@ const AddOrderButton = () => {
                     {errors.order_date.message}
                   </FormErrorMessage>
                 )}
+              </FormControl>
+
+              <FormControl
+                mt={4}
+                isInvalid={errors.order_type}
+                color={useColorModeValue("gray.900", "gray.600")}
+              >
+                <FormLabel color={useColorModeValue("gray.900", "white")}>
+                  Order Type{" "}
+                  <Tooltip
+                    label="Everyone can see a public order, but a private order can only be seen with the link sent by the creator."
+                    fontSize="md"
+                  >
+                    <InfoIcon />
+                  </Tooltip>
+                </FormLabel>
+                <Controller
+                  name="order_type"
+                  defaultValue={"1"}
+                  control={control}
+                  render={({ field: { onChange, value } }) => (
+                    <RadioGroup {...{ onChange, value }}>
+                      <Stack direction="row">
+                        <Radio name="order_type" value="1">
+                          Public
+                        </Radio>
+                        <Radio name="order_type" value="2">
+                          Private
+                        </Radio>
+                      </Stack>
+                    </RadioGroup>
+                  )}
+                />
               </FormControl>
             </ModalBody>
 
