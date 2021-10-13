@@ -76,7 +76,10 @@ const Order = () => {
                   <Flex flexWrap={"wrap"}>
                     {orders &&
                       orders.map((order, index) => {
-                        if (isToday(new Date(order.order_date))) {
+                        if (
+                          isToday(new Date(order.order_date)) &&
+                          order.order_type === "1"
+                        ) {
                           const yourOrder = order.created_by.id === user.id;
                           const yourJom = order.jom_members.includes(user.id);
                           todayOrderCount++;
@@ -94,6 +97,7 @@ const Order = () => {
                               yourOrder={yourOrder}
                               yourJom={yourJom}
                               jom_members={order.jom_members}
+                              order_type={order.order_type}
                             />
                           );
                         }
@@ -167,6 +171,7 @@ const Order = () => {
                               yourOrder={true}
                               yourJom={false}
                               jom_members={order.jom_members}
+                              order_type={order.order_type}
                             />
                           );
                         }
@@ -205,6 +210,7 @@ const Order = () => {
                               yourOrder={false}
                               yourJom={true}
                               jom_members={order.jom_members}
+                              order_type={order.order_type}
                             />
                           );
                         }

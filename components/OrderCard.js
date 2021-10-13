@@ -11,7 +11,7 @@ import {
   ListIcon,
   useColorModeValue,
 } from "@chakra-ui/react";
-import { TimeIcon, ExternalLinkIcon } from "@chakra-ui/icons";
+import { TimeIcon, ExternalLinkIcon, LockIcon } from "@chakra-ui/icons";
 import { MdAttachMoney } from "react-icons/md";
 import { FiUsers } from "react-icons/fi";
 import JomButton from "../components/JomButton";
@@ -30,6 +30,7 @@ const OrderCard = ({
   res_name,
   ref_url,
   order_date,
+  order_type,
   description,
   tips,
   yourOrder,
@@ -73,6 +74,7 @@ const OrderCard = ({
               ref_url={ref_url}
               description={description}
               order_date={order_date}
+              order_type={order_type}
               tips={tips}
             />
           </Link>
@@ -104,6 +106,7 @@ const OrderCard = ({
         fontFamily={"body"}
         color={useColorModeValue("gray.900", "white")}
       >
+        {order_type === "2" ? <LockIcon fontSize={"15px"} /> : ""}
         {res_name.length >= 20 ? res_name.substring(0, 17) + "..." : res_name}
       </Heading>
       <Text fontWeight={600} fontSize={15} color={"gray.500"} mb={4}>
