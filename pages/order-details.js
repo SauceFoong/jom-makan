@@ -96,7 +96,7 @@ const OrderDetails = () => {
   const router = useRouter();
   const { id } = router.query;
   const { joms } = useJom(id);
-
+  console.log(user)
   const formatRelativeLocale = {
     lastWeek: "'Last' eeee ' at 'hh:mm aa",
     yesterday: "'Yesterday at 'hh:mm aa",
