@@ -359,34 +359,31 @@ const OrderDetails = () => {
                           )} */}
                         </Th>
                         <Th>
-                          {jom.pay ? (
-                            <Text>Paid</Text>
-                          ) : (
-                            <Button
-                              onClick={() => {
-                                const callback = onClickUpdatePayment(
-                                  jom.id,
-                                  jom,
-                                  jom.order_id,
-                                  user.id
-                                );
-                                callback.then((result) => {
-                                  if (result == false) {
-                                    showToast(
-                                      toast,
-                                      "Not owner.",
-                                      "Only owner of the order can click the pay button",
-                                      "error",
-                                      5000,
-                                      true
-                                    );
-                                  }
-                                });
-                              }}
-                            >
-                              Pay
-                            </Button>
-                          )}
+                          <Button
+                            onClick={() => {
+                              const callback = onClickUpdatePayment(
+                                jom.id,
+                                jom,
+                                jom.order_id,
+                                user.id
+                              );
+                              callback.then((result) => {
+                                if (result == false) {
+                                  showToast(
+                                    toast,
+                                    "Not owner.",
+                                    "Only owner of the order can click the pay button",
+                                    "error",
+                                    5000,
+                                    true
+                                  );
+                                }
+                              });
+                            }}
+                            isDisabled={jom.pay}
+                          >
+                            {jom.pay ? "Paid" : "Pay"}
+                          </Button>
                         </Th>
                       </Tr>
                     );
