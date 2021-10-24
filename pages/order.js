@@ -98,6 +98,7 @@ const Order = () => {
                               yourJom={yourJom}
                               jom_members={order.jom_members}
                               order_type={order.order_type}
+                              tags={order.tags}
                             />
                           );
                         }
@@ -172,6 +173,7 @@ const Order = () => {
                               yourJom={false}
                               jom_members={order.jom_members}
                               order_type={order.order_type}
+                              tags={order.tags}
                             />
                           );
                         }
@@ -211,6 +213,7 @@ const Order = () => {
                               yourJom={true}
                               jom_members={order.jom_members}
                               order_type={order.order_type}
+                              tags={order.tags}
                             />
                           );
                         }

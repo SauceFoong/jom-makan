@@ -1,5 +1,7 @@
 import {
   Button,
+  Checkbox,
+  CheckboxGroup,
   FormErrorMessage,
   FormLabel,
   FormControl,
@@ -44,6 +46,7 @@ const EditOrderButton = ({
   order_type,
   tips,
   description,
+  tags,
 }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [tipValue, setTip] = useState("0.50");
@@ -242,6 +245,30 @@ const EditOrderButton = ({
                         </Radio>
                       </Stack>
                     </RadioGroup>
+                  )}
+                />
+              </FormControl>
+
+              <FormControl mt={4} isInvalid={errors.ref_url}>
+                <FormLabel>
+                  Tags{" "}
+                  <Tooltip
+                    label="Tag is used to give a quick overview for other user about the food/place. More tags comming soon!"
+                    fontSize="md"
+                  >
+                    <InfoIcon />
+                  </Tooltip>
+                </FormLabel>
+                <Controller
+                  name="tags"
+                  control={control}
+                  defaultValue={tags}
+                  render={({ field: { onChange, value } }) => (
+                    <CheckboxGroup {...{ onChange, value }}>
+                      <Stack direction="row">
+                        <Checkbox name="halal" value="halal">Halal</Checkbox>
+                      </Stack>
+                    </CheckboxGroup>
                   )}
                 />
               </FormControl>

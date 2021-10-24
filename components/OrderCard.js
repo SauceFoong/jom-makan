@@ -9,11 +9,13 @@ import {
   List,
   ListItem,
   ListIcon,
+  Tag,
   useColorModeValue,
 } from "@chakra-ui/react";
 import { TimeIcon, ExternalLinkIcon, LockIcon } from "@chakra-ui/icons";
 import { MdAttachMoney } from "react-icons/md";
 import { FiUsers } from "react-icons/fi";
+import { AiOutlineTag } from "react-icons/ai";
 import JomButton from "../components/JomButton";
 import { useUser } from "../lib/auth/useUser";
 import EditOrderButton from "../components/EditOrderButton";
@@ -36,6 +38,7 @@ const OrderCard = ({
   yourOrder,
   yourJom,
   jom_members,
+  tags,
 }) => {
   const { user, logout } = useUser();
   const formatRelativeLocale = {
@@ -76,6 +79,7 @@ const OrderCard = ({
               order_date={order_date}
               order_type={order_type}
               tips={tips}
+              tags={tags}
             />
           </Link>
           <Link>
@@ -156,6 +160,24 @@ const OrderCard = ({
             />
             {jom_members.length}
           </Flex>
+        </ListItem>
+        <ListItem>
+          <ListIcon
+            as={AiOutlineTag}
+            color={useColorModeValue("gray.900", "white")}
+          />
+          {tags.map(() => (
+            <Tag
+              size="md"
+              key="md"
+              variant="solid"
+              colorScheme="teal"
+              marginTop="1"
+              marginRight="1"
+            >
+              Halal
+            </Tag>
+          ))}
         </ListItem>
       </List>{" "}
       {yourOrder || yourJom ? null : (

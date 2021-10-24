@@ -1,5 +1,7 @@
 import {
   Button,
+  Checkbox,
+  CheckboxGroup,
   FormErrorMessage,
   FormLabel,
   FormControl,
@@ -238,8 +240,32 @@ const AddOrderButton = () => {
                   )}
                 />
               </FormControl>
-            </ModalBody>
 
+              <FormControl mt={4} isInvalid={errors.ref_url}>
+                <FormLabel>
+                  Tags{" "}
+                  <Tooltip
+                    label="Tag is used to give a quick overview for other user about the food/place. More tags comming soon!"
+                    fontSize="md"
+                  >
+                    <InfoIcon />
+                  </Tooltip>
+                </FormLabel>
+                <Controller
+                  name="tags"
+                  control={control}
+                  defaultValue={[]}
+                  render={({ field: { onChange, value } }) => (
+                    <CheckboxGroup {...{ onChange, value }}>
+                      <Stack direction="row">
+                        <Checkbox name="halal" value="halal">Halal</Checkbox>
+                      </Stack>
+                    </CheckboxGroup>
+                  )}
+                />
+              </FormControl>
+
+            </ModalBody>
             <ModalFooter>
               <Button
                 colorScheme="blue"

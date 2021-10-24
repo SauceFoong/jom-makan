@@ -14,8 +14,10 @@ import {
   List,
   ListItem,
   ListIcon,
+  Tag,
 } from "@chakra-ui/react";
 import { CloseIcon, LinkIcon } from "@chakra-ui/icons";
+import { AiOutlineTag } from "react-icons/ai";
 import {
   BiReceipt,
   BiRestaurant,
@@ -256,6 +258,27 @@ const OrderDetails = () => {
                 "-"
               )}
             </ListItem>
+            <ListItem>
+              <ListIcon
+                as={AiOutlineTag}
+                color="blue.500"
+              />
+              {order.tags.length >= 1 ?
+                order.tags.map(() => (
+                  <Tag
+                    size="md"
+                    key="md"
+                    variant="solid"
+                    colorScheme="teal"
+                    marginTop="1"
+                    marginRight="1"
+                  >
+                    Halal
+                  </Tag>
+                ))
+                : "No tag(s) associated with this order"
+              }
+            </ListItem>
           </List>
           <Box p={3} maxW={"300px"} textAlign={"Center"}>
             {user && user.id != order.created_by ? (
@@ -312,8 +335,8 @@ const OrderDetails = () => {
                         </Th>
                         <Th>
                           {user &&
-                          jom.user_id === user.id &&
-                          jom.payment_method === "Online Transfer" ? (
+                            jom.user_id === user.id &&
+                            jom.payment_method === "Online Transfer" ? (
                             jom.payment_receipt.length === 0 ? (
                               <UploadFile
                                 multiple
