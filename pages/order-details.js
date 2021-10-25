@@ -264,16 +264,17 @@ const OrderDetails = () => {
                 color="blue.500"
               />
               {order.tags.length >= 1 ?
-                order.tags.map(() => (
+                order.tags.map((tag, i) => (
                   <Tag
                     size="md"
-                    key="md"
+                    key={i}
                     variant="solid"
                     colorScheme="teal"
                     marginTop="1"
                     marginRight="1"
+                    style={{ textTransform: "capitalize" }}
                   >
-                    Halal
+                    {tag}
                   </Tag>
                 ))
                 : "No tag(s) associated with this order"

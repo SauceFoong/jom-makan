@@ -166,18 +166,23 @@ const OrderCard = ({
             as={AiOutlineTag}
             color={useColorModeValue("gray.900", "white")}
           />
-          {tags.map(() => (
-            <Tag
-              size="md"
-              key="md"
-              variant="solid"
-              colorScheme="teal"
-              marginTop="1"
-              marginRight="1"
-            >
-              Halal
-            </Tag>
-          ))}
+          {tags.length >= 1 ?
+            tags.map((tag, i) => (
+              <Tag
+                key={i}
+                size="md"
+                key="md"
+                variant="solid"
+                colorScheme="teal"
+                marginTop="1"
+                marginRight="1"
+                style={{ textTransform: "capitalize" }}
+              >
+                {tag}
+              </Tag>
+            ))
+            : '-'
+          }
         </ListItem>
       </List>{" "}
       {yourOrder || yourJom ? null : (
