@@ -352,7 +352,7 @@ const Faq = () => {
             <>
               <AccordionButton fontSize={25}>
                 <Box paddingTop={2} paddingLeft={5} paddingBottom={2}>
-                  7. What is the difference between public and private order?
+                  7. What is the difference between Public and Private order?
                 </Box>
               </AccordionButton>
               <AccordionPanel>
@@ -361,8 +361,10 @@ const Faq = () => {
                     <Tr border={"hidden"}>
                       <Td>
                         Private order can only be seen with the link sent by the
-                        orderer. Hence, you won&apos;s see it in the Orders
-                        Today tab but public order can be seen over there.
+                        orderer. Hence, you won&apos;s see it in the
+                        &quot;Orders Today&quot; tab but Public order can be
+                        seen over there. You can use private order for your
+                        small group of orders.
                       </Td>
                     </Tr>
                   </Tbody>
