@@ -1,0 +1,74 @@
+.noti_modal {
+  padding: 4px 8px;
+  position: absolute;
+  z-index: 50;
+  background: #fff;
+  max-width: 80%;
+  height: 450px;
+  width: 300px;
+  border-radius: 18px;
+  top: 75px;
+  right: 25px;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+  color: #000;
+}
+
+.noti_modal_header {
+  margin-top: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.mark_all_read_btn,
+.view_all_btn {
+  padding: 5px 10px;
+  cursor: pointer;
+  font-weight: bold;
+  border: none;
+  border-radius: 2px;
+  font-size: 12px;
+  background-color: transparent;
+}
+
+.mark_all_read_btn:hover,
+.view_all_btn:hover {
+  background-color: ghostwhite;
+}
+.divider {
+  margin-top: 4px;
+  margin-right: 0;
+  margin-left: 0;
+  border: 1px solid #fff;
+}
+
+.modal_body {
+  flex: 1;
+  overflow-y: scroll;
+}
+
+.modal_footer {
+  margin: auto;
+  margin-top: 4px;
+}
+
+@media (max-width: 576px) {
+  .modal {
+    height: 400px;
+    margin: 0 auto;
+    right: 0;
+    left: 0;
+  }
+}
+
+.no_noti_text {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  color: #000;
+  text-align: center;
+}

@@ -20,6 +20,7 @@ import { HamburgerIcon, CloseIcon, SunIcon, MoonIcon } from "@chakra-ui/icons";
 import AddOrderButton from "./AddOrderButton";
 import NextLink from "next/link";
 import Logo from "./Logo";
+import NotificationButton from "./Notifications/NotificationButton";
 
 const NavLink = ({ children }) => (
   <NextLink href={"/" + children} passHref>
@@ -96,6 +97,7 @@ export default function WithAction() {
             />
             {user ? (
               <>
+                {/* <NotificationButton /> */}
                 <AddOrderButton />
 
                 <Menu>
