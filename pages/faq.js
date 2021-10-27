@@ -347,6 +347,30 @@ const Faq = () => {
             </>
           )}
         </AccordionItem>
+        <AccordionItem>
+          {({ isExpanded }) => (
+            <>
+              <AccordionButton fontSize={25}>
+                <Box paddingTop={2} paddingLeft={5} paddingBottom={2}>
+                  7. What is the difference between public and private order?
+                </Box>
+              </AccordionButton>
+              <AccordionPanel>
+                <Table variant={"simple"} border="hidden">
+                  <Tbody>
+                    <Tr border={"hidden"}>
+                      <Td>
+                        Private order can only be seen with the link sent by the
+                        orderer. Hence, you won&apos;s see it in the Orders
+                        Today tab but public order can be seen over there.
+                      </Td>
+                    </Tr>
+                  </Tbody>
+                </Table>
+              </AccordionPanel>
+            </>
+          )}
+        </AccordionItem>
       </Accordion>
     </div>
   );
