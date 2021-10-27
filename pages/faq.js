@@ -361,10 +361,10 @@ const Faq = () => {
                     <Tr border={"hidden"}>
                       <Td>
                         Private order can only be seen with the link sent by the
-                        orderer. Hence, you won&apos;s see it in the
-                        &quot;Orders Today&quot; tab but Public order can be
-                        seen over there. You can use private order for your
-                        small group of orders.
+                        orderer. You won&apos;s see it in the &quot;Today
+                        Orders&quot; tab but Public order can be seen over
+                        there. Hence, you can use private order for your own
+                        group of orders.
                       </Td>
                     </Tr>
                   </Tbody>
