@@ -14,6 +14,8 @@ import {
 } from "@chakra-ui/react";
 import NotFound from "../components/NotFound";
 import OrderCardSkeleton from "../components/OrdeCardSkeleton";
+import { useRouter } from "next/router";
+import * as ga from '../lib/ga';
 
 function useOrder(loading) {
   const [orders, setOrders] = useState([]);
@@ -34,6 +36,24 @@ function useOrder(loading) {
         loading(false);
       });
     return () => unsubscribe();
+  }, []);
+  const r = useRouter();
+  useEffect(() => {
+    const handleRouteChange = (url) => {
+      ga.pageview(url);
+    };
+    //When the component is mounted, subscribe to router changes
+    //and log those page views
+    r.events.on('routeChangeComplete', handleRouteChange);
+
+    // If the component is unmounted, unsubscribe
+    // from the event with the `off` method
+    return () => {
+      r.events.off('routeChangeComplete', handleRouteChange);
+    };
+  }, [r.events]);
+  useEffect(() => {
+    ga.custompageview('Dashboard');
   }, []);
   return { orders };
 }
