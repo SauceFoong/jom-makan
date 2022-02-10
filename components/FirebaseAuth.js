@@ -6,8 +6,7 @@ import "firebase/auth";
 import { setUserCookie } from "../lib/auth/userCookies";
 import { mapUserData } from "../lib/auth/mapUserData";
 import { updateUser } from "../lib/db";
-//import router from "next/router";
-import { useRouter } from "next/router";
+import router from "next/router";
 
 initFirebase();
 
@@ -28,7 +27,6 @@ const firebaseAuthConfig = {
       });
       const userData = mapUserData(user);
       setUserCookie(userData);
-      const router = useRouter();
       router.push("/order");
       return false;
     },
