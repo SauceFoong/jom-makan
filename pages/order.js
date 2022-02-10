@@ -15,7 +15,7 @@ import {
 import NotFound from "../components/NotFound";
 import OrderCardSkeleton from "../components/OrdeCardSkeleton";
 import { useRouter } from "next/router";
-import * as ga from '../lib/ga';
+import * as ga from "../lib/ga";
 
 function useOrder(loading) {
   const [orders, setOrders] = useState([]);
@@ -44,16 +44,16 @@ function useOrder(loading) {
     };
     //When the component is mounted, subscribe to router changes
     //and log those page views
-    r.events.on('routeChangeComplete', handleRouteChange);
+    r.events.on("routeChangeComplete", handleRouteChange);
 
     // If the component is unmounted, unsubscribe
     // from the event with the `off` method
     return () => {
-      r.events.off('routeChangeComplete', handleRouteChange);
+      r.events.off("routeChangeComplete", handleRouteChange);
     };
   }, [r.events]);
   useEffect(() => {
-    ga.custompageview('Dashboard');
+    ga.custompageview("Dashboard");
   }, []);
   return { orders };
 }
@@ -139,6 +139,7 @@ const Order = () => {
                       orders.map((order, index) => {
                         if (
                           isAfter(new Date(order.order_date), new Date()) &&
+                          !isToday(new Date(order.order_date)) &&
                           order.order_type === "1"
                         ) {
                           const yourOrder = order.created_by.id === user.id;
