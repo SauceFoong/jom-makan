@@ -6,9 +6,12 @@ import "firebase/auth";
 import { setUserCookie } from "../lib/auth/userCookies";
 import { mapUserData } from "../lib/auth/mapUserData";
 import { updateUser } from "../lib/db";
-import router from "next/router";
+//import router from "next/router";
+import { useRouter } from "next/router";
+
 initFirebase();
 
+const router = useRouter();
 const firebaseAuthConfig = {
   signInFlow: "popup",
   // Auth providers

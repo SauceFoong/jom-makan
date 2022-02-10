@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import { db, getUserDetails } from "../lib/db";
 import { useUser } from "../lib/auth/useUser";
 import OrderCard from "../components/OrderCard";
-import { isToday } from "date-fns";
+import { isAfter, isToday } from "date-fns";
 import {
   Flex,
   Tabs,
@@ -43,7 +43,7 @@ const Order = () => {
   const { user, logout } = useUser();
   const { orders } = useOrder(setLoading);
   let todayOrderCount = 0;
-  // let allOrderCount = 0;
+  let upcomingOrderCount = 0;
   let yourOrderCount = 0;
   let yourJomCount = 0;
 
@@ -58,7 +58,7 @@ const Order = () => {
         <Tabs isFitted isLazy>
           <TabList>
             <Tab>Today Orders</Tab>
-            {/* <Tab>All Orders</Tab> */}
+            <Tab>Upcoming Orders</Tab>
             <Tab>Your Orders</Tab>
             <Tab>Your Joms</Tab>
           </TabList>
@@ -108,7 +108,8 @@ const Order = () => {
                 </>
               )}
             </TabPanel>
-            {/* <TabPanel>
+            {/* upcoming orders */}
+            <TabPanel>
               {isLoading ? (
                 <h2>Loading...</h2>
               ) : (
@@ -116,31 +117,40 @@ const Order = () => {
                   <Flex flexWrap={"wrap"}>
                     {orders &&
                       orders.map((order, index) => {
-                        const yourOrder = order.created_by.id === user.id;
-                        const yourJom = order.jom_members.includes(user.id);
-                        allOrderCount++;
-                        return (
-                          <OrderCard
-                            key={index}
-                            id={order.id}
-                            creator_name={order.created_by.name}
-                            creator_pic={order.created_by.profilePic}
-                            res_name={order.res_name}
-                            ref_url={order.ref_url}
-                            order_date={order.order_date}
-                            tips={order.tips}
-                            description={order.description}
-                            yourOrder={yourOrder}
-                            yourJom={yourJom}
-                            jom_members={order.jom_members}
-                          />
-                        );
+                        if (
+                          isAfter(new Date(order.order_date), new Date()) &&
+                          order.order_type === "1"
+                        ) {
+                          const yourOrder = order.created_by.id === user.id;
+                          const yourJom = order.jom_members.includes(user.id);
+                          upcomingOrderCount++;
+                          return (
+                            <OrderCard
+                              key={index}
+                              id={order.id}
+                              creator_name={order.created_by.name}
+                              creator_pic={order.created_by.profilePic}
+                              res_name={order.res_name}
+                              ref_url={order.ref_url}
+                              order_date={order.order_date}
+                              tips={order.tips}
+                              description={order.description}
+                              yourOrder={yourOrder}
+                              yourJom={yourJom}
+                              jom_members={order.jom_members}
+                              order_type={order.order_type}
+                              tags={order.tags}
+                            />
+                          );
+                        }
                       })}
-                    {allOrderCount === 0 ? <NotFound obj="Orders" /> : null}
+                    {upcomingOrderCount === 0 ? (
+                      <NotFound obj="Orders" />
+                    ) : null}
                   </Flex>
                 </>
               )}
-            </TabPanel> */}
+            </TabPanel>
             <TabPanel>
               {isLoading ? (
                 <Flex flexWrap={"wrap"}>

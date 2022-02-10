@@ -259,26 +259,22 @@ const OrderDetails = () => {
               )}
             </ListItem>
             <ListItem>
-              <ListIcon
-                as={AiOutlineTag}
-                color="blue.500"
-              />
-              {order.tags.length >= 1 ?
-                order.tags.map((tag, i) => (
-                  <Tag
-                    size="md"
-                    key={i}
-                    variant="solid"
-                    colorScheme="teal"
-                    marginTop="1"
-                    marginRight="1"
-                    style={{ textTransform: "capitalize" }}
-                  >
-                    {tag}
-                  </Tag>
-                ))
-                : "No tag(s) associated with this order"
-              }
+              <ListIcon as={AiOutlineTag} color="blue.500" />
+              {order.tags.length >= 1
+                ? order.tags.map((tag, i) => (
+                    <Tag
+                      size="md"
+                      key={i}
+                      variant="solid"
+                      colorScheme="teal"
+                      marginTop="1"
+                      marginRight="1"
+                      style={{ textTransform: "capitalize" }}
+                    >
+                      {tag}
+                    </Tag>
+                  ))
+                : "No tag(s) associated with this order"}
             </ListItem>
           </List>
           <Box p={3} maxW={"300px"} textAlign={"Center"}>
@@ -336,8 +332,8 @@ const OrderDetails = () => {
                         </Th>
                         <Th>
                           {user &&
-                            jom.user_id === user.id &&
-                            jom.payment_method === "Online Transfer" ? (
+                          jom.user_id === user.id &&
+                          jom.payment_method === "Online Transfer" ? (
                             jom.payment_receipt.length === 0 ? (
                               <UploadFile
                                 multiple
