@@ -1,15 +1,11 @@
 import Head from "next/head";
 import FirebaseAuth from "../components/FirebaseAuth";
 import { getUserFromCookie } from "../lib/auth/userCookies";
-<<<<<<< HEAD
-import { router, useRouter } from "next/router";
-=======
 import { useRouter } from "next/router";
->>>>>>> dev
 import { Flex, Heading, Stack, Text, Container, Icon } from "@chakra-ui/react";
 import { useUser } from "../lib/auth/useUser";
-import { useEffect } from 'react';
-import * as ga from '../lib/ga';
+import { useEffect } from "react";
+import * as ga from "../lib/ga";
 
 export default function Home() {
   const { user, logout } = useUser();
@@ -25,16 +21,16 @@ export default function Home() {
     };
     //When the component is mounted, subscribe to router changes
     //and log those page views
-    r.events.on('routeChangeComplete', handleRouteChange);
+    r.events.on("routeChangeComplete", handleRouteChange);
 
     // If the component is unmounted, unsubscribe
     // from the event with the `off` method
     return () => {
-      r.events.off('routeChangeComplete', handleRouteChange);
+      r.events.off("routeChangeComplete", handleRouteChange);
     };
   }, [r.events]);
   useEffect(() => {
-    ga.custompageview('Login');
+    ga.custompageview("Login");
   }, []);
   return (
     <Container maxW={"2xl"}>
