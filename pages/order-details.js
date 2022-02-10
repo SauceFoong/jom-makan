@@ -50,6 +50,7 @@ import {
 import { showToast } from "../lib/Helper/Toast";
 import Receipt from "../components/Receipt";
 import EditJomButton from "../components/EditJomButton";
+import * as ga from '../lib/ga';
 
 const MAX_FILE_SIZE = 5000000;
 
@@ -134,6 +135,7 @@ const OrderDetails = () => {
         const order = doc.data();
         setOrder(order);
         setLoading(false);
+        ga.custompageview(order.res_name);
       });
     return () => unsubscribe();
 
@@ -152,6 +154,22 @@ const OrderDetails = () => {
   }, []);
 
   const toast = useToast();
+
+  const r = useRouter();
+  useEffect(() => {
+    const handleRouteChange = (url) => {
+      ga.pageview(url);
+    };
+    //When the component is mounted, subscribe to router changes
+    //and log those page views
+    r.events.on('routeChangeComplete', handleRouteChange);
+
+    // If the component is unmounted, unsubscribe
+    // from the event with the `off` method
+    return () => {
+      r.events.off('routeChangeComplete', handleRouteChange);
+    };
+  }, [r.events]);
 
   return (
     <>
