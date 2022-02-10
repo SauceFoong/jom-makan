@@ -1,7 +1,11 @@
 import Head from "next/head";
 import FirebaseAuth from "../components/FirebaseAuth";
 import { getUserFromCookie } from "../lib/auth/userCookies";
+<<<<<<< HEAD
 import { router, useRouter } from "next/router";
+=======
+import { useRouter } from "next/router";
+>>>>>>> dev
 import { Flex, Heading, Stack, Text, Container, Icon } from "@chakra-ui/react";
 import { useUser } from "../lib/auth/useUser";
 import { useEffect } from 'react';
@@ -9,6 +13,7 @@ import * as ga from '../lib/ga';
 
 export default function Home() {
   const { user, logout } = useUser();
+  const router = useRouter();
   const userFromCookie = getUserFromCookie();
   if (userFromCookie) {
     router.push("/order");

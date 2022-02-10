@@ -114,12 +114,7 @@ const AddOrderButton = () => {
                 <Textarea
                   id="description"
                   placeholder="Write your description here"
-                  {...register("description", {
-                    maxLength: {
-                      value: 50,
-                      message: "Description should be shorter than 50 words",
-                    },
-                  })}
+                  {...register("description")}
                 />
                 <FormErrorMessage>
                   {errors.description && errors.description.message}
@@ -258,13 +253,14 @@ const AddOrderButton = () => {
                   render={({ field: { onChange, value } }) => (
                     <CheckboxGroup {...{ onChange, value }}>
                       <Stack direction="row">
-                        <Checkbox name="halal" value="halal">Halal</Checkbox>
+                        <Checkbox name="halal" value="halal">
+                          Halal
+                        </Checkbox>
                       </Stack>
                     </CheckboxGroup>
                   )}
                 />
               </FormControl>
-
             </ModalBody>
             <ModalFooter>
               <Button

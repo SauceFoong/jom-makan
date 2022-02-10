@@ -7,6 +7,7 @@ import { setUserCookie } from "../lib/auth/userCookies";
 import { mapUserData } from "../lib/auth/mapUserData";
 import { updateUser } from "../lib/db";
 import router from "next/router";
+
 initFirebase();
 
 const firebaseAuthConfig = {
