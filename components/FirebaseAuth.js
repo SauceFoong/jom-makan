@@ -11,7 +11,6 @@ import { useRouter } from "next/router";
 
 initFirebase();
 
-const router = useRouter();
 const firebaseAuthConfig = {
   signInFlow: "popup",
   // Auth providers
@@ -29,6 +28,7 @@ const firebaseAuthConfig = {
       });
       const userData = mapUserData(user);
       setUserCookie(userData);
+      const router = useRouter();
       router.push("/order");
       return false;
     },
