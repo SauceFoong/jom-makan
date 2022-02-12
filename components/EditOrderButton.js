@@ -69,7 +69,7 @@ const EditOrderButton = ({
     await updateOrder(order_id, order);
     showToast(
       toast,
-      "Order updated Successfully.",
+      "Order Updated Successfully.",
       "Your can view your latest changes now !",
       "success",
       5000,

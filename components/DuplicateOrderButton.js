@@ -28,7 +28,7 @@ const DuplicateOrderButton = ({ order_id, res_name }) => {
         await duplicateOrder(order_id);
         showToast(
             toast,
-            "Order duplicated Successfully.",
+            "Order Duplicated Successfully.",
             "People can start jomming this order!",
             "success",
             5000,

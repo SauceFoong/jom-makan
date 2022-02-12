@@ -28,7 +28,7 @@ const DeleteOrderButton = ({ order_id, res_name }) => {
     await deleteOrder(order_id);
     showToast(
       toast,
-      "Order deleted Successfully.",
+      "Order Deleted Successfully.",
       "People can't view this order anymore !",
       "success",
       5000,

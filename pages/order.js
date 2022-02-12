@@ -22,7 +22,7 @@ function useOrder(loading) {
   useEffect(() => {
     const unsubscribe = db
       .collection("orders")
-      .orderBy("created_at", "desc")
+      .orderBy("created_at", "asc")
       .onSnapshot(async (snapshot) => {
         let newOrder = snapshot.docs.map(async (doc) => {
           const orderData = doc.data();
