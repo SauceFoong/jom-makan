@@ -181,9 +181,6 @@ const OrderDetails = () => {
             <title>Order Details</title>
           </Head>
 
-          <Text as="u" style={{ marginLeft: "15px" }}>
-            Order Details
-          </Text>
           <List spacing={1} p={3}>
             <ListItem>
               <ListIcon as={BiRestaurant} color="blue.500" />
@@ -192,17 +189,14 @@ const OrderDetails = () => {
             <ListItem>
               <ListIcon as={BiLink} color="blue.500" />
               Menu:{" "}
-              <Link href={order.ref_url} isExternal>
+              <Link href={order.ref_url} isExternal color="blue.500">
                 {order.ref_url}
               </Link>{" "}
             </ListItem>
             <ListItem>
-              <ListIcon as={BiInfoCircle} color="blue.500" />
-              Description: {order.description}
-            </ListItem>
-            <ListItem>
               <ListIcon as={BiDollar} color="blue.500" />
-              Tips: {order.tips}{" "}
+              Tips: {order.tips !== "0.00" && order.tips !== "0" ? "RM " + order.tips : "-"}{" "}
+
             </ListItem>
             <ListItem>
               <ListIcon as={BiCalendarX} color="blue.500" />
@@ -294,6 +288,11 @@ const OrderDetails = () => {
                 ))
                 : "No tag(s) associated with this order"}
             </ListItem>
+            <ListItem>
+              <ListIcon as={BiInfoCircle} color="blue.500" />
+              {order.description}
+            </ListItem>
+
           </List>
           <Box p={3} maxW={"300px"} textAlign={"Center"}>
             {user && user.id != order.created_by ? (

@@ -147,7 +147,7 @@ const OrderCard = ({
             as={MdAttachMoney}
             color={useColorModeValue("gray.900", "white")}
           />
-          {tips !== "0.00" ? "RM " + tips : "-"}
+          {tips !== "0.00" && tips !== "0" ? "RM " + tips : "-"}
         </ListItem>
         {/* <ListItem>
           <Flex>
