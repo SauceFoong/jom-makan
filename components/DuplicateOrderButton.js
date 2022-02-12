@@ -75,7 +75,7 @@ const DuplicateOrderButton = ({ order_id, res_name }) => {
                             <Button ref={cancelRef} onClick={onClose}>
                                 Cancel
                             </Button>
-                            <Button colorScheme="red" onClick={onSubmit} ml={3}>
+                            <Button colorScheme="blue" onClick={onSubmit} ml={3}>
                                 Yes
                             </Button>
                         </AlertDialogFooter>
