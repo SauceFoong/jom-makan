@@ -20,6 +20,7 @@ import JomButton from "../components/JomButton";
 import { useUser } from "../lib/auth/useUser";
 import EditOrderButton from "../components/EditOrderButton";
 import DeleteOrderButton from "../components/DeleteOrderButton";
+import DuplicateOrderButton from "../components/DuplicateOrderButton";
 import enGB from "date-fns/locale/en-GB";
 import { formatRelative } from "date-fns";
 import CancelJomButton from "./CancelJomButton";
@@ -85,13 +86,16 @@ const OrderCard = ({
           <Link>
             <DeleteOrderButton order_id={id} res_name={res_name} />
           </Link>
+          <Link>
+            <DuplicateOrderButton order_id={id} res_name={res_name} />
+          </Link>
         </>
       ) : null}
       <Avatar
-        size={"xl"}
+        size={"2md"}
         src={creator_pic}
         alt={"Avatar Alt"}
-        mb={4}
+        mb={2}
         pos={"relative"}
       />
       <NextLink href={`/order-details?id=${id}`} passHref>
@@ -168,18 +172,18 @@ const OrderCard = ({
           />
           {tags.length >= 1
             ? tags.map((tag, i) => (
-                <Tag
-                  key={i}
-                  size="md"
-                  variant="solid"
-                  colorScheme="teal"
-                  marginTop="1"
-                  marginRight="1"
-                  style={{ textTransform: "capitalize" }}
-                >
-                  {tag}
-                </Tag>
-              ))
+              <Tag
+                key={i}
+                size="md"
+                variant="solid"
+                colorScheme="teal"
+                marginTop="1"
+                marginRight="1"
+                style={{ textTransform: "capitalize" }}
+              >
+                {tag}
+              </Tag>
+            ))
             : "-"}
         </ListItem>
       </List>{" "}
