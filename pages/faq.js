@@ -244,7 +244,7 @@ const Faq = () => {
                     <Tr border={"hidden"}>
                       <Td>
                         d. You may upload your receipt in either PNG, JPEG and
-                        PDF format without exceeding 5MB and click the
+                        JPG format without exceeding 5MB and click the
                         &quot;Save&quot; button to upload.
                       </Td>
                     </Tr>

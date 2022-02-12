@@ -8,6 +8,7 @@ import {
   AlertDialogOverlay,
   useColorModeValue,
   useToast,
+  Tooltip,
 } from "@chakra-ui/react";
 import { DeleteIcon, LinkIcon } from "@chakra-ui/icons";
 import React, { useState, useRef } from "react";
@@ -24,7 +25,6 @@ const DeleteOrderButton = ({ order_id, res_name }) => {
   const toast = useToast();
 
   const onSubmit = async (data) => {
-    console.log("Delete");
     await deleteOrder(order_id);
     showToast(
       toast,
@@ -39,19 +39,23 @@ const DeleteOrderButton = ({ order_id, res_name }) => {
 
   return (
     <>
-      <LinkIcon
-        onClick={() => setIsOpen(true)}
-        as={DeleteIcon}
-        color={useColorModeValue("gray.900", "white")}
-        position="absolute"
-        right={2}
-        top={10}
-        cursor={"pointer"}
-        _hover={{
-          bg: useColorModeValue("blackAlpha.200", "whiteAlpha.200"),
-        }}
-        zIndex={1}
-      />
+      <Tooltip
+        label="Delete the order"
+      >
+        <LinkIcon
+          onClick={() => setIsOpen(true)}
+          as={DeleteIcon}
+          color={useColorModeValue("gray.900", "white")}
+          position="absolute"
+          right={2}
+          top={10}
+          cursor={"pointer"}
+          _hover={{
+            bg: useColorModeValue("blackAlpha.200", "whiteAlpha.200"),
+          }}
+          zIndex={1}
+        />
+      </Tooltip>
       <AlertDialog
         isOpen={isOpen}
         leastDestructiveRef={cancelRef}

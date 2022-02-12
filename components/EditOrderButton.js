@@ -81,19 +81,23 @@ const EditOrderButton = ({
 
   return (
     <>
-      <LinkIcon
-        onClick={onOpen}
-        as={EditIcon}
-        color={useColorModeValue("gray.900", "white")}
-        position="absolute"
-        right={2}
-        top={2}
-        cursor={"pointer"}
-        _hover={{
-          bg: useColorModeValue("blackAlpha.200", "whiteAlpha.200"),
-        }}
-        zIndex={1}
-      />
+      <Tooltip
+        label="Edit the order"
+      >
+        <LinkIcon
+          onClick={onOpen}
+          as={EditIcon}
+          color={useColorModeValue("gray.900", "white")}
+          position="absolute"
+          right={2}
+          top={2}
+          cursor={"pointer"}
+          _hover={{
+            bg: useColorModeValue("blackAlpha.200", "whiteAlpha.200"),
+          }}
+          zIndex={1}
+        />
+      </Tooltip>
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent>

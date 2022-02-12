@@ -250,7 +250,7 @@ const OrderDetails = () => {
                   accept=".jpg,.png,.jpeg"
                   limitFiles={2}
                   maxFileSizeInBytes={MAX_FILE_SIZE}
-                  label="Supports PNG, JPG, JPEG up to 5Mb"
+                  label="Supports PNG, JPG, JPEG up to 5MB"
                   dbFunc={uploadOrderReceipt}
                 />
               ) : (
@@ -262,18 +262,18 @@ const OrderDetails = () => {
               <ListIcon as={AiOutlineTag} color="blue.500" />
               {order.tags.length >= 1
                 ? order.tags.map((tag, i) => (
-                    <Tag
-                      size="md"
-                      key={i}
-                      variant="solid"
-                      colorScheme="teal"
-                      marginTop="1"
-                      marginRight="1"
-                      style={{ textTransform: "capitalize" }}
-                    >
-                      {tag}
-                    </Tag>
-                  ))
+                  <Tag
+                    size="md"
+                    key={i}
+                    variant="solid"
+                    colorScheme="teal"
+                    marginTop="1"
+                    marginRight="1"
+                    style={{ textTransform: "capitalize" }}
+                  >
+                    {tag}
+                  </Tag>
+                ))
                 : "No tag(s) associated with this order"}
             </ListItem>
           </List>
@@ -332,8 +332,8 @@ const OrderDetails = () => {
                         </Th>
                         <Th>
                           {user &&
-                          jom.user_id === user.id &&
-                          jom.payment_method === "Online Transfer" ? (
+                            jom.user_id === user.id &&
+                            jom.payment_method === "Online Transfer" ? (
                             jom.payment_receipt.length === 0 ? (
                               <UploadFile
                                 multiple
