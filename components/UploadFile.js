@@ -47,9 +47,22 @@ const UploadFile = ({
   const [uploadLoading, setUploadLoading] = useState(false);
   const [buttonDisable, setButtonDisabled] = useState(false);
   const [files, setFiles] = useState({});
+  let isFileFormatCorrect = true;
 
   const addNewFiles = (newFiles) => {
     for (let file of newFiles) {
+      if (!file.name.match(/\.(jpg)$/) && !file.name.match(/\.(jpeg)$/) && !file.name.match(/\.(png)$/)) {
+        showToast(
+          toast,
+          "An error occured",
+          `File format can only be jpeg, jpg, png !`,
+          "error",
+          5000,
+          true
+        );
+
+      }
+
       //   console.log(newFiles.length);
       const filesLength = Object.keys(files).length;
       //   console.log(filesLength);
@@ -63,7 +76,6 @@ const UploadFile = ({
           true
         );
       } else if (file.size < maxFileSizeInBytes) {
-        console.log(file.size);
         if (!otherProps.multiple) {
           return { file };
         }
@@ -89,13 +101,20 @@ const UploadFile = ({
   };
 
   const handleNewFileUpload = (event) => {
+    Object.entries(files).map(([key, value], index) => {
+      if (!key.match(/\.(jpg)$/) && !key.match(/\.(jpeg)$/) && !key.match(/\.(png)$/)) {
+        delete files[key];
+      }
+    })
+
     const { files: newFiles } = event.target;
-    console.log(newFiles);
     if (newFiles.length) {
       let updatedFiles = addNewFiles(newFiles);
       setFiles(updatedFiles);
       //callUpdateFilesCb(updatedFiles);
     }
+
+
   };
 
   const removeFile = (fileName) => {
@@ -106,21 +125,51 @@ const UploadFile = ({
 
   const handleSubmit = async () => {
     setUploadLoading(true);
-    //Can use props to use other function
-    await dbFunc(id, files);
+    Object.entries(files).map(([key, value], index) => {
+
+      if (!key.match(/\.(jpg)$/) && !key.match(/\.(jpeg)$/) && !key.match(/\.(png)$/)) {
+        isFileFormatCorrect = false
+      }
+    })
+
+    if (!isFileFormatCorrect) {
+      showToast(
+        toast,
+        "An error occured",
+        `Receipt unable to upload, please make sure there is a file and the format is correct.`,
+        "error",
+        5000,
+        true
+      );
+    } else {
+      if (Object.keys(files).length === 0) {
+        showToast(
+          toast,
+          "An error occured",
+          `Please upload a file.`,
+          "error",
+          5000,
+          true
+        );
+      } else {
+        //Can use props to use other function
+        await dbFunc(id, files);
+        showToast(
+          toast,
+          "Receipt Uploaded Successfully.",
+          "Everyone can see your receipt now!",
+          "success",
+          5000,
+          true
+        );
+        setButtonDisabled(true);
+      }
+    }
 
     setUploadLoading(false);
-    showToast(
-      toast,
-      "Receipt Uploaded Successfully.",
-      "Everyone can see your receipt now!",
-      "success",
-      5000,
-      true
-    );
     setFiles({});
     onClose();
-    setButtonDisabled(true);
+    isFileFormatCorrect = true;
   };
 
   return (
@@ -189,11 +238,11 @@ const UploadFile = ({
                 </Stack>
               </Flex>
             )}
+            <Box mt="8" mb="4">
+              <Text fontWeight="bold">Files</Text>
+            </Box>
             {Object.keys(files).length != 0 && (
               <>
-                <Box mt="8" mb="4">
-                  <Text fontWeight="bold">Files</Text>
-                </Box>
 
                 {Object.keys(files).map((fileName, index) => {
                   let file = files[fileName];
