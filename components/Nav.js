@@ -87,9 +87,8 @@ export default function WithAction() {
           </HStack>
           <Flex alignItems={"center"}>
             <IconButton
-              aria-label={`Switch to ${
-                colorMode === "light" ? "dark" : "light"
-              } mode`}
+              aria-label={`Switch to ${colorMode === "light" ? "dark" : "light"
+                } mode`}
               onClick={toggleColorMode}
               rounded="xl"
               icon={colorMode == "light" ? <SunIcon /> : <MoonIcon />}
@@ -113,6 +112,15 @@ export default function WithAction() {
                   <MenuList zIndex={2}>
                     {/* <MenuItem>Settings</MenuItem>
                   <MenuDivider /> */}
+
+                    <NextLink href={'/profile?id=' + user.id} passHref>
+                      <Link style={{ textDecoration: 'none' }}>
+                        <MenuItem>
+                          Profile
+                        </MenuItem>
+
+                      </Link>
+                    </NextLink>
                     <MenuItem onClick={() => logout()}>Sign Out</MenuItem>
                   </MenuList>
                 </Menu>

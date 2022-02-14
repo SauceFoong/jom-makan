@@ -22,7 +22,7 @@ import { useForm } from "react-hook-form";
 import "react-calendar/dist/Calendar.css";
 import "react-clock/dist/Clock.css";
 import "react-datetime-picker/dist/DateTimePicker.css";
-import { createJom } from "../lib/db";
+import { createJom, getUserDetails } from "../lib/db";
 import { showToast } from "../lib/Helper/Toast";
 import { differenceInSeconds } from "date-fns";
 
@@ -38,12 +38,13 @@ const JomButton = ({ order_id, order_name, order_date }) => {
   const toast = useToast();
 
   const onSubmit = async (data) => {
+    const isUserExist = await getUserDetails(user.id);
     const jom = {
       ...data,
       order_id: order_id,
       order_name: order_name,
       user_id: user.id,
-      user_name: user.name,
+      user_name: isUserExist.user.name,
       payment_receipt: [],
       pay: false,
       created_at: new Date().toISOString(),

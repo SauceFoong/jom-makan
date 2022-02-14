@@ -52,7 +52,6 @@ const AddOrderButton = () => {
   } = useForm();
   const toast = useToast();
   const onSubmit = async (data) => {
-    // console.log(data);
     const order = {
       ...data,
       created_at: new Date().toISOString(),
@@ -62,7 +61,6 @@ const AddOrderButton = () => {
       jom_members: [],
       order_receipt: [],
     };
-    console.log(order);
     await createOrder(order);
     showToast(
       toast,

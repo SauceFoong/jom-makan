@@ -19,6 +19,7 @@ import {
 import { CloseIcon, LinkIcon } from "@chakra-ui/icons";
 import { AiOutlineTag } from "react-icons/ai";
 import {
+  BiUser,
   BiReceipt,
   BiRestaurant,
   BiLink,
@@ -27,10 +28,9 @@ import {
   BiCalendarX,
   BiAlarmExclamation,
 } from "react-icons/bi";
-import { useForm } from "react-hook-form";
 import React from "react";
 import Head from "next/head";
-import { db, updatePayment, updateRemark } from "../lib/db";
+import { db, getUserDetails, updatePayment, updateRemark } from "../lib/db";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { useUser } from "../lib/auth/useUser";
@@ -80,7 +80,7 @@ const onClickUpdatePayment = async (jom_id, jom, order_id, user_id) => {
     pay: true,
   };
   const callback = await updatePayment(jom_id, data, order_id, user_id);
-  console.log(callback);
+  // console.log(callback);
   return callback;
 };
 
@@ -93,6 +93,7 @@ export async function getServerSideProps(context) {
 const OrderDetails = () => {
   const { user, logout } = useUser();
   const [order, setOrder] = useState();
+  const [orderer, setOrderer] = useState();
   const [isLoading, setLoading] = useState(true);
   // const [orderReceipt, setOrderReceipt] = useState([]);
   const [toggleLightBox, setToggleLightBox] = useState(false);
@@ -131,9 +132,10 @@ const OrderDetails = () => {
     const unsubscribe = db
       .collection("orders")
       .doc(id)
-      .onSnapshot((doc) => {
+      .onSnapshot(async (doc) => {
         const order = doc.data();
         setOrder(order);
+
         setLoading(false);
         ga.custompageview(order.res_name);
       });
@@ -182,6 +184,12 @@ const OrderDetails = () => {
           </Head>
 
           <List spacing={1} p={3}>
+            <ListItem>
+              <ListIcon as={BiUser} color="blue.500" />
+              <Link href={`/profile?id=${order.created_by}`} isExternal color="blue.500">
+                Orderer Info
+              </Link>
+            </ListItem>
             <ListItem>
               <ListIcon as={BiRestaurant} color="blue.500" />
               Restaurant Name: {order.res_name}
@@ -332,7 +340,10 @@ const OrderDetails = () => {
                   joms.map((jom, index) => {
                     return (
                       <Tr key={index}>
-                        <Th>{jom.user_name}</Th>
+                        <Th>
+                          <Link href={`/profile?id=${jom.user_id}`} isExternal color="blue.500">
+                            {jom.user_name}
+                          </Link></Th>
                         <Th>{jom.remark}</Th>
                         <Th>{jom.payment_method}</Th>
                         <Th>

@@ -5,7 +5,7 @@ import firebase from "firebase/app";
 import "firebase/auth";
 import { setUserCookie } from "../lib/auth/userCookies";
 import { mapUserData } from "../lib/auth/mapUserData";
-import { updateUser } from "../lib/db";
+import { createUser, userLogin, getUserDetails } from "../lib/db";
 import router from "next/router";
 
 initFirebase();
@@ -14,18 +14,33 @@ const firebaseAuthConfig = {
   signInFlow: "popup",
   // Auth providers
   signInOptions: [firebase.auth.GoogleAuthProvider.PROVIDER_ID],
-  signInSuccessUrl: "/order",
   credentialHelper: "none",
   callbacks: {
-    signInSuccessWithAuthResult: ({ user }, redirectUrl) => {
-      updateUser(user.uid, {
-        id: user.uid,
-        name: user.displayName,
-        email: user.email,
-        profilePic: user.photoURL,
-        lastLogin: new Date(),
-      });
-      const userData = mapUserData(user);
+    signInSuccessWithAuthResult: async ({ user }, redirectUrl) => {
+      const isUserExist = await getUserDetails(user.uid);
+      let userData = "";
+      if (isUserExist) {
+        const existingUser = isUserExist.user;
+        await userLogin(user.uid, {
+          id: user.uid,
+          email: user.email,
+          profilePic: user.photoURL,
+          lastLogin: new Date(),
+        });
+
+        userData = mapUserData({ ...user, name: existingUser.name });
+      } else {
+        const newUser = {
+          id: user.uid,
+          email: user.email,
+          name: user.displayName,
+          profilePic: user.photoURL,
+          lastLogin: new Date(),
+        }
+        await createUser(user.uid, newUser);
+        userData = mapUserData({ ...user, name: user.displayName });
+      }
+
       setUserCookie(userData);
       router.push("/order");
       return false;
