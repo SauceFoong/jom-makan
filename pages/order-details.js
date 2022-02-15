@@ -15,9 +15,18 @@ import {
   ListItem,
   ListIcon,
   Tag,
+  chakra,
+  Select,
+  Menu,
+  MenuButton,
+  MenuList,
+  MenuItemOption,
+  MenuOptionGroup,
+  Flex,
+  HStack,
 } from "@chakra-ui/react";
 import { CloseIcon, LinkIcon } from "@chakra-ui/icons";
-import { AiOutlineTag } from "react-icons/ai";
+import { AiOutlineTag, AiOutlineFilter, } from "react-icons/ai";
 import {
   BiUser,
   BiReceipt,
@@ -51,6 +60,8 @@ import { showToast } from "../lib/Helper/Toast";
 import Receipt from "../components/Receipt";
 import EditJomButton from "../components/EditJomButton";
 import * as ga from '../lib/ga';
+import { TriangleDownIcon, TriangleUpIcon } from '@chakra-ui/icons';
+import { useTable, useSortBy, useFilters, useGlobalFilter } from 'react-table';
 
 const MAX_FILE_SIZE = 5000000;
 
@@ -172,6 +183,96 @@ const OrderDetails = () => {
       r.events.off('routeChangeComplete', handleRouteChange);
     };
   }, [r.events]);
+
+  function DefaultColumnFilter({
+    column: { filterValue, setFilter, preFilteredRows, id },
+  }) {
+    // Calculate the options for filtering
+    // using the preFilteredRows
+    const options = React.useMemo(() => {
+      const options = new Set()
+      preFilteredRows.forEach(row => {
+        options.add(row.original.payment_method)
+      })
+      return [...options.values()]
+    }, [id, preFilteredRows])
+
+    // Render a multi-select box
+    return (
+      <Menu>
+        <MenuButton
+          maxW='auto'
+          maxH='auto'
+          transition='all 0.2s'
+          borderRadius='md'
+          borderWidth='1px'
+          _hover={{ bg: 'gray.400' }}
+          _expanded={{ bg: 'blue.400' }}
+          _focus={{ boxShadow: 'outline' }}
+          as={Button}
+        ><AiOutlineFilter maxW='10px'
+          maxH='10px' /></MenuButton>
+        <MenuList>
+          <MenuOptionGroup defaultValue='' title='Filter' type='radio' onChange={value => {
+            setFilter(value || undefined)
+          }}>
+            <MenuItemOption value="">All</MenuItemOption>
+            {options.map((option, i) => (
+              <MenuItemOption key={i} value={option}>
+                {option}
+              </MenuItemOption>
+            ))}
+          </MenuOptionGroup>
+        </MenuList>
+      </Menu>
+    )
+  }
+
+  const defaultColumn = React.useMemo(
+    () => ({
+      Filter: DefaultColumnFilter
+    }),
+    []
+  );
+
+  const columns = React.useMemo(
+    () => [
+      {
+        Header: 'Name',
+        accessor: 'user_name',
+        disableFilters: true,
+      },
+      {
+        Header: 'Remark',
+        accessor: 'remark',
+        disableFilters: true,
+      },
+      {
+        Header: 'Payment Method',
+        accessor: 'payment_method',
+      },
+      {
+        Header: '',
+        accessor: 'edit',
+        disableSortBy: true,
+        disableFilters: true,
+      },
+      {
+        Header: 'Receipt',
+        accessor: 'payment_receipt',
+        disableFilters: true,
+      },
+      {
+        Header: 'Pay',
+        accessor: 'pay',
+        disableFilters: true,
+      },
+    ],
+    [],
+  )
+
+  const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow, } =
+    useTable({ columns, data: joms, defaultColumn }, useFilters, useSortBy)
 
   return (
     <>
@@ -324,19 +425,131 @@ const OrderDetails = () => {
 
           <Divider />
           <Box overflowX="auto">
-            <Table variant="simple" style={{ marginTop: "20px" }}>
+            <Table variant="simple" style={{ marginTop: "20px" }} {...getTableProps()}>
               <Thead>
-                <Tr>
-                  <Th>Name</Th>
+                {/* <Th>Name</Th>
                   <Th>Remark</Th>
                   <Th>Payment Method</Th>
                   <Th></Th>
                   <Th>Receipt</Th>
-                  <Th>Pay</Th>
-                </Tr>
+                  <Th>Pay</Th> */}
+                {headerGroups.map((headerGroup) => (
+                  <Tr {...headerGroup.getHeaderGroupProps()}>
+                    {headerGroup.headers.map((column) => (
+                      <Th
+                        {...column.getHeaderProps()}
+                        isNumeric={column.isNumeric}
+                      ><Flex>
+                        <HStack spacing='5px'>
+                          <div style="vertical-align:middle" {...column.getSortByToggleProps()}>{column.render('Header')}</div>
+                          
+                            <chakra.span  {...column.getSortByToggleProps()}>
+                            {column.isSorted ? (
+                              column.isSortedDesc ? (
+                                <TriangleDownIcon pl='1' aria-label='sorted descending' />
+                              ) : (
+                                <TriangleUpIcon pl='1' aria-label='sorted ascending' />
+                              )
+                            ) : null}
+                          </chakra.span>
+                          <chakra.span alignContent='right'>{column.canFilter ? column.render('Filter') : null}</chakra.span>
+                          </HStack>
+                        </Flex>
+                      </Th>
+
+                    ))}
+                  </Tr>
+                ))}
               </Thead>
-              <Tbody>
-                {joms &&
+
+              <Tbody {...getTableBodyProps()}>
+                {joms && rows.map((row) => {
+                  prepareRow(row)
+                  return (
+                    <Tr {...row.getRowProps()}>
+                      {row.cells.map((cell, index) => (<>
+                        {index <= 2 ?
+                          <Th {...cell.getCellProps()} isNumeric={cell.column.isNumeric}>
+                            {cell.render('Cell')}
+                          </Th>
+                          : (index == 3 ?
+                            <Th>
+                              {user && row.original.user_id === user.id ? (
+                                <>
+                                  <EditJomButton
+
+                                    order_date={new Date(order.order_date)}
+                                    jom={row.original}
+                                  />
+                                </>
+                              ) : (
+                                ""
+                              )}
+                            </Th>
+                            : (index == 4 ?
+                              <Th>
+                                {user &&
+                                  row.original.user_id === user.id &&
+                                  row.original.payment_method === "Online Transfer" ? (
+                                  row.original.payment_receipt.length === 0 ? (
+                                    <UploadFile
+                                      multiple
+                                      id={row.original.id}
+                                      accept=".jpg,.png,.jpeg"
+                                      limitFiles={1}
+                                      maxFileSizeInBytes={MAX_FILE_SIZE}
+                                      label="Supports PNG, JPG, JPEG up to 5Mb"
+                                      dbFunc={uploadPaymentReceipt}
+                                    />
+                                  ) : (
+                                    ""
+                                  )
+                                ) : row.original.payment_method === "Online Transfer" ||
+                                  row.original.payment_receipt.length > 0 ? (
+                                  ""
+                                ) : (
+                                  "-"
+                                )}
+                                {row.original.payment_receipt.length > 0 ? (
+                                  <Receipt jom={row.original} />
+                                ) : (
+                                  ""
+                                )}</Th>
+                              : (
+                                <Th>
+                                  <Button
+                                    onClick={() => {
+                                      const callback = onClickUpdatePayment(
+                                        row.original.id,
+                                        row.original,
+                                        row.original.order_id,
+                                        user.id
+                                      );
+                                      callback.then((result) => {
+                                        if (result == false) {
+                                          showToast(
+                                            toast,
+                                            "Not owner.",
+                                            "Only owner of the order can click the pay button",
+                                            "error",
+                                            5000,
+                                            true
+                                          );
+                                        }
+                                      });
+                                    }}
+                                    isDisabled={row.original.pay}
+                                  >
+                                    {row.original.pay ? "Paid" : "Pay"}
+                                  </Button>
+                                </Th>
+                              )
+                            ))}</>
+                      ))}
+                    </Tr>
+                  )
+                })}
+                {/* {joms &&
                   joms.map((jom, index) => {
                     return (
                       <Tr key={index}>
@@ -385,8 +598,8 @@ const OrderDetails = () => {
                             <Receipt jom={jom} />
                           ) : (
                             ""
-                          )}
-                          {/* {user &&
+                          )} */}
+                {/* {user &&
                           jom.user_id === user.id &&
                           jom.payment_method === "Online Transfer" ? (
                             jom.payment_receipt.length === 0 ? (
@@ -405,7 +618,7 @@ const OrderDetails = () => {
                           ) : (
                             "-"
                           )} */}
-                        </Th>
+                {/* </Th>
                         <Th>
                           <Button
                             onClick={() => {
@@ -435,7 +648,7 @@ const OrderDetails = () => {
                         </Th>
                       </Tr>
                     );
-                  })}
+                  })} */}
               </Tbody>
             </Table>
           </Box>
