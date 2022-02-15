@@ -201,8 +201,6 @@ const OrderDetails = () => {
     return (
       <Menu>
         <MenuButton
-          maxW='auto'
-          maxH='auto'
           transition='all 0.2s'
           borderRadius='md'
           borderWidth='1px'
@@ -261,11 +259,13 @@ const OrderDetails = () => {
         Header: 'Receipt',
         accessor: 'payment_receipt',
         disableFilters: true,
+        sortType: 'basic'
       },
       {
         Header: 'Pay',
         accessor: 'pay',
         disableFilters: true,
+        sortType: 'basic'
       },
     ],
     [],
@@ -469,83 +469,88 @@ const OrderDetails = () => {
                   return (
                     <Tr {...row.getRowProps()} key={k}>
                       {row.cells.map((cell, index) => (<>
-                        {index <= 2 ?
+                        {index == 0 ?
                           <Th {...cell.getCellProps()} isNumeric={cell.column.isNumeric}>
-                            {cell.render('Cell')}
-                          </Th>
-                          : (index == 3 ?
-                            <Th>
-                              {user && row.original.user_id === user.id ? (
-                                <>
-                                  <EditJomButton
-
-                                    order_date={new Date(order.order_date)}
-                                    jom={row.original}
-                                  />
-                                </>
-                              ) : (
-                                ""
-                              )}
+                            <Link href={`/profile?id=${row.original.user_id}`} isExternal color="blue.500">
+                              {cell.render('Cell')}
+                            </Link></Th>
+                          : (index <= 2 ?
+                            <Th {...cell.getCellProps()} isNumeric={cell.column.isNumeric}>
+                              {cell.render('Cell')}
                             </Th>
-                            : (index == 4 ?
+                            : (index == 3 ?
                               <Th>
-                                {user &&
-                                  row.original.user_id === user.id &&
-                                  row.original.payment_method === "Online Transfer" ? (
-                                  row.original.payment_receipt.length === 0 ? (
-                                    <UploadFile
-                                      multiple
-                                      id={row.original.id}
-                                      accept=".jpg,.png,.jpeg"
-                                      limitFiles={1}
-                                      maxFileSizeInBytes={MAX_FILE_SIZE}
-                                      label="Supports PNG, JPG, JPEG up to 5Mb"
-                                      dbFunc={uploadPaymentReceipt}
+                                {user && row.original.user_id === user.id ? (
+                                  <>
+                                    <EditJomButton
+
+                                      order_date={new Date(order.order_date)}
+                                      jom={row.original}
                                     />
+                                  </>
+                                ) : (
+                                  ""
+                                )}
+                              </Th>
+                              : (index == 4 ?
+                                <Th>
+                                  {user &&
+                                    row.original.user_id === user.id &&
+                                    row.original.payment_method === "Online Transfer" ? (
+                                    row.original.payment_receipt.length === 0 ? (
+                                      <UploadFile
+                                        multiple
+                                        id={row.original.id}
+                                        accept=".jpg,.png,.jpeg"
+                                        limitFiles={1}
+                                        maxFileSizeInBytes={MAX_FILE_SIZE}
+                                        label="Supports PNG, JPG, JPEG up to 5Mb"
+                                        dbFunc={uploadPaymentReceipt}
+                                      />
+                                    ) : (
+                                      ""
+                                    )
+                                  ) : row.original.payment_method === "Online Transfer" ||
+                                    row.original.payment_receipt.length > 0 ? (
+                                    ""
+                                  ) : (
+                                    "-"
+                                  )}
+                                  {row.original.payment_receipt.length > 0 ? (
+                                    <Receipt jom={row.original} />
                                   ) : (
                                     ""
-                                  )
-                                ) : row.original.payment_method === "Online Transfer" ||
-                                  row.original.payment_receipt.length > 0 ? (
-                                  ""
-                                ) : (
-                                  "-"
-                                )}
-                                {row.original.payment_receipt.length > 0 ? (
-                                  <Receipt jom={row.original} />
-                                ) : (
-                                  ""
-                                )}</Th>
-                              : (
-                                <Th>
-                                  <Button
-                                    onClick={() => {
-                                      const callback = onClickUpdatePayment(
-                                        row.original.id,
-                                        row.original,
-                                        row.original.order_id,
-                                        user.id
-                                      );
-                                      callback.then((result) => {
-                                        if (result == false) {
-                                          showToast(
-                                            toast,
-                                            "Not owner.",
-                                            "Only owner of the order can click the pay button",
-                                            "error",
-                                            5000,
-                                            true
-                                          );
-                                        }
-                                      });
-                                    }}
-                                    isDisabled={row.original.pay}
-                                  >
-                                    {row.original.pay ? "Paid" : "Pay"}
-                                  </Button>
-                                </Th>
-                              )
-                            ))}</>
+                                  )}</Th>
+                                : (
+                                  <Th>
+                                    <Button
+                                      onClick={() => {
+                                        const callback = onClickUpdatePayment(
+                                          row.original.id,
+                                          row.original,
+                                          row.original.order_id,
+                                          user.id
+                                        );
+                                        callback.then((result) => {
+                                          if (result == false) {
+                                            showToast(
+                                              toast,
+                                              "Not owner.",
+                                              "Only owner of the order can click the pay button",
+                                              "error",
+                                              5000,
+                                              true
+                                            );
+                                          }
+                                        });
+                                      }}
+                                      isDisabled={row.original.pay}
+                                    >
+                                      {row.original.pay ? "Paid" : "Pay"}
+                                    </Button>
+                                  </Th>
+                                )
+                              )))}</>
                       ))}
                     </Tr>
                   )
