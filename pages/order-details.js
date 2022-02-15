@@ -433,26 +433,27 @@ const OrderDetails = () => {
                   <Th></Th>
                   <Th>Receipt</Th>
                   <Th>Pay</Th> */}
-                {headerGroups.map((headerGroup) => (
-                  <Tr {...headerGroup.getHeaderGroupProps()}>
-                    {headerGroup.headers.map((column) => (
+                {headerGroups.map((headerGroup, i) => (
+                  <Tr {...headerGroup.getHeaderGroupProps()} key={i}>
+                    {headerGroup.headers.map((column, j) => (
                       <Th
                         {...column.getHeaderProps()}
                         isNumeric={column.isNumeric}
+                        key={j}
                       ><Flex>
-                        <HStack spacing='5px'>
-                          <div style="vertical-align:middle" {...column.getSortByToggleProps()}>{column.render('Header')}</div>
-                          
+                          <HStack spacing='5px'>
+                            <div style="vertical-align:middle" {...column.getSortByToggleProps()}>{column.render('Header')}</div>
+
                             <chakra.span  {...column.getSortByToggleProps()}>
-                            {column.isSorted ? (
-                              column.isSortedDesc ? (
-                                <TriangleDownIcon pl='1' aria-label='sorted descending' />
-                              ) : (
-                                <TriangleUpIcon pl='1' aria-label='sorted ascending' />
-                              )
-                            ) : null}
-                          </chakra.span>
-                          <chakra.span alignContent='right'>{column.canFilter ? column.render('Filter') : null}</chakra.span>
+                              {column.isSorted ? (
+                                column.isSortedDesc ? (
+                                  <TriangleDownIcon pl='1' aria-label='sorted descending' />
+                                ) : (
+                                  <TriangleUpIcon pl='1' aria-label='sorted ascending' />
+                                )
+                              ) : null}
+                            </chakra.span>
+                            <chakra.span alignContent='right'>{column.canFilter ? column.render('Filter') : null}</chakra.span>
                           </HStack>
                         </Flex>
                       </Th>
@@ -463,10 +464,10 @@ const OrderDetails = () => {
               </Thead>
 
               <Tbody {...getTableBodyProps()}>
-                {joms && rows.map((row) => {
+                {joms && rows.map((row, k) => {
                   prepareRow(row)
                   return (
-                    <Tr {...row.getRowProps()}>
+                    <Tr {...row.getRowProps()} key={k}>
                       {row.cells.map((cell, index) => (<>
                         {index <= 2 ?
                           <Th {...cell.getCellProps()} isNumeric={cell.column.isNumeric}>
