@@ -131,7 +131,12 @@ const Order = () => {
             {/* upcoming orders */}
             <TabPanel>
               {isLoading ? (
-                <h2>Loading...</h2>
+                <Flex flexWrap={"wrap"}>
+                  <OrderCardSkeleton />
+                  <OrderCardSkeleton />
+                  <OrderCardSkeleton />
+                  <OrderCardSkeleton />
+                </Flex>
               ) : (
                 <>
                   <Flex flexWrap={"wrap"}>
