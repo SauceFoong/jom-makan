@@ -192,7 +192,12 @@ const OrderDetails = () => {
     const options = React.useMemo(() => {
       const options = new Set()
       preFilteredRows.forEach(row => {
-        options.add(row.original.payment_method)
+        if (id == 'payment_method')
+          options.add(row.original.payment_method)
+        else if (id == 'pay') {
+          options.add('Paid')
+          options.add('Unpaid')
+        }
       })
       return [...options.values()]
     }, [id, preFilteredRows])
@@ -208,17 +213,21 @@ const OrderDetails = () => {
           _expanded={{ bg: 'blue.400' }}
           _focus={{ boxShadow: 'outline' }}
           as={Button}
-        ><AiOutlineFilter maxW='10px'
-          maxH='10px' /></MenuButton>
+        ><AiOutlineFilter /></MenuButton>
         <MenuList>
           <MenuOptionGroup defaultValue='' title='Filter' type='radio' onChange={value => {
             setFilter(value || undefined)
           }}>
             <MenuItemOption value="">All</MenuItemOption>
             {options.map((option, i) => (
-              <MenuItemOption key={i} value={option}>
-                {option}
-              </MenuItemOption>
+              option == 'Paid' || option == 'Unpaid' ?
+                <MenuItemOption key={i} value={(option == 'Paid' ? 'true' : 'false')}>
+                  {option}
+                </MenuItemOption>
+                : (
+                  <MenuItemOption key={i} value={option}>
+                    {option}
+                  </MenuItemOption>)
             ))}
           </MenuOptionGroup>
         </MenuList>
@@ -264,7 +273,7 @@ const OrderDetails = () => {
       {
         Header: 'Pay',
         accessor: 'pay',
-        disableFilters: true,
+        // disableFilters: true,
         sortType: 'basic'
       },
     ],
