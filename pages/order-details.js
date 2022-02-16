@@ -24,6 +24,8 @@ import {
   MenuOptionGroup,
   Flex,
   HStack,
+  IconButton,
+  Spacer,
 } from "@chakra-ui/react";
 import { CloseIcon, LinkIcon } from "@chakra-ui/icons";
 import { AiOutlineTag, AiOutlineFilter, } from "react-icons/ai";
@@ -36,6 +38,7 @@ import {
   BiDollar,
   BiCalendarX,
   BiAlarmExclamation,
+  BiShare,
 } from "react-icons/bi";
 import React from "react";
 import Head from "next/head";
@@ -283,7 +286,7 @@ const OrderDetails = () => {
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow, } =
     useTable({ columns, data: joms, defaultColumn }, useFilters, useSortBy)
 
-  const copyLink = () =>{
+  const copyLink = () => {
     navigator.clipboard.writeText(window.location.href)
     showToast(
       toast,
@@ -307,10 +310,27 @@ const OrderDetails = () => {
 
           <List spacing={1} p={3}>
             <ListItem>
+              {/* <Flex> */}
               <ListIcon as={BiUser} color="blue.500" />
               <Link href={`/profile?id=${order.created_by}`} isExternal color="blue.500">
                 Orderer Info
               </Link>
+              {/* <Spacer /> */}
+              <Box position='relative'>
+                  <IconButton
+                    position='absolute'
+                    top='-30px'
+                    right='0px'
+                    variant='solid'
+                    colorScheme='blue'
+                    aria-label='Share Jom'
+                    isRound='true'
+                    size='lg'
+                    icon={<BiShare />}
+                    onClick={copyLink}
+                  />
+              </Box>
+              {/* </Flex> */}
             </ListItem>
             <ListItem>
               <ListIcon as={BiRestaurant} color="blue.500" />
@@ -424,11 +444,7 @@ const OrderDetails = () => {
             </ListItem>
 
           </List>
-          <Box p={3} textAlign={"Left"}>
-            <Button onClick={copyLink} width={"200px"} backgroundColor={"blue.300"}>
-              Share Jom
-            </Button>
-          </Box>
+
           <Box p={3} maxW={"300px"} textAlign={"Center"}>
             {user && user.id != order.created_by ? (
               !order.jom_members.includes(user.id) ? (
