@@ -283,6 +283,18 @@ const OrderDetails = () => {
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow, } =
     useTable({ columns, data: joms, defaultColumn }, useFilters, useSortBy)
 
+  const copyLink = () =>{
+    navigator.clipboard.writeText(window.location.href)
+    showToast(
+      toast,
+      "Link Copied.",
+      "Sharing link has been copied to clipboard.",
+      "success",
+      3500,
+      true
+    );
+  }
+
   return (
     <>
       {isLoading ? (
@@ -412,6 +424,11 @@ const OrderDetails = () => {
             </ListItem>
 
           </List>
+          <Box p={3} textAlign={"Left"}>
+            <Button onClick={copyLink} width={"200px"} backgroundColor={"blue.300"}>
+              Share Jom
+            </Button>
+          </Box>
           <Box p={3} maxW={"300px"} textAlign={"Center"}>
             {user && user.id != order.created_by ? (
               !order.jom_members.includes(user.id) ? (
