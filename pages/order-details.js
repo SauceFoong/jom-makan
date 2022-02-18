@@ -26,6 +26,7 @@ import {
   HStack,
   IconButton,
   Spacer,
+  MenuDivider,
 } from "@chakra-ui/react";
 import { CloseIcon, LinkIcon } from "@chakra-ui/icons";
 import { AiOutlineTag, AiOutlineFilter, } from "react-icons/ai";
@@ -40,7 +41,7 @@ import {
   BiAlarmExclamation,
   BiShare,
 } from "react-icons/bi";
-import React from "react";
+import React, { useRef, useImperativeHandle } from "react";
 import Head from "next/head";
 import { db, getUserDetails, updatePayment, updateRemark } from "../lib/db";
 import { useEffect, useState } from "react";
@@ -187,63 +188,64 @@ const OrderDetails = () => {
     };
   }, [r.events]);
 
-  function DefaultColumnFilter({
-    column: { filterValue, setFilter, preFilteredRows, id },
-  }) {
-    // Calculate the options for filtering
-    // using the preFilteredRows
-    const options = React.useMemo(() => {
-      const options = new Set()
-      preFilteredRows.forEach(row => {
-        if (id == 'payment_method')
-          options.add(row.original.payment_method)
-        else if (id == 'pay') {
-          options.add('Paid')
-          options.add('Unpaid')
-        }
-      })
-      return [...options.values()]
-    }, [id, preFilteredRows])
+  //old filter at column header(cause mobile view bug)
+  // function DefaultColumnFilter({
+  //   column: { filterValue, setFilter, preFilteredRows, id },
+  // }) {
+  //   // Calculate the options for filtering
+  //   // using the preFilteredRows
+  //   const options = React.useMemo(() => {
+  //     const options = new Set()
+  //     preFilteredRows.forEach(row => {
+  //       if (id == 'payment_method')
+  //         options.add(row.original.payment_method)
+  //       else if (id == 'pay') {
+  //         options.add('Paid')
+  //         options.add('Unpaid')
+  //       }
+  //     })
+  //     return [...options.values()]
+  //   }, [id, preFilteredRows])
 
-    // Render a multi-select box
-    return (
-      <Menu>
-        <MenuButton
-          transition='all 0.2s'
-          borderRadius='md'
-          borderWidth='1px'
-          _hover={{ bg: 'gray.400' }}
-          _expanded={{ bg: 'blue.400' }}
-          _focus={{ boxShadow: 'outline' }}
-          as={Button}
-        ><AiOutlineFilter /></MenuButton>
-        <MenuList>
-          <MenuOptionGroup defaultValue='' title='Filter' type='radio' onChange={value => {
-            setFilter(value || undefined)
-          }}>
-            <MenuItemOption value="">All</MenuItemOption>
-            {options.map((option, i) => (
-              option == 'Paid' || option == 'Unpaid' ?
-                <MenuItemOption key={i} value={(option == 'Paid' ? 'true' : 'false')}>
-                  {option}
-                </MenuItemOption>
-                : (
-                  <MenuItemOption key={i} value={option}>
-                    {option}
-                  </MenuItemOption>)
-            ))}
-          </MenuOptionGroup>
-        </MenuList>
-      </Menu>
-    )
-  }
+  //   // Render a multi-select box
+  //   return (
+  //     <Menu>
+  //       <MenuButton
+  //         transition='all 0.2s'
+  //         borderRadius='md'
+  //         borderWidth='1px'
+  //         _hover={{ bg: 'gray.400' }}
+  //         _expanded={{ bg: 'blue.400' }}
+  //         _focus={{ boxShadow: 'outline' }}
+  //         as={Button}
+  //       ><AiOutlineFilter /></MenuButton>
+  //       <MenuList>
+  //         <MenuOptionGroup defaultValue='' title='Filter' type='radio' onChange={value => {
+  //           setFilter(value || undefined)
+  //         }}>
+  //           <MenuItemOption value="">All</MenuItemOption>
+  //           {options.map((option, i) => (
+  //             option == 'Paid' || option == 'Unpaid' ?
+  //               <MenuItemOption key={i} value={(option == 'Paid' ? 'true' : 'false')}>
+  //                 {option}
+  //               </MenuItemOption>
+  //               : (
+  //                 <MenuItemOption key={i} value={option}>
+  //                   {option}
+  //                 </MenuItemOption>)
+  //           ))}
+  //         </MenuOptionGroup>
+  //       </MenuList>
+  //     </Menu>
+  //   )
+  // }
 
-  const defaultColumn = React.useMemo(
-    () => ({
-      Filter: DefaultColumnFilter
-    }),
-    []
-  );
+  // const defaultColumn = React.useMemo(
+  //   () => ({
+  //     Filter: DefaultColumnFilter
+  //   }),
+  //   []
+  // );
 
   const columns = React.useMemo(
     () => [
@@ -283,8 +285,14 @@ const OrderDetails = () => {
     [],
   )
 
-  const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow, } =
-    useTable({ columns, data: joms, defaultColumn }, useFilters, useSortBy)
+  // const tableInstance = useRef(null);
+
+  // useImperativeHandle(ref, () => tableInstance);
+
+  let setFilter;
+
+  const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow, } = { setFilter } =
+    useTable({ columns, data: joms}, useFilters, useSortBy)
 
   const copyLink = () => {
     navigator.clipboard.writeText(window.location.href)
@@ -317,18 +325,18 @@ const OrderDetails = () => {
               </Link>
               {/* <Spacer /> */}
               <Box position='relative'>
-                  <IconButton
-                    position='absolute'
-                    top='-30px'
-                    right='0px'
-                    variant='solid'
-                    colorScheme='blue'
-                    aria-label='Share Jom'
-                    isRound='true'
-                    size='lg'
-                    icon={<BiShare />}
-                    onClick={copyLink}
-                  />
+                <IconButton
+                  position='absolute'
+                  top='-30px'
+                  right='0px'
+                  variant='solid'
+                  colorScheme='blue'
+                  aria-label='Share Jom'
+                  isRound='true'
+                  size='lg'
+                  icon={<BiShare />}
+                  onClick={copyLink}
+                />
               </Box>
               {/* </Flex> */}
             </ListItem>
@@ -466,6 +474,44 @@ const OrderDetails = () => {
           </Box>
 
           <Divider />
+          <Box paddingLeft={"10px"}>
+          <Menu>
+            <MenuButton
+              transition='all 0.2s'
+              borderRadius='md'
+              borderWidth='1px'
+              _hover={{ bg: 'gray.400' }}
+              _expanded={{ bg: 'blue.400' }}
+              _focus={{ boxShadow: 'outline' }}
+              as={Button}
+            ><HStack><Box>Filters</Box> <AiOutlineFilter /></HStack></MenuButton>
+            <MenuList minW='0px' w={"150px"} border={'solid 1px #4299E1'}>
+              <MenuOptionGroup defaultValue='' title='Filter' type='radio'  onChange={value => {
+                setFilter("payment_method", value || undefined)
+              }}>
+                <MenuItemOption fontSize={"15px"} value="">All</MenuItemOption>
+                <MenuItemOption fontSize={"15px"} value={'Cash'}>
+                      {'Cash'}
+                    </MenuItemOption>
+                    <MenuItemOption fontSize={"15px"} value={'Online Transfer'}>
+                      {'Online Transfer'}
+                    </MenuItemOption>
+              </MenuOptionGroup>
+              <MenuDivider bg={'blue.400'}/>
+              <MenuOptionGroup defaultValue='' type='radio' onChange={value => {
+                setFilter("pay", value || undefined)
+              }}>
+                <MenuItemOption fontSize={"15px"} value="">All</MenuItemOption>
+                <MenuItemOption fontSize={"15px"} value={'true'}>
+                      {'Paid'}
+                    </MenuItemOption>
+                    <MenuItemOption fontSize={"15px"} value={'false'}>
+                      {'Unpaid'}
+                    </MenuItemOption>
+              </MenuOptionGroup>
+            </MenuList>
+          </Menu>
+          </Box>
           <Box overflowX="auto">
             <Table variant="simple" style={{ marginTop: "20px" }} {...getTableProps()}>
               <Thead>
@@ -485,7 +531,7 @@ const OrderDetails = () => {
                       ><Flex>
                           <HStack spacing='5px'>
                             <div style="vertical-align:middle" {...column.getSortByToggleProps()}>{column.render('Header')}</div>
-
+                            {/* {console.log(column)} */}
                             <chakra.span  {...column.getSortByToggleProps()}>
                               {column.isSorted ? (
                                 column.isSortedDesc ? (
@@ -495,7 +541,7 @@ const OrderDetails = () => {
                                 )
                               ) : null}
                             </chakra.span>
-                            <chakra.span alignContent='right'>{column.canFilter ? column.render('Filter') : null}</chakra.span>
+                            {/* <chakra.span alignContent='right'>{column.canFilter ? column.render('Filter') : null}</chakra.span> */}
                           </HStack>
                         </Flex>
                       </Th>
