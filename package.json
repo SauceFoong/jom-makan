@@ -26,7 +26,8 @@
     "react-firebaseui": "^5.0.2",
     "react-hook-form": "^7.15.2",
     "react-icons": "^4.2.0",
-    "react-table": "^7.7.0"
+    "react-table": "^7.7.0",
+    "react-wheel-of-prizes": "^1.0.9"
   },
   "devDependencies": {
     "eslint": "7.32.0",
