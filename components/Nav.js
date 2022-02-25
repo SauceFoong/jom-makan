@@ -22,20 +22,34 @@ import NextLink from "next/link";
 import Logo from "./Logo";
 import NotificationButton from "./Notifications/NotificationButton";
 
-const NavLink = ({ children }) => (
-  <NextLink href={"/" + children} passHref>
-    <Link
-      px={2}
-      py={1}
-      rounded={"md"}
-      _hover={{
-        textDecoration: "none",
-        bg: useColorModeValue("gray.200", "gray.700"),
-      }}
-    >
-      {capitalizeFirstWord(children)}
-    </Link>
-  </NextLink>
+const NavLink = ({ children, name = "" }) => (
+  !name ?
+    <NextLink href={"/" + children} passHref>
+      <Link
+        px={2}
+        py={1}
+        rounded={"md"}
+        _hover={{
+          textDecoration: "none",
+          bg: useColorModeValue("gray.200", "gray.700"),
+        }}
+      >
+        {capitalizeFirstWord(children)}
+      </Link>
+    </NextLink> :
+    <NextLink href={"/" + children} passHref>
+      <Link
+        px={2}
+        py={1}
+        rounded={"md"}
+        _hover={{
+          textDecoration: "none",
+          bg: useColorModeValue("gray.200", "gray.700"),
+        }}
+      >
+        {name}
+      </Link>
+    </NextLink>
 );
 const capitalizeFirstWord = (s) => {
   return s && s[0].toUpperCase() + s.slice(1);
@@ -82,7 +96,7 @@ export default function WithAction() {
                 {Links.map((link) => (
                   <NavLink key={link}>{link}</NavLink>
                 ))}
-                <NavLink key={"spinner"}>{"Spin What To Eat"}</NavLink>
+                <NavLink key={"spinner"} children={"spinner"}>{"Spin What To Eat"}</NavLink>
               </HStack>
             ) : null}
           </HStack>
