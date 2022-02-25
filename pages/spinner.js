@@ -84,7 +84,7 @@ const App = () => {
             : (<UnorderedList>
               {/* {console.log('start', segments)} */}
               {segments.map((segment, i) => (
-                <ListItem>{segment}</ListItem>
+                <ListItem key={i}>{segment}</ListItem>
               ))}
             </UnorderedList>)}
         </Box>
