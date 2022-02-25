@@ -59,13 +59,11 @@ const App = () => {
           buttonText="Spin"
         />
         <Box paddingTop={'20px'} paddingRight={'20px'}>
-          <Heading>Randomizer Spinner</Heading>
+          <Heading>Jom Spinner</Heading>
           <Text fontSize='xl' noOfLines={[6]}>
-            Still the same question of EAT WHAT ?
-            Nobody wants to make a decision?
-            Too many choices to pick from?
+            Still the same question of EAT WHAT?
             Just want to get a random pick from a random list?
-            Just let the wheel decide!</Text>
+            Lets the wheel decide!</Text>
           <br />
           {winner && <Text><b>The wheel shows that you are destined to eat: {winner} today!</b></Text>}
           <br />
@@ -80,7 +78,7 @@ const App = () => {
           </form>
           <Text fontSize='2xl' as={'b'}>Current choices:</Text>
           {segments.length == 0 ?
-            <Text fontSize='xl'>No choices yet. Use the input box to add some.</Text>
+            <Text fontSize='xl'>No choices yet. Please add your choices into the input box before you wheel.</Text>
             : (<UnorderedList>
               {/* {console.log('start', segments)} */}
               {segments.map((segment, i) => (
