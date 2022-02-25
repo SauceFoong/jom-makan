@@ -66,7 +66,14 @@ const App = () => {
             Just want to get a random pick from a random list?
             Let the wheel decide!</Text>
           <br />
-          {winner && <Text><b>The wheel shows that you are destined to eat: {winner} today!</b></Text>}
+          {winner &&
+            <Text>
+              <b>The wheel shows that
+                <Box as='span' color='red.600' fontSize='sm'>
+                  you are destined to eat {winner} !
+                </Box>
+              </b>
+            </Text>}
           <br />
           <form onSubmit={handleSubmit(onSubmit)}>
             <FormControl>
