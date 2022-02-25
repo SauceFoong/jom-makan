@@ -69,8 +69,8 @@ const App = () => {
           {winner &&
             <Text>
               <b>The wheel shows that
-                <Box as='span' color='red.600' fontSize='sm'>
-                  you are destined to eat {winner} !
+                <Box as='span' color='red.600'>
+                  {' '} you are destined to eat {winner} !
                 </Box>
               </b>
             </Text>}
