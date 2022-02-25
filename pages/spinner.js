@@ -6,7 +6,7 @@ import { useForm } from "react-hook-form";
 const App = () => {
   const [segments, setSegments] = useState([]);
   const [winner, setWinner] = useState();
-  const { handleSubmit, register } = useForm();
+  const { handleSubmit, register, reset } = useForm();
 
   const segColors = [
     "#EE4040",
@@ -35,6 +35,7 @@ const App = () => {
     newArr.push(data.choice);
 
     setSegments([...newArr]);
+    reset();
   }
 
   const clear = () => {
@@ -63,7 +64,7 @@ const App = () => {
           <Text fontSize='xl' noOfLines={[6]}>
             Still the same question of EAT WHAT?
             Just want to get a random pick from a random list?
-            Lets the wheel decide!</Text>
+            Let the wheel decide!</Text>
           <br />
           {winner && <Text><b>The wheel shows that you are destined to eat: {winner} today!</b></Text>}
           <br />
