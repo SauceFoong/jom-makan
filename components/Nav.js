@@ -40,7 +40,7 @@ const NavLink = ({ children }) => (
 const capitalizeFirstWord = (s) => {
   return s && s[0].toUpperCase() + s.slice(1);
 };
-const Links = ["order", "feedback", "faq"];
+const Links = ["order", "feedback", "faq", "spinner"];
 
 export default function WithAction() {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -82,19 +82,6 @@ export default function WithAction() {
                 {Links.map((link) => (
                   <NavLink key={link}>{link}</NavLink>
                 ))}
-                <NextLink href={"/" + "spinner"} passHref>
-                  <Link
-                    px={2}
-                    py={1}
-                    rounded={"md"}
-                    _hover={{
-                      textDecoration: "none",
-                      bg: useColorModeValue("gray.200", "gray.700"),
-                    }}
-                  >
-                    {"Spin What To Eat"}
-                  </Link>
-                </NextLink>
               </HStack>
             ) : null}
           </HStack>
