@@ -40,7 +40,7 @@ const NavLink = ({ children }) => (
 const capitalizeFirstWord = (s) => {
   return s && s[0].toUpperCase() + s.slice(1);
 };
-const Links = ["order", "feedback", "faq", "spin what to eat"];
+const Links = ["order", "feedback", "faq"];
 
 export default function WithAction() {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -82,6 +82,7 @@ export default function WithAction() {
                 {Links.map((link) => (
                   <NavLink key={link}>{link}</NavLink>
                 ))}
+                <NavLink key={"spinner"}>{"Spin What To Eat"}</NavLink>
               </HStack>
             ) : null}
           </HStack>
