@@ -40,7 +40,7 @@ const NavLink = ({ children }) => (
 const capitalizeFirstWord = (s) => {
   return s && s[0].toUpperCase() + s.slice(1);
 };
-const Links = ["order", "feedback", "faq", "spinner"];
+const Links = ["order", "feedback", "faq", "spin what to eat"];
 
 export default function WithAction() {
   const { isOpen, onOpen, onClose } = useDisclosure();

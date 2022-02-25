@@ -61,13 +61,13 @@ const App = () => {
         <Box paddingTop={'20px'} paddingRight={'20px'}>
           <Heading>Randomizer Spinner</Heading>
           <Text fontSize='xl' noOfLines={[6]}>
-            Unsure of what to eat?
+            Still the same question of EAT WHAT ?
             Nobody wants to make a decision?
             Too many choices to pick from?
             Just want to get a random pick from a random list?
             Just let the wheel decide!</Text>
           <br />
-          {winner && <Text><b>The wheel has picked: {winner}</b></Text>}
+          {winner && <Text><b>The wheel shows that you are destined to eat: {winner} today!</b></Text>}
           <br />
           <form onSubmit={handleSubmit(onSubmit)}>
             <FormControl>
